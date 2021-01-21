@@ -1,0 +1,47 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  COMPOSER_CACHE_DIR: "/host/raskesider.no/composer-cache"
+
+default:
+  image: registry.gitlab.r99.no/containers/servebolt-linux-7-ci-php74
+
+stages:
+  - prepare
+  - analysis
+  - phpunit
+
+composer:
+  stage: prepare
+  script:
+    - composer --no-suggest install
+  artifacts:
+    expire_in: 1 day
+    untracked: true
+    paths:
+      - vendor/
+
+phpcs:
+  stage: analysis
+  services: []
+  script:
+    - ci/phpcs.sh
+
+phan:
+  stage: analysis
+  services: []
+  script:
+    - ci/phan.sh
+
+phplint:
+  stage: analysis
+  tags: [docker-test]
+  script:
+    - ci/phplint.sh
+
+tests:
+  stage: phpunit
+  needs: ["composer"]
+  script:
+    - ci/runtests
+  except:
+    - /wip/.*
