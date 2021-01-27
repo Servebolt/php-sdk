@@ -2,18 +2,14 @@
 
 namespace Servebolt\SDK\Http;
 
-use GuzzleHttp\Client as GuzzleClient;
+use Servebolt\SDK\Facades\Http;
 
 /**
  * Class Client
  * @package Servebolt\SDK\Http
  */
-class Client {
-
-    /**
-     * @var GuzzleClient
-     */
-    private $client;
+class Client
+{
 
     /**
      * @var string
@@ -21,27 +17,27 @@ class Client {
     private $baseUri = 'https://api.servebolt.io/v1/';
 
     /**
+     * @var string[]
+     */
+    private array $headers;
+
+    /**
      * Client constructor.
      * @param $config
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
-        $this->client = new GuzzleClient([
-            'base_uri' => $this->baseUri,
-            'headers' => [
-                'Authorization' => 'Bearer ' . $config->get('apiKey'),
-            ],
-        ]);
+        $this->headers = [
+            'Authorization' => 'Bearer ' . $config['apiKey'],
+        ];
     }
 
     public function get()
     {
-
+        return Http::get($this->baseUri, $this->headers);
     }
 
     public function post()
     {
-
     }
-
 }

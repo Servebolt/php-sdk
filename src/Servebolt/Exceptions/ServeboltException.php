@@ -2,6 +2,9 @@
 
 namespace Servebolt\SDK\Exceptions;
 
-class ServeboltException extends \Exception {
+use Exception;
+
+class ServeboltException extends Exception
+{
 
 }
