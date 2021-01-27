@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Namespaces;
+namespace Servebolt\SDK\Namespaces\Environment;
 
 use Servebolt\SDK\Traits\ApiNamespace;
 
@@ -11,5 +11,10 @@ use Servebolt\SDK\Traits\ApiNamespace;
 class Environment {
 
     use ApiNamespace;
+
+    public function set($environmentId)
+    {
+        return $this;
+    }
 
 }
