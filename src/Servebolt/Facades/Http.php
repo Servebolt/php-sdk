@@ -23,7 +23,7 @@ class Http
 
     private function mock() : MockInterface {
         if (!isset($this->mock)) {
-            $this->mock = Mockery::mock('http');
+            $this->mock = Mockery::mock('Http');
         }
         return $this->mock;
     }

@@ -28,5 +28,9 @@
         "psr-4": {
             "Servebolt\\SDK\\": "src/Servebolt"
         }
+    },
+    "scripts": {
+        "phpunit": "ci/runtests",
+        "test": ["ci/phpcs.sh","phplint.sh","ci/phan.sh"]
     }
 }
