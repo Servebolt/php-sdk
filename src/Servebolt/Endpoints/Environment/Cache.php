@@ -8,7 +8,8 @@ use Servebolt\SDK\Traits\ApiEndpoint;
  * Class Cache
  * @package Servebolt\SDK\Endpoints
  */
-class Cache {
+class Cache
+{
 
     use ApiEndpoint;
 
@@ -16,5 +17,4 @@ class Cache {
     {
         echo 'Purge!';
     }
-
 }

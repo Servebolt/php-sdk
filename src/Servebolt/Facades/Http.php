@@ -21,7 +21,8 @@ class Http
         return isset($this->mock);
     }
 
-    private function mock() : MockInterface {
+    private function mock() : MockInterface
+    {
         if (!isset($this->mock)) {
             $this->mock = Mockery::mock('Http');
         }
@@ -66,18 +67,21 @@ class Http
         return self::facade()->mock()->shouldReceive(...func_get_args());
     }
 
-    public static function send(RequestInterface $request) : ResponseInterface {
+    public static function send(RequestInterface $request) : ResponseInterface
+    {
         $method = $request->getMethod();
         $uri = $request->getUri();
         $headers = $request->getHeaders();
         return self::facade()->request($method, $uri, $headers);
     }
 
-    public static function get(string $uri, array $headers = []) : ResponseInterface {
+    public static function get(string $uri, array $headers = []) : ResponseInterface
+    {
         return self::send(new Request('GET', $uri, $headers));
     }
 
-    public static function post(string $uri, array $headers = []) : ResponseInterface {
+    public static function post(string $uri, array $headers = []) : ResponseInterface
+    {
         return self::send(new Request('POST', $uri, $headers));
     }
 }

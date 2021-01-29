@@ -6,7 +6,8 @@ namespace Servebolt\SDK;
  * Class ConfigHelper
  * @package Servebolt\SDK
  */
-class ConfigHelper {
+class ConfigHelper
+{
 
     /**
      * @var array
@@ -19,7 +20,7 @@ class ConfigHelper {
      */
     public function setWithArray($array, $append = false)
     {
-        if($append) {
+        if ($append) {
             $this->configArray = $this->configArray + $array;
         } else {
             $this->configArray = $array;
@@ -42,10 +43,9 @@ class ConfigHelper {
      */
     public function get($key, $default = null)
     {
-        if(array_key_exists($key, $this->configArray)) {
+        if (array_key_exists($key, $this->configArray)) {
             return $this->configArray[$key];
         }
         return $default;
     }
-
 }

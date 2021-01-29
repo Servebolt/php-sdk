@@ -9,7 +9,8 @@ use Servebolt\SDK\Traits\HasHierarchy;
  * Class Environment
  * @package Servebolt\SDK\Endpoints
  */
-class Environment {
+class Environment
+{
 
     use ApiEndpoint, HasHierarchy;
 
@@ -24,5 +25,4 @@ class Environment {
         $this->environmentId = $environmentId;
         return $this;
     }
-
 }

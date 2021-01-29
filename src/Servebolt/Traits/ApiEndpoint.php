@@ -6,7 +6,8 @@ namespace Servebolt\SDK\Traits;
  * Class ApiEndpoint
  * @package Servebolt\SDK\Traits
  */
-trait ApiEndpoint {
+trait ApiEndpoint
+{
 
     /**
      * @var
@@ -27,9 +28,8 @@ trait ApiEndpoint {
     {
         $this->httpClient = $httpClient;
         $this->config = $config;
-        if ( method_exists($this, 'loadHierarchicalEndpoints') ) {
+        if (method_exists($this, 'loadHierarchicalEndpoints')) {
             $this->loadHierarchicalEndpoints();
         }
     }
-
 }
