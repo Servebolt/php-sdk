@@ -12,5 +12,4 @@ $apiKey = '';
 $environmentId = '';
 
 $client = new Client($apiKey);
-
-$client->environment->set($environmentId)->cache->purge();
+$client->environment->setEnvironment($environmentId)->cache->purge();

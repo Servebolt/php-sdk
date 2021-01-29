@@ -36,16 +36,21 @@ class Client {
     }
 
     /**
-     * Initialie API namespaces.
+     * Initialize API endpoints.
      */
     public function initializeApiNamespaces()
     {
-        $namespaceFolders = array_filter(glob(__DIR__ . '/Namespaces/*'), function($filePath) { return is_dir($filePath); });
+        $namespaceFolders = glob(__DIR__ . '/Endpoints/*');
         foreach($namespaceFolders as $namespaceFolderPath) {
-            $namespace = basename($namespaceFolderPath);
+            $namespace = basename($namespaceFolderPath, '.php');
             $lowercaseNamespace = mb_strtolower($namespace);
-            $classNameWithNamespace = '\\Servebolt\\SDK\\Namespaces\\' . $namespace . '\\' . $namespace;
-            $this->{ $lowercaseNamespace } = new $classNameWithNamespace($this->httpClient);
+            if ( is_dir($namespaceFolderPath) ) {
+                $classNameWithNamespace = '\\Servebolt\\SDK\\Endpoints\\' . $namespace . '\\' . $namespace;
+            } else {
+
+                $classNameWithNamespace = '\\Servebolt\\SDK\\Endpoints\\' . $namespace;
+            }
+            $this->{ $lowercaseNamespace } = new $classNameWithNamespace($this->httpClient, $this->config);
         }
     }
 
@@ -54,8 +59,7 @@ class Client {
      */
     private function initializeHTTPClient()
     {
-        $this->httpClient = new HttpClient($this->config);
-        // TODO: Create Guzzle facade instance
+        $this->httpClient = 'a';//new HttpClient($this->config);
     }
 
     /**

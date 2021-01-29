@@ -39,5 +39,6 @@ class Client
 
     public function post()
     {
+        return Http::post($this->baseUri, $this->headers);
     }
 }
