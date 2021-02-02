@@ -14,7 +14,8 @@ error_reporting(E_ALL);
 $apiKey = $_ENV['APIKEY'];
 $baseUri = $_ENV['BASE_URI'];
 $environmentId = $_ENV['ENV_ID'];
-$authDriver = $_ENV['AUTH_DRIVER'] ?: 'apiKey';
+$authDriver = isset($_ENV['AUTH_DRIVER']) ? $_ENV['AUTH_DRIVER'] : 'apiKey';
 
 $client = new Client(compact('apiKey', 'baseUri', 'authDriver'));
-$client->environment->setEnvironment($environmentId)->cache->purge();
+echo '<pre>';
+print_r($client->environment->setEnvironment($environmentId)->cache->purge());

@@ -3,7 +3,7 @@
 namespace Servebolt\SDK\Traits;
 
 use Servebolt\SDK\ConfigHelper;
-use Servebolt\SDK\Http\Client;
+use Servebolt\SDK\Http\Client as HttpClient;
 
 /**
  * Class ApiEndpoint
@@ -11,17 +11,26 @@ use Servebolt\SDK\Http\Client;
  */
 trait ApiEndpoint
 {
-
-    private Client $httpClient;
-
+    /**
+     * The configuration helper class.
+     *
+     * @var ConfigHelper
+     */
     private ConfigHelper $config;
 
     /**
+     * Guzzle HTTP client facade.
+     *
+     * @var HttpClient
+     */
+    public HttpClient $httpClient;
+
+    /**
      * ApiEndpoint constructor.
-     * @param Client $httpClient
+     * @param HttpClient $httpClient
      * @param ConfigHelper $config
      */
-    public function __construct(Client $httpClient, ConfigHelper $config)
+    public function __construct(HttpClient $httpClient, ConfigHelper $config)
     {
         $this->httpClient = $httpClient;
         $this->config = $config;

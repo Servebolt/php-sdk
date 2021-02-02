@@ -4,8 +4,8 @@ namespace Servebolt\SDK\Http;
 
 use Servebolt\SDK\ConfigHelper;
 use Servebolt\SDK\Facades\Http;
-use GuzzleHttp\Psr7\Response;
 use Servebolt\SDK\Auth\ApiAuth;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Class Client
@@ -27,6 +27,8 @@ class Client
     private string $baseUri = 'https://api.servebolt.io/v1/';
 
     /**
+     * An array containing the request headers.
+     *
      * @var string[]
      */
     private array $headers = [];
@@ -79,11 +81,11 @@ class Client
     }
 
     /**
-     * @param $uri
+     * @param string $uri
      * @param bool $appendTrailingSlash
      * @return string
      */
-    private function buildRequestURL($uri, $appendTrailingSlash = false) : string
+    private function buildRequestURL(string $uri, $appendTrailingSlash = false) : string
     {
         return trim($this->baseUri, '/') . '/' . trim($uri, '/') . ($appendTrailingSlash ? '/' : '');
     }

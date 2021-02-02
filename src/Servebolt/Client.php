@@ -14,7 +14,7 @@ class Client
 {
 
     /**
-     * The config class containing configuration values.
+     * The configuration helper class.
      *
      * @var ConfigHelper
      */
@@ -22,6 +22,8 @@ class Client
 
     /**
      * Guzzle HTTP client facade.
+     *
+     * @var HttpClient
      */
     public HttpClient $httpClient;
 
@@ -40,7 +42,7 @@ class Client
     /**
      * Initialize API endpoints.
      */
-    public function initializeApiEndpoints()
+    public function initializeApiEndpoints() : void
     {
         $namespaceFolders = glob(__DIR__ . '/Endpoints/*');
         foreach ($namespaceFolders as $namespaceFolderPath) {
@@ -60,7 +62,7 @@ class Client
      *
      * @throws ServeboltInvalidAuthDriver
      */
-    private function initializeHTTPClient()
+    private function initializeHTTPClient() : void
     {
         $this->httpClient = new HttpClient($this->getAuthenticationDriver(), $this->config);
     }

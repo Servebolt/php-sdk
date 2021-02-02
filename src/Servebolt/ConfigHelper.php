@@ -10,11 +10,15 @@ class ConfigHelper
 {
 
     /**
+     * An array containing the configuration items.
+     *
      * @var array
      */
     private array $configArray = [];
 
     /**
+     * Set the configuration using an associative array.
+     *
      * @param array $array
      * @param false $append
      */
@@ -28,6 +32,8 @@ class ConfigHelper
     }
 
     /**
+     * Set a configuration item.
+     *
      * @param string $key
      * @param mixed $value
      */
@@ -37,6 +43,8 @@ class ConfigHelper
     }
 
     /**
+     * Get a configuration item.
+     *
      * @param string $key
      * @param null|mixed $default
      * @return mixed|null
