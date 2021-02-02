@@ -17,9 +17,8 @@ class Cache
      * @param array $files
      * @param array $prefixes
      */
-    public function purge(array $files = [], array $prefixes = []) : void
+    public function purge(array $files = [], array $prefixes = [])
     {
-        $response = $this->httpClient->post('/environments/' . $this->config->get('environmentId') . '/purge_cache/');
-        var_dump($response);
+        return $this->httpClient->post('/environments/' . $this->config->get('environmentId') . '/purge_cache/');
     }
 }

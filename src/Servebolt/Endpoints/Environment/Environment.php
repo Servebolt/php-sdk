@@ -14,13 +14,13 @@ class Environment
 
     use ApiEndpoint, HasHierarchy;
 
-    protected $environmentId;
+    protected string $environmentId;
 
     /**
      * @param $environmentId
      * @return $this
      */
-    public function setEnvironment($environmentId) : Environment
+    public function setEnvironment(string $environmentId) : Environment
     {
         $this->config->set('environmentId', $environmentId);
         return $this;
