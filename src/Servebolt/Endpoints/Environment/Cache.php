@@ -22,8 +22,10 @@ class Cache
      */
     public function purge(array $files = [], array $prefixes = []) : bool
     {
+        $body = compact('files', 'prefixes');
+        $requestUrl = '/environments/' . $this->config->get('environmentId') . '/purge_cache';
         // TODO: Make sure $files and $prefixes only contains an array with strings
-        $response = $this->httpClient->post('/environments/' . $this->config->get('environmentId') . '/purge_cache/', [], compact('files', 'prefixes'));
+        $response = $this->httpClient->post($requestUrl, $body);
         $body = json_decode($response->getBody());
         // TODO: Handle partial success
         if (isset($body->success) && $body->success) {
