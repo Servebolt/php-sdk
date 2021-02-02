@@ -20,7 +20,8 @@ class CachePurgeTest extends TestCase
         $client = new Client([
             'apiKey' => 'foo',
         ]);
-        $this->assertTrue($client->environment->setEnvironment($this->environmentId)->cache->purge(['https://domain.com/url-1', 'https://domain.com/url-2'], []));
+        $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
+        $this->assertTrue($client->environment->setEnvironment($this->environmentId)->cache->purge($files, []));
     }
 
     public function testThatCachePurgeFails()
@@ -31,6 +32,7 @@ class CachePurgeTest extends TestCase
         $client = new Client([
             'apiKey' => 'foo',
         ]);
-        $this->assertFalse($client->environment->setEnvironment($this->environmentId)->cache->purge(['https://domain.com/url-1', 'https://domain.com/url-2'], []));
+        $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
+        $this->assertFalse($client->environment->setEnvironment($this->environmentId)->cache->purge($files, []));
     }
 }
