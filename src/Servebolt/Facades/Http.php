@@ -62,11 +62,18 @@ class Http
         return self::$service;
     }
 
+    /**
+     * @return Mockery\Expectation|Mockery\ExpectationInterface|Mockery\HigherOrderMessage
+     */
     public static function shouldReceive()
     {
         return self::facade()->mock()->shouldReceive(...func_get_args());
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     */
     public static function send(RequestInterface $request) : ResponseInterface
     {
         $method = $request->getMethod();
@@ -75,12 +82,23 @@ class Http
         return self::facade()->request($method, $uri, $headers);
     }
 
-    public static function get(string $uri, array $headers = []) : ResponseInterface
+    /**
+     * @param string|UriInterface                   $uri     URI
+     * @param array                                 $headers Request headers
+     * @return \GuzzleHttp\Psr7\Response
+     */
+    public static function get(string $uri, array $headers = []) : \GuzzleHttp\Psr7\Response
     {
         return self::send(new Request('GET', $uri, $headers));
     }
 
-    public static function post(string $uri, array $headers = []) : ResponseInterface
+    /**
+     * @param string|UriInterface                   $uri     URI
+     * @param array                                 $headers Request headers
+     * @param string|null                           $body    Request body
+     * @return \GuzzleHttp\Psr7\Response
+     */
+    public static function post(string $uri, $body = null, array $headers = []) : \GuzzleHttp\Psr7\Response
     {
         return self::send(new Request('POST', $uri, $headers));
     }

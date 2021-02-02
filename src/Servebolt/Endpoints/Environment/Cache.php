@@ -13,8 +13,13 @@ class Cache
 
     use ApiEndpoint;
 
-    public function purge()
+    /**
+     * @param array $files
+     * @param array $prefixes
+     */
+    public function purge(array $files = [], array $prefixes = []) : void
     {
-        echo 'Purge!';
+        $response = $this->httpClient->post('/environments/' . $this->config->get('environmentId') . '/purge_cache/');
+        var_dump($response);
     }
 }

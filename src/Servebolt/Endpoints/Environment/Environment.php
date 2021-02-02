@@ -20,9 +20,9 @@ class Environment
      * @param $environmentId
      * @return $this
      */
-    public function setEnvironment($environmentId)
+    public function setEnvironment($environmentId) : Environment
     {
-        $this->environmentId = $environmentId;
+        $this->config->set('environmentId', $environmentId);
         return $this;
     }
 }

@@ -22,7 +22,8 @@
         "phan/phan": "^4.0",
         "squizlabs/php_codesniffer": "^3.5",
         "overtrue/phplint": "^2.3",
-        "mockery/mockery": "^1.4"
+        "mockery/mockery": "^1.4",
+        "vlucas/phpdotenv": "^5.3"
     },
     "autoload": {
         "psr-4": {
@@ -31,6 +32,6 @@
     },
     "scripts": {
         "phpunit": "ci/runtests",
-        "test": ["ci/phpcs.sh","phplint.sh","ci/phan.sh"]
+        "test": ["ci/phpcs.sh","ci/phplint.sh","ci/phan.sh"]
     }
 }

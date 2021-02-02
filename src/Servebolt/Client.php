@@ -2,7 +2,9 @@
 
 namespace Servebolt\SDK;
 
+use Servebolt\SDK\Auth\ApiKey;
 use Servebolt\SDK\Http\Client as HttpClient;
+use Servebolt\SDK\Exceptions\ServeboltInvalidAuthDriver;
 
 /**
  * Class Client
@@ -14,32 +16,31 @@ class Client
     /**
      * The config class containing configuration values.
      *
-     * @var array
+     * @var ConfigHelper
      */
-    private $config;
+    private ConfigHelper $config;
 
     /**
      * Guzzle HTTP client facade.
-     *
-     * @var
      */
-    public $httpClient;
+    public HttpClient $httpClient;
 
     /**
      * Client constructor.
-     * @param $config
+     * @param string|array $config
+     * @throws ServeboltInvalidAuthDriver
      */
     public function __construct($config)
     {
-        $this->setConfig($config);
+        $this->initializeConfigHelper($config);
         $this->initializeHTTPClient();
-        $this->initializeApiNamespaces();
+        $this->initializeApiEndpoints();
     }
 
     /**
      * Initialize API endpoints.
      */
-    public function initializeApiNamespaces()
+    public function initializeApiEndpoints()
     {
         $namespaceFolders = glob(__DIR__ . '/Endpoints/*');
         foreach ($namespaceFolders as $namespaceFolderPath) {
@@ -56,31 +57,53 @@ class Client
 
     /**
      * Initialize HTTP client.
+     *
+     * @throws ServeboltInvalidAuthDriver
      */
     private function initializeHTTPClient()
     {
-        $this->httpClient = 'a';//new HttpClient($this->config);
+        $this->httpClient = new HttpClient($this->getAuthenticationDriver(), $this->config);
+    }
+
+    /**
+     * Determine which auth driver to be used with the HTTP client.
+     *
+     * @return ApiKey
+     * @throws ServeboltInvalidAuthDriver
+     */
+    private function getAuthenticationDriver() : object
+    {
+        switch ($this->config->get('authDriver')) {
+            case 'APIKEY':
+            case 'apiKey':
+            default:
+                return new ApiKey($this->config->get('apiKey'));
+        }
+        throw new ServeboltInvalidAuthDriver; // Invalid auth driver
     }
 
     /**
      * Initialize configuration helper.
+     * @param string|array|null $config
+     * @return bool
      */
-    private function initConfig()
+    private function initializeConfigHelper($config = null) : bool
     {
-        if (is_null($this->config)) {
-            $this->config = new ConfigHelper;
+        $this->config = new ConfigHelper;
+        if ($config) {
+            return $this->setConfig($config);
         }
+        return true;
     }
 
     /**
      * Set configuration.
      *
-     * @param $config
+     * @param string|array $config
      * @return bool
      */
     private function setConfig($config) : bool
     {
-        $this->initConfig();
         if (is_string($config)) {
             $this->config->set('apiKey', $config);
             return true;

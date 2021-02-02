@@ -12,13 +12,13 @@ class ConfigHelper
     /**
      * @var array
      */
-    private $configArray = [];
+    private array $configArray = [];
 
     /**
-     * @param $array
+     * @param array $array
      * @param false $append
      */
-    public function setWithArray($array, $append = false)
+    public function setWithArray(array $array, $append = false) : void
     {
         if ($append) {
             $this->configArray = $this->configArray + $array;
@@ -28,20 +28,20 @@ class ConfigHelper
     }
 
     /**
-     * @param $key
-     * @param null $value
+     * @param string $key
+     * @param mixed $value
      */
-    public function set($key, $value) : void
+    public function set(string $key, $value) : void
     {
         $this->configArray[$key] = $value;
     }
 
     /**
-     * @param $key
-     * @param null $default
+     * @param string $key
+     * @param null|mixed $default
      * @return mixed|null
      */
-    public function get($key, $default = null)
+    public function get(string $key, $default = null)
     {
         if (array_key_exists($key, $this->configArray)) {
             return $this->configArray[$key];
