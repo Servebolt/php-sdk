@@ -14,11 +14,21 @@ class Cache
     use ApiEndpoint;
 
     /**
-     * @param array $files
-     * @param array $prefixes
+     * Purge cache for given files or prefixes.
+     *
+     * @param string[] $files
+     * @param string[] $prefixes
+     * @return bool
      */
-    public function purge(array $files = [], array $prefixes = [])
+    public function purge(array $files = [], array $prefixes = []) : bool
     {
-        return $this->httpClient->post('/environments/' . $this->config->get('environmentId') . '/purge_cache/');
+        // TODO: Make sure $files and $prefixes only contains an array with strings
+        $response = $this->httpClient->post('/environments/' . $this->config->get('environmentId') . '/purge_cache/', [], compact('files', 'prefixes'));
+        $body = json_decode($response->getBody());
+        // TODO: Handle partial success
+        if (isset($body->success) && $body->success) {
+            return true;
+        }
+        return false;
     }
 }
