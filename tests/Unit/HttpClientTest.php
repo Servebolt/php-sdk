@@ -13,7 +13,7 @@ class HttpClientTest extends TestCase
     {
         $apiKey = 'foo';
         $authHeaders = ['Authorization' => 'Bearer ' . $apiKey];
-        Http::shouldReceive('request')->once();
+        Http::shouldReceive('Request')->once();
         $client = new Client(['apiKey' => $apiKey, 'authDriver' => 'apiKeys']);
         $this->assertEquals($client->httpClient->getRequestHeaders(), $authHeaders);
     }
@@ -21,7 +21,7 @@ class HttpClientTest extends TestCase
     public function testThatBaseUriGetsSet()
     {
         $requestUri = 'https://example.com/';
-        Http::shouldReceive('request')->once();
+        Http::shouldReceive('Request')->once();
         $client = new Client(['apiKey' => 'foo', 'baseUri' => $requestUri]);
         $this->assertEquals($client->httpClient->buildRequestURL('foo'), $requestUri . 'foo');
     }
