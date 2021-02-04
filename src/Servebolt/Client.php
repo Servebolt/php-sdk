@@ -2,7 +2,7 @@
 
 namespace Servebolt\SDK;
 
-use Servebolt\SDK\Auth\ApiKey;
+use Servebolt\SDK\Auth\ApiToken;
 use Servebolt\SDK\Http\Client as HttpClient;
 use Servebolt\SDK\Exceptions\ServeboltInvalidAuthDriver;
 
@@ -70,16 +70,15 @@ class Client
     /**
      * Determine which auth driver to be used with the HTTP client.
      *
-     * @return ApiKey
+     * @return ApiToken
      * @throws ServeboltInvalidAuthDriver
      */
     private function getAuthenticationDriver() : object
     {
-        switch ($this->config->get('authDriver')) {
-            case 'APIKEY':
-            case 'apiKey':
+        switch (strtolower($this->config->get('authDriver'))) {
+            case 'apitoken':
             default:
-                return new ApiKey($this->config->get('apiKey'));
+                return new ApiToken($this->config->get('apiKey'));
         }
         throw new ServeboltInvalidAuthDriver; // Invalid auth driver
     }
