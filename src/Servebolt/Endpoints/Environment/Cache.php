@@ -3,6 +3,7 @@
 namespace Servebolt\SDK\Endpoints\Environment;
 
 use Servebolt\SDK\Traits\ApiEndpoint;
+use Servebolt\SDK\Helpers as Helpers;
 
 /**
  * Class Cache
@@ -22,6 +23,12 @@ class Cache
      */
     public function purge(array $files = [], array $prefixes = []) : bool
     {
+        $files = array_filter(array_map(function($file) {
+            return Helpers\sanitizeUrl($file);
+        }, $files));
+        $prefixes = array_filter(array_map(function($prefix) {
+            return Helpers\sanitizeDomain($prefix);
+        }, $prefixes));
         $body = compact('files', 'prefixes');
         $requestUrl = '/environments/' . $this->config->get('environmentId') . '/purge_cache';
         // TODO: Make sure $files and $prefixes only contains an array with strings

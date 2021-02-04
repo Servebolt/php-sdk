@@ -29,7 +29,8 @@
     "autoload": {
         "psr-4": {
             "Servebolt\\SDK\\": "src/Servebolt"
-        }
+        },
+        "files": ["src/Servebolt/Helpers/Sanitize.php"]
     },
     "scripts": {
         "phpunit": "ci/runtests",
