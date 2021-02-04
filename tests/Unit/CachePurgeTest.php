@@ -27,7 +27,7 @@ class CachePurgeTest extends TestCase
     public function testThatCachePurgeFails()
     {
         $testUrl = 'https://api.servebolt.io/v1/environments/' . $this->environmentId . '/purge_cache';
-        Http::shouldReceive('Rrequest')->withSomeOfArgs('POST', $testUrl)
+        Http::shouldReceive('Request')->withSomeOfArgs('POST', $testUrl)
             ->once()->andReturn(new Response(200, [], json_encode(['success' => false])));
         $client = new Client([
             'apiKey' => 'foo',
