@@ -2,7 +2,7 @@
 
 namespace Servebolt\SDK\Auth;
 
-class ApiKey implements ApiAuth
+class ApiToken implements ApiAuth
 {
 
     private string $apiKey;
