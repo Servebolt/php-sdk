@@ -4,7 +4,8 @@ namespace Servebolt\SDK\Models;
 
 use Servebolt\SDK\Traits\Model;
 
-class CronJob {
+class CronJob
+{
 
     use Model;
 
@@ -13,5 +14,4 @@ class CronJob {
     private $casts = [
         'enabled' => 'boolean',
     ];
-
 }

@@ -2,7 +2,8 @@
 
 namespace Servebolt\SDK\Traits;
 
-trait Model {
+trait Model
+{
 
     private bool $isHydrated = false;
 
@@ -27,8 +28,7 @@ trait Model {
         if (empty($modelData)) {
             return false;
         }
-        foreach ($this->properties as $property)
-        {
+        foreach ($this->properties as $property) {
             if (array_key_exists($property, $modelData)) {
                 $value = $modelData[$property];
                 if (array_key_exists($property, array_keys($this->casts))) {
@@ -40,5 +40,4 @@ trait Model {
         $this->isHydrated = true;
         return true;
     }
-
 }
