@@ -1,17 +1,17 @@
 <?php
 
-namespace Servebolt\SDL\Tests;
+namespace Servebolt\SDK\Tests;
 
 use GuzzleHttp\Psr7\Response;
-use PHPUnit\Framework\TestCase;
 use Servebolt\SDK\Facades\Http;
+use PHPUnit\Framework\TestCase;
 
 class HttpFacadeTest extends TestCase
 {
 
     public function testHttpGet()
     {
-        $this->markTestSkipped('do not make real HTTP requests during tests!');
+        $this->markTestSkipped('Do not make real HTTP requests during tests!');
         $response = Http::get('http://sb.local/index.php', []);
         $this->assertEquals(200, $response->getStatusCode());
     }

@@ -2,7 +2,7 @@
 
 namespace Servebolt\SDK;
 
-use Servebolt\SDK\Auth\ApiKey;
+use Servebolt\SDK\Auth\ApiToken;
 use Servebolt\SDK\Http\Client as HttpClient;
 use Servebolt\SDK\Exceptions\ServeboltInvalidAuthDriver;
 
@@ -29,10 +29,10 @@ class Client
 
     /**
      * Client constructor.
-     * @param string|array $config
+     * @param array $config
      * @throws ServeboltInvalidAuthDriver
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $this->initializeConfigHelper($config);
         $this->initializeHTTPClient();
@@ -70,16 +70,15 @@ class Client
     /**
      * Determine which auth driver to be used with the HTTP client.
      *
-     * @return ApiKey
+     * @return ApiToken
      * @throws ServeboltInvalidAuthDriver
      */
     private function getAuthenticationDriver() : object
     {
-        switch ($this->config->get('authDriver')) {
-            case 'APIKEY':
-            case 'apiKey':
+        switch (strtolower($this->config->get('authDriver'))) {
+            case 'apitoken':
             default:
-                return new ApiKey($this->config->get('apiKey'));
+                return new ApiToken($this->config->get('apiToken'));
         }
         throw new ServeboltInvalidAuthDriver; // Invalid auth driver
     }
@@ -104,15 +103,12 @@ class Client
      * @param string|array $config
      * @return bool
      */
-    private function setConfig($config) : bool
+    private function setConfig(array $config) : bool
     {
-        if (is_string($config)) {
-            $this->config->set('apiKey', $config);
-            return true;
-        } elseif (is_array($config)) {
+        if (!empty($config)) {
             $this->config->setWithArray($config);
             return true;
         }
-        return false; // No valid configuration was passed
+        return false; // No configuration was passed
     }
 }

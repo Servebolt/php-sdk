@@ -23,7 +23,8 @@
         "squizlabs/php_codesniffer": "^3.5",
         "overtrue/phplint": "^2.3",
         "mockery/mockery": "^1.4",
-        "vlucas/phpdotenv": "^5.3"
+        "vlucas/phpdotenv": "^5.3",
+        "dms/phpunit-arraysubset-asserts": "^0.2.1"
     },
     "autoload": {
         "psr-4": {

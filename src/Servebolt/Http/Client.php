@@ -72,7 +72,7 @@ class Client
      * @param array $headers
      * @return array
      */
-    private function getRequestHeaders(array $headers = []) : array
+    public function getRequestHeaders(array $headers = []) : array
     {
         if (is_array($headers) && !empty($headers)) {
             return $this->headers + $headers;
@@ -85,7 +85,7 @@ class Client
      * @param bool $appendTrailingSlash
      * @return string
      */
-    private function buildRequestURL(string $uri, $appendTrailingSlash = false) : string
+    public function buildRequestURL(string $uri, $appendTrailingSlash = false) : string
     {
         return trim($this->baseUri, '/') . '/' . trim($uri, '/') . ($appendTrailingSlash ? '/' : '');
     }
