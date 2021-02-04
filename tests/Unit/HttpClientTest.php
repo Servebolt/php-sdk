@@ -5,7 +5,6 @@ namespace Servebolt\SDK\Tests;
 use Servebolt\SDK\Client;
 use Servebolt\SDK\Facades\Http;
 use PHPUnit\Framework\TestCase;
-use DMS\PHPUnitExtensions\ArraySubset\Assert;
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 class HttpClientTest extends TestCase
@@ -18,7 +17,7 @@ class HttpClientTest extends TestCase
         $apiToken = 'foo';
         $authHeaders = ['Authorization' => 'Bearer ' . $apiToken];
         Http::shouldReceive('Request')->once();
-        $client = new Client(['apiKey' => $apiToken, 'authDriver' => 'apiKeys']);
+        $client = new Client(['apiToken' => $apiToken, 'authDriver' => 'apiToken']);
         $this->assertArraySubset($authHeaders, $client->httpClient->getRequestHeaders());
     }
 
@@ -26,7 +25,7 @@ class HttpClientTest extends TestCase
     {
         $requestUri = 'https://example.com/';
         Http::shouldReceive('Request')->once();
-        $client = new Client(['apiKey' => 'foo', 'baseUri' => $requestUri]);
+        $client = new Client(['apiToken' => 'foo', 'baseUri' => $requestUri]);
         $this->assertEquals($client->httpClient->buildRequestURL('foo'), $requestUri . 'foo');
     }
 }

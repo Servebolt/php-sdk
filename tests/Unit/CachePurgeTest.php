@@ -18,7 +18,7 @@ class CachePurgeTest extends TestCase
         Http::shouldReceive('Request')->withSomeOfArgs('POST', $testUrl)
             ->once()->andReturn(new Response(200, [], json_encode(['success' => true])));
         $client = new Client([
-            'apiKey' => 'foo',
+            'apiToken' => 'foo',
         ]);
         $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
         $this->assertTrue($client->environment->setEnvironment($this->environmentId)->cache->purge($files, []));
@@ -30,7 +30,7 @@ class CachePurgeTest extends TestCase
         Http::shouldReceive('Request')->withSomeOfArgs('POST', $testUrl)
             ->once()->andReturn(new Response(200, [], json_encode(['success' => false])));
         $client = new Client([
-            'apiKey' => 'foo',
+            'apiToken' => 'foo',
         ]);
         $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
         $this->assertFalse($client->environment->setEnvironment($this->environmentId)->cache->purge($files, []));

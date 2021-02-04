@@ -5,17 +5,17 @@ namespace Servebolt\SDK\Auth;
 class ApiToken implements ApiAuth
 {
 
-    private string $apiKey;
+    private string $apiToken;
 
-    public function __construct(string $apiKey)
+    public function __construct(string $apiToken)
     {
-        $this->apiKey = $apiKey;
+        $this->apiToken = $apiToken;
     }
 
     public function getAuthHeaders(): array
     {
         return [
-            'Authorization' => 'Bearer ' . $this->apiKey,
+            'Authorization' => 'Bearer ' . $this->apiToken,
         ];
     }
 }
