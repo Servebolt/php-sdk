@@ -23,10 +23,10 @@ class Cache
      */
     public function purge(array $files = [], array $prefixes = []) : bool
     {
-        $files = array_filter(array_map(function($file) {
+        $files = array_filter(array_map(function ($file) {
             return Helpers\sanitizeUrl($file);
         }, $files));
-        $prefixes = array_filter(array_map(function($prefix) {
+        $prefixes = array_filter(array_map(function ($prefix) {
             return Helpers\sanitizeDomain($prefix);
         }, $prefixes));
         $body = compact('files', 'prefixes');
