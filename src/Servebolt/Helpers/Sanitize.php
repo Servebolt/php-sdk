@@ -2,11 +2,43 @@
 
 namespace Servebolt\SDK\Helpers;
 
-function sanitizeUrl(string $url) : string
+/**
+ * @param $url
+ * @return bool
+ */
+function urlIsValid($url) : bool
 {
-    $urlParts = parse_url($url);
-    // TODO: Throw exception if failed
-    return $url;
+    return (
+        (
+            str_starts_with($url, 'http://')
+            || str_starts_with($url, 'https://')
+        )
+        //&& filter_var($url, FILTER_VALIDATE_URL)
+    );
+}
+
+/**
+ * @param string $url
+ * @param bool $throwExceptions
+ * @return mixed|string|null
+ * @throws \Servebolt\SDK\Exceptions\ServeboltInvalidUrlException
+ * @throws \Servebolt\SDK\Exceptions\ServeboltUrlWasSanitizedException
+ */
+function sanitizeUrl(string $url, $throwExceptions = true)
+{
+    /*
+    if (!urlIsValid($url)) {
+        if ($throwExceptions) {
+            throw new \Servebolt\SDK\Exceptions\ServeboltInvalidUrlException(sprintf('URL "%s" is not valid.', $url));
+        }
+        return null;
+    }
+    */
+    $newUrl = filter_var($url, FILTER_SANITIZE_URL);
+    if ($throwExceptions && $url !== $newUrl) {
+        throw new \Servebolt\SDK\Exceptions\ServeboltUrlWasSanitizedException(sprintf('URL "%s" was sanitized to "%s".', $url, $newUrl));
+    }
+    return $newUrl;
 }
 
 function sanitizeUrls(array $urls) : array
