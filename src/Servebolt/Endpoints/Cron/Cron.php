@@ -4,6 +4,7 @@ namespace Servebolt\SDK\Endpoints\Cron;
 
 use Servebolt\SDK\Traits\ApiEndpoint;
 use Servebolt\SDK\Models\CronJob;
+use Servebolt\SDK\Helpers\Response;
 
 /**
  * Class Cron
@@ -16,6 +17,8 @@ class Cron
 
     public function list()
     {
+        $httpResponse = $this->httpClient->get('/cronjobs');
+        return new Response($httpResponse->getData());
     }
 
     public function create(CronJob $cronJob)
