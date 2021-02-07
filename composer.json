@@ -24,13 +24,17 @@
         "overtrue/phplint": "^2.3",
         "mockery/mockery": "^1.4",
         "vlucas/phpdotenv": "^5.3",
-        "dms/phpunit-arraysubset-asserts": "^0.2.1"
+        "dms/phpunit-arraysubset-asserts": "^0.2.1",
+        "jakeasmith/http_build_url": "^1"
     },
     "autoload": {
         "psr-4": {
             "Servebolt\\SDK\\": "src/Servebolt"
         },
-        "files": ["src/Servebolt/Helpers/Sanitize.php"]
+        "files": [
+            "src/Servebolt/Helpers/Sanitazation.php",
+            "src/Servebolt/Helpers/Validation.php"
+        ]
     },
     "scripts": {
         "phpunit": "ci/runtests",

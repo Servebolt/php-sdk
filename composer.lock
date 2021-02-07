@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5314f1d9838d377b3e52c00c4f9bbf76",
+    "content-hash": "5a92b89d189a5209258a894a22bac8fa",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -808,6 +808,43 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
             },
             "time": "2020-07-09T08:09:16+00:00"
+        },
+        {
+            "name": "jakeasmith/http_build_url",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jakeasmith/http_build_url.git",
+                "reference": "93c273e77cb1edead0cf8bcf8cd2003428e74e37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jakeasmith/http_build_url/zipball/93c273e77cb1edead0cf8bcf8cd2003428e74e37",
+                "reference": "93c273e77cb1edead0cf8bcf8cd2003428e74e37",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/http_build_url.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jake A. Smith",
+                    "email": "theman@jakeasmith.com"
+                }
+            ],
+            "description": "Provides functionality for http_build_url() to environments without pecl_http.",
+            "support": {
+                "issues": "https://github.com/jakeasmith/http_build_url/issues",
+                "source": "https://github.com/jakeasmith/http_build_url"
+            },
+            "time": "2017-05-01T15:36:40+00:00"
         },
         {
             "name": "microsoft/tolerant-php-parser",

@@ -5,55 +5,63 @@ namespace Servebolt\SDK\Tests;
 use Servebolt\SDK\Helpers as Helpers;
 use PHPUnit\Framework\TestCase;
 use Servebolt\SDK\Exceptions\ServeboltUrlWasSanitizedException;
-//use Servebolt\SDK\Exceptions\ServeboltInvalidUrlException;
 
 class SanitizationHelperTest extends TestCase
 {
 
+    private array $validUrls = [
+        'https://username:password@example.com/path/to/something?query=string&with=multiple-parts#hashtag-something',
+        'http://example.com/path/to/something?query=string&with=multiple-parts#hashtag-something',
+    ];
+
+    private array $urlsNeededToBeSanitized = [
+        'http://example.com/path/t�/something?query=string&with=multiple-parts#hashtag-something',
+        'http://example.c�m/path/to/something?query=string&with=multiple-parts#hashtag-something',
+    ];
+
     public function testUrlSanitizationWithValidUrls()
     {
-        $validUrls = [
-            'https://username:password@example.com/path/to/something?query=string&with=multiple-parts#hashtag-something',
-            'http://example.com/path/to/something?query=string&with=multiple-parts#hashtag-something',
-        ];
-        foreach ($validUrls as $validUrl) {
-            $this->assertEquals(Helpers\sanitizeUrl($validUrl), $validUrl);
-        }
-    }
-
-    /*
-    public function testUrlSanitizationWithInvalidUrls()
-    {
-        $invalidUrls = [
-            'ssh://example.com/path/to/something?query=string&with=multiple-parts#hashtag-something',
-            'not-a-url',
-            'mail@example.com'
-        ];
-        $this->expectException(ServeboltInvalidUrlException::class);
-        foreach ($invalidUrls as $invalidUrl) {
+        foreach ($this->validUrls as $url) {
             try {
-                Helpers\sanitizeUrl($invalidUrl);
-                $this->fail(sprintf('URL "%s" did not throw exception "%s".', $invalidUrl, 'ServeboltInvalidUrlException'));
-            } catch (ServeboltInvalidUrlException $exception) {
-                throw $exception; // Re-throw exception to PHPUnit
+                $this->assertEquals(Helpers\sanitizeUrl($url), $url);
+            } catch (ServeboltUrlWasSanitizedException $exception) {
+                $this->fail(sprintf('URL "%s" threw exception "%s".', $url, 'ServeboltUrlWasSanitizedException'));
             }
         }
     }
-    */
 
-    public function testUrlSanitizationWithUrlsNeededToBeSanitized()
+    public function testUrlsSanitizationWithoutExceptionHandlingWithUrlsNeededToBeSanitized()
     {
-        $invalidUrls = [
-            'http://example.com/path/t�/something?query=string&with=multiple-parts#hashtag-something',
-        ];
+        $this->assertNotEquals($this->urlsNeededToBeSanitized, Helpers\sanitizeUrls($this->urlsNeededToBeSanitized, false), 'Failed asserting that function sanitizeUrls changed the array of URLs after sanitization.');
+    }
+
+    public function testUrlSanitizationWithoutExceptionHandlingWithUrlsNeededToBeSanitized()
+    {
+        foreach ($this->urlsNeededToBeSanitized as $url) {
+            $this->assertNotEquals($url, Helpers\sanitizeUrl($url, false), sprintf('Failed asserting that URL "%s" (that needed to be sanitized) changed after sanitization.', $url));
+        }
+    }
+
+    public function testUrlsSanitizationWithExceptionHandlingWithUrlsNeededToBeSanitized()
+    {
         $this->expectException(ServeboltUrlWasSanitizedException::class);
-        foreach ($invalidUrls as $invalidUrl) {
-            var_dump(Helpers\sanitizeUrl($invalidUrl));
+        try {
+            Helpers\sanitizeUrls($this->urlsNeededToBeSanitized);
+            $this->fail(sprintf('The function sanitizeUrls did not throw exception "%s".', 'ServeboltUrlWasSanitizedException'));
+        } catch (ServeboltUrlWasSanitizedException $exception) {
+            throw $exception; // Re-throw exception for PHPUnit to detect
+        }
+    }
+
+    public function testUrlSanitizationWithExceptionHandlingWithUrlsNeededToBeSanitized()
+    {
+        foreach ($this->urlsNeededToBeSanitized as $url) {
+            $this->expectException(ServeboltUrlWasSanitizedException::class);
             try {
-                var_dump(Helpers\sanitizeUrl($invalidUrl));
-                $this->fail(sprintf('URL "%s" did not throw exception "%s".', $invalidUrl, 'ServeboltUrlWasSanitizedException'));
+                Helpers\sanitizeUrl($url);
+                $this->fail(sprintf('URL "%s" did not throw exception "%s".', $url, 'ServeboltUrlWasSanitizedException'));
             } catch (ServeboltUrlWasSanitizedException $exception) {
-                throw $exception; // Re-throw exception to PHPUnit
+                throw $exception; // Re-throw exception for PHPUnit to detect
             }
         }
     }
