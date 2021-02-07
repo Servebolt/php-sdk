@@ -14,5 +14,4 @@ class ValidationHelperTest extends TestCase
     {
         $this->assertTrue(true);
     }
-
 }
