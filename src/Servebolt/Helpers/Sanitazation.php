@@ -23,7 +23,7 @@ function sanitizeUrl(string $url, $throwExceptions = true)
 
 function sanitizeUrls(array $urls, $throwExceptions = true) : array
 {
-    return array_filter(array_map(function($url) use ($throwExceptions) {
+    return array_filter(array_map(function ($url) use ($throwExceptions) {
         return sanitizeUrl($url, $throwExceptions);
     }, $urls));
 }
@@ -43,19 +43,4 @@ function sanitizeDomainsWithPath(array $domains, bool $allowPath = true, bool $a
         }
     }
     return $validDomains;
-}
-
-/**
- * @param $url
- * @return bool
- */
-function urlIsValid($url) : bool
-{
-    return (
-    (
-        str_starts_with($url, 'http://')
-        || str_starts_with($url, 'https://')
-    )
-        //&& filter_var($url, FILTER_VALIDATE_URL)
-    );
 }

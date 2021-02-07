@@ -32,13 +32,25 @@ class SanitizationHelperTest extends TestCase
 
     public function testUrlsSanitizationWithoutExceptionHandlingWithUrlsNeededToBeSanitized()
     {
-        $this->assertNotEquals($this->urlsNeededToBeSanitized, Helpers\sanitizeUrls($this->urlsNeededToBeSanitized, false), 'Failed asserting that function sanitizeUrls changed the array of URLs after sanitization.');
+        $this->assertNotEquals(
+            $this->urlsNeededToBeSanitized,
+            Helpers\sanitizeUrls($this->urlsNeededToBeSanitized, false),
+            'Failed asserting that function sanitizeUrls changed the array of URLs after sanitization.'
+        );
     }
 
     public function testUrlSanitizationWithoutExceptionHandlingWithUrlsNeededToBeSanitized()
     {
         foreach ($this->urlsNeededToBeSanitized as $url) {
-            $this->assertNotEquals($url, Helpers\sanitizeUrl($url, false), sprintf('Failed asserting that URL "%s" (that needed to be sanitized) changed after sanitization.', $url));
+            $failMessage = sprintf(
+                'Failed asserting that URL "%s" (that needed to be sanitized) changed after sanitization.',
+                $url
+            );
+            $this->assertNotEquals(
+                $url,
+                Helpers\sanitizeUrl($url, false),
+                $failMessage
+            );
         }
     }
 
@@ -47,7 +59,11 @@ class SanitizationHelperTest extends TestCase
         $this->expectException(ServeboltUrlWasSanitizedException::class);
         try {
             Helpers\sanitizeUrls($this->urlsNeededToBeSanitized);
-            $this->fail(sprintf('The function sanitizeUrls did not throw exception "%s".', 'ServeboltUrlWasSanitizedException'));
+            $failMessage = sprintf(
+                'The function sanitizeUrls did not throw exception "%s".',
+                'ServeboltUrlWasSanitizedException'
+            );
+            $this->fail($failMessage);
         } catch (ServeboltUrlWasSanitizedException $exception) {
             throw $exception; // Re-throw exception for PHPUnit to detect
         }
@@ -59,7 +75,12 @@ class SanitizationHelperTest extends TestCase
             $this->expectException(ServeboltUrlWasSanitizedException::class);
             try {
                 Helpers\sanitizeUrl($url);
-                $this->fail(sprintf('URL "%s" did not throw exception "%s".', $url, 'ServeboltUrlWasSanitizedException'));
+                $failMessage = sprintf(
+                    'URL "%s" did not throw exception "%s".',
+                    $url,
+                    'ServeboltUrlWasSanitizedException'
+                );
+                $this->fail($failMessage);
             } catch (ServeboltUrlWasSanitizedException $exception) {
                 throw $exception; // Re-throw exception for PHPUnit to detect
             }
