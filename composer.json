@@ -31,10 +31,7 @@
         "psr-4": {
             "Servebolt\\Sdk\\": "src/Servebolt"
         },
-        "files": [
-            "src/Servebolt/Helpers/Sanitization.php",
-            "src/Servebolt/Helpers/Validation.php"
-        ]
+        "files": []
     },
     "scripts": {
         "phpunit": "ci/runtests",
