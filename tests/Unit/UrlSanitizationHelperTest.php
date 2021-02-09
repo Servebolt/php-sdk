@@ -6,7 +6,7 @@ use Servebolt\SDK\Helpers as Helpers;
 use PHPUnit\Framework\TestCase;
 use Servebolt\SDK\Exceptions\ServeboltUrlWasSanitizedException;
 
-class SanitizationHelperTest extends TestCase
+class UrlSanitizationHelperTest extends TestCase
 {
 
     private array $validUrls = [
@@ -86,21 +86,4 @@ class SanitizationHelperTest extends TestCase
             }
         }
     }
-
-    /*
-    public function testDomainWithPathSanitization()
-    {
-
-    }
-
-    public function testUrlsSanitization()
-    {
-
-    }
-
-    public function testDomainsWithPathSanitization()
-    {
-
-    }
-    */
 }
