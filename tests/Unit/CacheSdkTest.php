@@ -62,7 +62,7 @@ class CacheSdkTest extends TestCase
     public function testValidateUrlWithIpAddress()
     {
         $url = 'http://127.0.0.1/foo';
-        $this->expectExceptionMessage($url . ' is not a valid URL');
+        $this->expectExceptionMessage(sprintf('"%s" is not a valid URL', $url));
         Cache::validateUrl($url);
     }
 
