@@ -49,7 +49,9 @@ function sanitizeDomainWithPath(string $domainWithPath, $throwExceptions = true)
     $path = array_key_exists('path', $parsedUrl) ? $parsedUrl['path'] : null;
     $newDomainWithPath = $host . $path;
     if ($throwExceptions && $domainWithPath !== $newDomainWithPath) {
-        throw new ServeboltDomainWithPathWasSanitizedException(sprintf('Domain "%s" was sanitized to "%s".', $domainWithPath, $newDomainWithPath));
+        throw new ServeboltDomainWithPathWasSanitizedException(
+            sprintf('Domain "%s" was sanitized to "%s".', $domainWithPath, $newDomainWithPath)
+        );
     }
     return $newDomainWithPath;
 }

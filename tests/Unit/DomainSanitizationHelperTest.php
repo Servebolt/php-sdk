@@ -26,7 +26,11 @@ class DomainSanitizationHelperTest extends TestCase
             try {
                 $this->assertEquals(Helpers\sanitizeDomainWithPath($domain), $domain);
             } catch (ServeboltDomainWithPathWasSanitizedException $exception) {
-                $this->fail(sprintf('Domain "%s" threw exception "%s".', $domain, 'ServeboltDomainWithPathWasSanitizedException'));
+                $this->fail(sprintf(
+                    'Domain "%s" threw exception "%s".',
+                    $domain,
+                    'ServeboltDomainWithPathWasSanitizedException'
+                ));
             }
         }
         /*
