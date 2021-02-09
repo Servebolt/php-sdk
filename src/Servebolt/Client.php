@@ -49,9 +49,9 @@ class Client
             $namespace = basename($namespaceFolderPath, '.php');
             $lowercaseNamespace = mb_strtolower($namespace);
             if (is_dir($namespaceFolderPath)) {
-                $classNameWithNamespace = '\\Servebolt\\SDK\\Endpoints\\' . $namespace . '\\' . $namespace;
+                $classNameWithNamespace = '\\Servebolt\\Sdk\\Endpoints\\' . $namespace . '\\' . $namespace;
             } else {
-                $classNameWithNamespace = '\\Servebolt\\SDK\\Endpoints\\' . $namespace;
+                $classNameWithNamespace = '\\Servebolt\\Sdk\\Endpoints\\' . $namespace;
             }
             $this->{ $lowercaseNamespace } = new $classNameWithNamespace($this->httpClient, $this->config);
         }
