@@ -26,7 +26,7 @@ class CacheSdkTest extends TestCase
     public function testValidateUrlWithBadSyntax()
     {
         $url = 'http://example.com::67';
-        $this->expectExceptionMessage($url . ' is not a valid URL');
+        $this->expectExceptionMessage(sprintf('"%s" is not a valid URL', $url));
         Cache::validateUrl($url);
     }
 
@@ -38,7 +38,7 @@ class CacheSdkTest extends TestCase
     public function testValidateUrlWithPort()
     {
         $url = 'http://example.com:67';
-        $this->expectExceptionMessage($url . ' is not a valid URL');
+        $this->expectExceptionMessage(sprintf('"%s" is not a valid URL', $url));
         Cache::validateUrl($url);
     }
 
@@ -50,7 +50,7 @@ class CacheSdkTest extends TestCase
     public function testValidateUrlWithFragment()
     {
         $url = 'http://example.com/foo#bar';
-        $this->expectExceptionMessage($url . ' is not a valid URL');
+        $this->expectExceptionMessage(sprintf('"%s" is not a valid URL', $url));
         Cache::validateUrl($url);
     }
 
@@ -73,12 +73,14 @@ class CacheSdkTest extends TestCase
                 'http://example.com/',
                 'https://example.com/',
                 'https://example.com/',
+                'https://example.com/with/path',
             ],
             Cache::sanitizeFiles(
                 [
                     'http://example.com/',
                     'https://example.com/',
                     'example.com/',
+                    'example.com/with/path',
                 ]
             )
         );

@@ -65,7 +65,16 @@ class Client
      */
     public function post(string $uri, array $body = [], array $headers = []) : Response
     {
-        return Http::post($this->buildRequestURL($uri), $body, $this->getRequestHeaders($headers));
+        return Http::post($this->buildRequestURL($uri), $this->handleRequestBody($body), $this->getRequestHeaders($headers));
+    }
+
+    /**
+     * @param $body
+     * @return false|string
+     */
+    private function handleRequestBody(array $body) : string
+    {
+        return json_encode($body);
     }
 
     /**

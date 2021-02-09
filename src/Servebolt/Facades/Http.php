@@ -37,13 +37,14 @@ class Http
         return $this->client;
     }
 
-    public function request(string $method, string $uri, array $headers = []) : ResponseInterface
+    public function request(string $method, string $uri, array $headers = [], $body = null) : ResponseInterface
     {
         if ($this->isMocked()) {
             return $this->mock()->request($method, $uri, $headers);
         }
         $response = $this->client()->request($method, $uri, [
             'headers' => $headers,
+            'body' => $body
         ]);
         return new Response(
             $response->getStatusCode(),
@@ -79,7 +80,8 @@ class Http
         $method = $request->getMethod();
         $uri = $request->getUri();
         $headers = $request->getHeaders();
-        return self::facade()->request($method, $uri, $headers);
+        $body = $request->getBody();
+        return self::facade()->request($method, $uri, $headers, $body);
     }
 
     /**
@@ -100,6 +102,6 @@ class Http
      */
     public static function post(string $uri, $body = null, array $headers = []) : \GuzzleHttp\Psr7\Response
     {
-        return self::send(new Request('POST', $uri, $headers));
+        return self::send(new Request('POST', $uri, $headers, $body));
     }
 }

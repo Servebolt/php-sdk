@@ -22,19 +22,19 @@ class Cache
     {
         $parts = parse_url($url);
         if (!is_array($parts)) {
-            throw new ServeboltInvalidUrlException($url . ' is not a valid URL');
+            throw new ServeboltInvalidUrlException(sprintf('"%s" is not a valid URL', $url));
         } elseif (!array_key_exists('scheme', $parts)) {
             $parts = parse_url('http://' . $url);
         }
         if (false !== filter_var($parts['host'], FILTER_VALIDATE_IP)) {
-            throw new ServeboltInvalidUrlException($url . ' is not a valid URL');
+            throw new ServeboltInvalidUrlException(sprintf('"%s" is not a valid URL', $url));
         }
         if (false === filter_var($parts['host'], FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
-            throw new ServeboltInvalidUrlException($url . ' is not a valid URL');
+            throw new ServeboltInvalidUrlException(sprintf('"%s" is not a valid URL', $url));
         }
         if (array_key_exists('fragment', $parts) || array_key_exists('port', $parts)) {
             // @todo: provide more detail
-            throw new ServeboltInvalidUrlException($url . ' is not a valid URL');
+            throw new ServeboltInvalidUrlException(sprintf('"%s" is not a valid URL', $url));
         }
     }
 
@@ -62,7 +62,6 @@ class Cache
             }
             $scheme = $parts['scheme'] ?? '';
             if (!in_array($scheme, ['http', 'https'])) {
-                var_dump($parts);
                 $parts['scheme'] = 'https';
             }
             return http_build_url($parts);
@@ -70,12 +69,19 @@ class Cache
     }
 
     /**
-     * @param string[] $urls
+     * @param string[] $prefixes
      * @return string[]
      */
-    public static function sanitizePrefixes(array $urls) : array
+    public static function sanitizePrefixes(array $prefixes) : array
     {
-        return $urls;
+        return array_map(function (string $prefix) {
+            $prefix = preg_replace(
+                '/^^([a-zA-Z].+):\/\//',
+                '',
+                trim($prefix)
+            ); // Remove scheme
+            return $prefix;
+        }, $prefixes);
     }
 
     /**
@@ -93,17 +99,10 @@ class Cache
 
         $files = self::sanitizeFiles($files);
         $prefixes = self::sanitizePrefixes($prefixes);
+        $requestData = compact('files', 'prefixes');
 
-        $files = array_filter(array_map(function ($file) {
-            return Helpers\sanitizeUrl($file);
-        }, $files));
-        $prefixes = array_filter(array_map(function ($prefix) {
-            return Helpers\sanitizeDomain($prefix);
-        }, $prefixes));
-        $body = compact('files', 'prefixes');
         $requestUrl = '/environments/' . $this->config->get('environmentId') . '/purge_cache';
-        // TODO: Make sure $files and $prefixes only contains an array with strings
-        $response = $this->httpClient->post($requestUrl, $body);
+        $response = $this->httpClient->post($requestUrl, $requestData);
         $body = json_decode($response->getBody());
         // TODO: Handle partial success
         if (isset($body->success) && $body->success) {
