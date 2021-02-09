@@ -1,10 +1,10 @@
 <?php
 
-namespace Servebolt\SDK\Tests;
+namespace Servebolt\Sdk\Tests;
 
-use Servebolt\SDK\Helpers as Helpers;
+use Servebolt\Sdk\Helpers as Helpers;
 use PHPUnit\Framework\TestCase;
-use Servebolt\SDK\Exceptions\ServeboltDomainWithPathWasSanitizedException;
+use Servebolt\Sdk\Exceptions\ServeboltDomainWithPathWasSanitizedException;
 
 class DomainSanitizationHelperTest extends TestCase
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Servebolt\SDK\Endpoints\Environment;
+namespace Servebolt\Sdk\Endpoints\Environment;
 
-use Servebolt\SDK\Exceptions\ServeboltInvalidUrlException;
-use Servebolt\SDK\Traits\ApiEndpoint;
-use Servebolt\SDK\Helpers as Helpers;
+use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
+use Servebolt\Sdk\Traits\ApiEndpoint;
+use Servebolt\Sdk\Helpers as Helpers;
 
 /**
  * Class Cache
- * @package Servebolt\SDK\Endpoints
+ * @package Servebolt\Sdk\Endpoints
  */
 class Cache
 {

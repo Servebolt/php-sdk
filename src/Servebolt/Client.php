@@ -1,14 +1,14 @@
 <?php
 
-namespace Servebolt\SDK;
+namespace Servebolt\Sdk;
 
-use Servebolt\SDK\Auth\ApiToken;
-use Servebolt\SDK\Http\Client as HttpClient;
-use Servebolt\SDK\Exceptions\ServeboltInvalidAuthDriver;
+use Servebolt\Sdk\Auth\ApiToken;
+use Servebolt\Sdk\Http\Client as HttpClient;
+use Servebolt\Sdk\Exceptions\ServeboltInvalidAuthDriver;
 
 /**
  * Class Client
- * @package Servebolt\SDK
+ * @package Servebolt\Sdk
  */
 class Client
 {

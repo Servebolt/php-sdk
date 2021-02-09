@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Exceptions;
+namespace Servebolt\Sdk\Exceptions;
 
 class ServeboltInvalidUrlException extends ServeboltException
 {

@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Servebolt\SDK\Client;
+use Servebolt\Sdk\Client;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Servebolt\SDK\Tests;
+namespace Servebolt\Sdk\Tests;
 
-use Servebolt\SDK\Helpers as Helpers;
+use Servebolt\Sdk\Helpers as Helpers;
 use PHPUnit\Framework\TestCase;
-use Servebolt\SDK\Exceptions\ServeboltUrlWasSanitizedException;
+use Servebolt\Sdk\Exceptions\ServeboltUrlWasSanitizedException;
 
 class UrlValidationHelperTest extends TestCase
 {

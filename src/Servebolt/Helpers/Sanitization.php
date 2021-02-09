@@ -1,9 +1,9 @@
 <?php
 
-namespace Servebolt\SDK\Helpers;
+namespace Servebolt\Sdk\Helpers;
 
-use \Servebolt\SDK\Exceptions\ServeboltUrlWasSanitizedException;
-use \Servebolt\SDK\Exceptions\ServeboltDomainWithPathWasSanitizedException;
+use \Servebolt\Sdk\Exceptions\ServeboltUrlWasSanitizedException;
+use \Servebolt\Sdk\Exceptions\ServeboltDomainWithPathWasSanitizedException;
 
 /**
  * @param string $url

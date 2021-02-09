@@ -1,10 +1,10 @@
 <?php
 
-namespace Servebolt\SDK\Traits;
+namespace Servebolt\Sdk\Traits;
 
 /**
  * Class HasHierarchy
- * @package Servebolt\SDK\Traits
+ * @package Servebolt\Sdk\Traits
  */
 trait HasHierarchy
 {

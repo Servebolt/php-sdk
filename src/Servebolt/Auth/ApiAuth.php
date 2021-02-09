@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Auth;
+namespace Servebolt\Sdk\Auth;
 
 interface ApiAuth
 {

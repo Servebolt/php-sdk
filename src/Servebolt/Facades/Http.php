@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Facades;
+namespace Servebolt\Sdk\Facades;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;

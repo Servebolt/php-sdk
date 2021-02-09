@@ -4,7 +4,7 @@
 namespace Unit;
 
 use PHPUnit\Framework\TestCase;
-use Servebolt\SDK\Endpoints\Environment\Cache;
+use Servebolt\Sdk\Endpoints\Environment\Cache;
 
 class CacheSdkTest extends TestCase
 {

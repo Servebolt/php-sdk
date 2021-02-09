@@ -1,9 +1,9 @@
 <?php
 
-namespace Servebolt\SDK\Tests;
+namespace Servebolt\Sdk\Tests;
 
 use GuzzleHttp\Psr7\Response;
-use Servebolt\SDK\Facades\Http;
+use Servebolt\Sdk\Facades\Http;
 use PHPUnit\Framework\TestCase;
 
 class HttpFacadeTest extends TestCase
