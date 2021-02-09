@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Tests;
+namespace Servebolt\Sdk\Tests;
 
 use Servebolt\SDK\Helpers as Helpers;
 use PHPUnit\Framework\TestCase;

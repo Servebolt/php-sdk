@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Tests;
+namespace Servebolt\Sdk\Tests;
 
 use Servebolt\SDK\Client;
 use GuzzleHttp\Psr7\Response;
@@ -9,8 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CachePurgeTest extends TestCase
 {
-
-    private $environmentId = '123';
+    private int $environmentId = 123;
 
     public function testThatCachePurges()
     {

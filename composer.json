@@ -29,10 +29,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Servebolt\\SDK\\": "src/Servebolt"
+            "Servebolt\\Sdk\\": "src/Servebolt"
         },
         "files": [
-            "src/Servebolt/Helpers/Sanitazation.php",
+            "src/Servebolt/Helpers/Sanitization.php",
             "src/Servebolt/Helpers/Validation.php"
         ]
     },
