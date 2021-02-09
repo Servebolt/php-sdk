@@ -96,8 +96,8 @@ class Http
 
     /**
      * @param string|UriInterface                   $uri     URI
-     * @param array                                 $headers Request headers
      * @param string|null                           $body    Request body
+     * @param array                                 $headers Request headers
      * @return \GuzzleHttp\Psr7\Response
      */
     public static function post(string $uri, $body = null, array $headers = []) : \GuzzleHttp\Psr7\Response
