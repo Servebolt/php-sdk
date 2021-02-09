@@ -7,7 +7,7 @@ use Servebolt\SDK\Helpers as Helpers;
 use PHPUnit\Framework\TestCase;
 use Servebolt\SDK\Exceptions\ServeboltUrlWasSanitizedException;
 
-class ValidationHelperTest extends TestCase
+class UrlValidationHelperTest extends TestCase
 {
 
     public function testUrlValidationWithValidUrls()
