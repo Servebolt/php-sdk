@@ -1,9 +1,9 @@
 <?php
 
-namespace Servebolt\SDK\Tests;
+namespace Servebolt\Sdk\Tests;
 
-use Servebolt\SDK\Client;
-use Servebolt\SDK\Facades\Http;
+use Servebolt\Sdk\Client;
+use Servebolt\Sdk\Facades\Http;
 use PHPUnit\Framework\TestCase;
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 

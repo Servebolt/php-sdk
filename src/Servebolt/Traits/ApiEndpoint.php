@@ -1,13 +1,13 @@
 <?php
 
-namespace Servebolt\SDK\Traits;
+namespace Servebolt\Sdk\Traits;
 
-use Servebolt\SDK\ConfigHelper;
-use Servebolt\SDK\Http\Client as HttpClient;
+use Servebolt\Sdk\ConfigHelper;
+use Servebolt\Sdk\Http\Client as HttpClient;
 
 /**
  * Class ApiEndpoint
- * @package Servebolt\SDK\Traits
+ * @package Servebolt\Sdk\Traits
  */
 trait ApiEndpoint
 {
