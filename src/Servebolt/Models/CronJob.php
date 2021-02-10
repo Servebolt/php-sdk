@@ -2,16 +2,12 @@
 
 namespace Servebolt\SDK\Models;
 
-use Servebolt\SDK\Traits\Model;
-
-class CronJob
+class CronJob extends Model
 {
 
-    use Model;
+    protected $properties = ['id', 'environmentId', 'schedule', 'command', 'comment', 'enabled', 'notifications'];
 
-    private $properties = ['id', 'environmentId', 'schedule', 'command', 'comment', 'enabled', 'notifications'];
-
-    private $casts = [
+    protected $casts = [
         'enabled' => 'boolean',
     ];
 }
