@@ -4,7 +4,6 @@ namespace Servebolt\Sdk\Endpoints\Environment;
 
 use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
 use Servebolt\Sdk\Traits\ApiEndpoint;
-use Servebolt\Sdk\Helpers as Helpers;
 
 /**
  * Class Cache
