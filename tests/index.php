@@ -18,6 +18,11 @@ $authDriver = isset($_ENV['AUTH_DRIVER']) ? $_ENV['AUTH_DRIVER'] : 'apiToken';
 
 $client = new Client(compact('apiToken', 'baseUri', 'authDriver'));
 echo '<pre>';
+
+print_r($client->cron->list());
+die;
+
+/*
 print_r($client->environment->setEnvironment($environmentId)->cache->purge([
     'https://example.com/',
     'example.com/a/b/c',
@@ -28,3 +33,4 @@ print_r($client->environment->setEnvironment($environmentId)->cache->purge([
     'https://example.com',
     'example.com/some-path',
 ]));
+*/
