@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:ignoreFile
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -15,28 +16,34 @@ $client = new Servebolt\Sdk\Client([
     'authDriver' => $_ENV['AUTH_DRIVER'] // Default: apiToken
 ]);
 
-try {
-    $response = $client->cron->list();
-    foreach ($response->getCronJobs() as $cronJob) {
-        print_r($cronJob->schedule . ' ' . $cronJob->command);
+function printCronJobs($client)
+{
+    try {
+        $response = $client->cron->list();
+        foreach ($response->getCronJobs() as $cronJob) {
+            print_r($cronJob->schedule . ' ' . $cronJob->command);
+        }
+    } catch (Exception $exception) {
+        var_dump($exception->getCode());
+        var_dump($exception->getMessage());
     }
-} catch (Exception $exception) {
-    var_dump($exception->getCode());
-    var_dump($exception->getMessage());
 }
+//printCronJobs($client);
 
-/*
-$environmentId = $_ENV['ENV_ID'];
-if ($client->environment->setEnvironment($environmentId)->cache->purge([
-    'https://example.com/',
-    'example.com/a/b/c',
-    'example.com/a/b/c/',
-], [
-    'ssh://example.com',
-    'http://example.com',
-    'https://example.com',
-    'example.com/some-path',
-])) {
-    echo 'We purged cache!';
+function purgeCache($client)
+{
+    try {
+        $environmentId = $_ENV['ENV_ID'];
+        if ($client->environment->setEnvironment($environmentId)->cache->purge([
+            'https://example.com/some/url/to/a/file.html',
+        ], [
+            'https://example.com/some/partial/path',
+        ])) {
+            echo 'We purged cache!';
+        }
+    } catch (Exception $exception) {
+        var_dump($exception->getCode());
+        var_dump($exception->getMessage());
+    }
 }
-*/
+//purgeCache($client);

@@ -3,6 +3,7 @@
 namespace Servebolt\Sdk\Endpoints\Environment;
 
 use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
+use Servebolt\Sdk\Helpers\Response;
 use Servebolt\Sdk\Traits\ApiEndpoint;
 
 /**
@@ -12,6 +13,28 @@ use Servebolt\Sdk\Traits\ApiEndpoint;
 class Cache
 {
     use ApiEndpoint;
+
+    /**
+     * Purge cache for given files or prefixes.
+     *
+     * @param string[] $files
+     * @param string[] $prefixes
+     * @return Response
+     * @throws ServeboltInvalidUrlException
+     */
+    public function purge(array $files = [], array $prefixes = []) : Response
+    {
+        self::validateUrls($files);
+        self::validateUrls($prefixes);
+
+        $files = self::sanitizeFiles($files);
+        $prefixes = self::sanitizePrefixes($prefixes);
+        $requestData = compact('files', 'prefixes');
+
+        $requestUrl = '/environments/' . $this->config->get('environmentId') . '/purge_cache';
+        $httpResponse = $this->httpClient->post($requestUrl, $requestData);
+        return new Response($httpResponse->getData());
+    }
 
     /**
      * @param string $url
@@ -81,32 +104,5 @@ class Cache
             ); // Remove scheme
             return $prefix;
         }, $prefixes);
-    }
-
-    /**
-     * Purge cache for given files or prefixes.
-     *
-     * @param string[] $files
-     * @param string[] $prefixes
-     * @return bool
-     * @throws ServeboltInvalidUrlException
-     */
-    public function purge(array $files = [], array $prefixes = []) : bool
-    {
-        self::validateUrls($files);
-        self::validateUrls($prefixes);
-
-        $files = self::sanitizeFiles($files);
-        $prefixes = self::sanitizePrefixes($prefixes);
-        $requestData = compact('files', 'prefixes');
-
-        $requestUrl = '/environments/' . $this->config->get('environmentId') . '/purge_cache';
-        $response = $this->httpClient->post($requestUrl, $requestData);
-        $body = json_decode($response->getBody());
-        // TODO: Handle partial success
-        if (isset($body->success) && $body->success) {
-            return true;
-        }
-        return false;
     }
 }
