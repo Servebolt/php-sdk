@@ -18,7 +18,11 @@ class Cron
 
     use ApiEndpoint;
 
-    public function list()
+    /**
+     * @return Response
+     * @throws ServeboltHttpClientException
+     */
+    public function list() : Response
     {
         try {
             $httpResponse = $this->httpClient->get('/cronjobs');
@@ -28,6 +32,7 @@ class Cron
         }
     }
 
+    /*
     public function create(CronJob $cronJob)
     {
     }
@@ -47,4 +52,5 @@ class Cron
     public function replace(CronJob $cronJob)
     {
     }
+    */
 }
