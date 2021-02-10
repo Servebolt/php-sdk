@@ -86,11 +86,12 @@ class Client
      */
     public function post(string $uri, array $body = [], array $headers = []) : Client
     {
-        return Http::post(
+        $this->response = Http::post(
             $this->buildRequestURL($uri),
             $this->handleRequestBody($body),
             $this->getRequestHeaders($headers)
         );
+        return $this;
     }
 
     /**

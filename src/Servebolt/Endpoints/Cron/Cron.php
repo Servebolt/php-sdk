@@ -1,10 +1,11 @@
 <?php
 
-namespace Servebolt\SDK\Endpoints\Cron;
+namespace Servebolt\Sdk\Endpoints\Cron;
 
-use Servebolt\SDK\Traits\ApiEndpoint;
-use Servebolt\SDK\Models\CronJob;
-use Servebolt\SDK\Helpers\Response;
+use Servebolt\Sdk\Traits\ApiEndpoint;
+use Servebolt\Sdk\Models\CronJob;
+use Servebolt\Sdk\Helpers\Response;
+use Servebolt\Sdk\Exceptions\ServeboltHttpClientException;
 
 /**
  * Class Cron
@@ -13,14 +14,25 @@ use Servebolt\SDK\Helpers\Response;
 class Cron
 {
 
+    private string $modelBinding = CronJob::class;
+
     use ApiEndpoint;
 
-    public function list()
+    /**
+     * @return Response
+     * @throws ServeboltHttpClientException
+     */
+    public function list() : Response
     {
-        $httpResponse = $this->httpClient->get('/cronjobs');
-        return new Response($httpResponse, CronJob::class);
+        try {
+            $httpResponse = $this->httpClient->get('/cronjobs');
+            return new Response($httpResponse->getData(), $this->modelBinding);
+        } catch (\Exception $exception) {
+            throw new ServeboltHttpClientException($exception->getMessage(), $exception->getCode());
+        }
     }
 
+    /*
     public function create(CronJob $cronJob)
     {
     }
@@ -40,4 +52,5 @@ class Cron
     public function replace(CronJob $cronJob)
     {
     }
+    */
 }

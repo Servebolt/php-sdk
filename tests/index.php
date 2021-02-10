@@ -1,30 +1,49 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
-
-use Servebolt\Sdk\Client;
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
+// phpcs:ignoreFile
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$apiToken = $_ENV['API_TOKEN'];
-$baseUri = $_ENV['BASE_URI'];
-$environmentId = $_ENV['ENV_ID'];
-$authDriver = isset($_ENV['AUTH_DRIVER']) ? $_ENV['AUTH_DRIVER'] : 'apiToken';
+require __DIR__ . '/../vendor/autoload.php';
 
-$client = new Client(compact('apiToken', 'baseUri', 'authDriver'));
-echo '<pre>';
-print_r($client->environment->setEnvironment($environmentId)->cache->purge([
-    'https://example.com/',
-    'example.com/a/b/c',
-    'example.com/a/b/c/',
-], [
-    'ssh://example.com',
-    'http://example.com',
-    'https://example.com',
-    'example.com/some-path',
-]));
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$client = new Servebolt\Sdk\Client([
+    'apiToken'   => $_ENV['API_TOKEN'],
+    'baseUri'    => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
+    'authDriver' => $_ENV['AUTH_DRIVER'] // Default: apiToken
+]);
+
+function printCronJobs($client)
+{
+    try {
+        $response = $client->cron->list();
+        foreach ($response->getCronJobs() as $cronJob) {
+            print_r($cronJob->schedule . ' ' . $cronJob->command);
+        }
+    } catch (Exception $exception) {
+        var_dump($exception->getCode());
+        var_dump($exception->getMessage());
+    }
+}
+//printCronJobs($client);
+
+function purgeCache($client)
+{
+    try {
+        $environmentId = $_ENV['ENV_ID'];
+        if ($client->environment->setEnvironment($environmentId)->cache->purge([
+            'https://example.com/some/url/to/a/file.html',
+        ], [
+            'https://example.com/some/partial/path',
+        ])) {
+            echo 'We purged cache!';
+        }
+    } catch (Exception $exception) {
+        var_dump($exception->getCode());
+        var_dump($exception->getMessage());
+    }
+}
+//purgeCache($client);

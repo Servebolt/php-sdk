@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Models;
+namespace Servebolt\Sdk\Models;
 
 abstract class Model
 {

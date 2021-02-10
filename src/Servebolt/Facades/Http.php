@@ -32,7 +32,9 @@ class Http
     private function client() : Client
     {
         if (!isset($this->client)) {
-            $this->client = new Client([]);
+            $this->client = new Client([
+                'http_errors' => true,
+            ]);
         }
         return $this->client;
     }

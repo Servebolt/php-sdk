@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Helpers;
+namespace Servebolt\Sdk\Helpers;
 
 class Collection
 {
