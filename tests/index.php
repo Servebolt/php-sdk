@@ -17,7 +17,7 @@ $client = new Servebolt\Sdk\Client([
 
 try {
     $response = $client->cron->list();
-    foreach($response->getCronJobs() as $cronJob) {
+    foreach ($response->getCronJobs() as $cronJob) {
         print_r($cronJob->schedule . ' ' . $cronJob->command);
     }
 } catch (Exception $exception) {
