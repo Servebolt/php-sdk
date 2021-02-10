@@ -2,5 +2,6 @@
 
 namespace Servebolt\Sdk\Exceptions;
 
-class ServeboltHttpClientException extends ServeboltException {
+class ServeboltHttpClientException extends ServeboltException
+{
 }
