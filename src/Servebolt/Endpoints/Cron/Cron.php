@@ -18,7 +18,7 @@ class Cron
     public function list()
     {
         $httpResponse = $this->httpClient->get('/cronjobs');
-        return new Response($httpResponse, CronJob::class);
+        return new Response($httpResponse->getData(), CronJob::class);
     }
 
     public function create(CronJob $cronJob)
