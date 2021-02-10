@@ -34,6 +34,11 @@ class Client
     private array $headers = [];
 
     /**
+     * @var Response
+     */
+    private Response $response;
+
+    /**
      * Client constructor.
      * @param ApiAuth $authentication
      * @param ConfigHelper $config
@@ -47,14 +52,30 @@ class Client
         $this->headers = $authentication->getAuthHeaders();
     }
 
+    public function getResponseObject() : Response
+    {
+        return $this->response;
+    }
+
+    /**
+     * Get the JSON-data from the response object.
+     *
+     * @return object
+     */
+    public function getData() : object
+    {
+        return json_decode($this->response->getBody());
+    }
+
     /**
      * @param string $uri
      * @param array $headers
      * @return Response
      */
-    public function get(string $uri, array $headers = []) : Response
+    public function get(string $uri, array $headers = []) : Client
     {
-        return Http::get($this->buildRequestURL($uri), $this->getRequestHeaders($headers));
+        $this->response = Http::get($this->buildRequestURL($uri), $this->getRequestHeaders($headers));
+        return $this;
     }
 
     /**
@@ -63,7 +84,7 @@ class Client
      * @param array $headers
      * @return Response
      */
-    public function post(string $uri, array $body = [], array $headers = []) : Response
+    public function post(string $uri, array $body = [], array $headers = []) : Client
     {
         return Http::post(
             $this->buildRequestURL($uri),
