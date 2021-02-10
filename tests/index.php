@@ -11,8 +11,8 @@ $dotenv->load();
 
 $client = new Servebolt\Sdk\Client([
     'apiToken'   => $_ENV['API_TOKEN'],
-    'baseUri'    => $_ENV['BASE_URI'],
-    'authDriver' => $_ENV['AUTH_DRIVER']
+    'baseUri'    => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
+    'authDriver' => $_ENV['AUTH_DRIVER'] // Default: apiToken
 ]);
 
 try {
