@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\SDK\Helpers;
+namespace Servebolt\Sdk\Helpers;
 
 class Response
 {
@@ -24,7 +24,7 @@ class Response
     private function parseData()
     {
         $result = $this->responseData->result ?? null;
-        if (is_array($result) && is_subclass_of($this->modelClass, 'Servebolt\\SDK\\Models\\Model')) {
+        if (is_array($result) && is_subclass_of($this->modelClass, 'Servebolt\\Sdk\\Models\\Model')) {
             $this->isMultiple = true;
             $this->items = array_map(function ($item) {
                 return new $this->modelClass($item);

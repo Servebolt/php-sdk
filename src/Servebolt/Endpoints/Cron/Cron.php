@@ -1,10 +1,10 @@
 <?php
 
-namespace Servebolt\SDK\Endpoints\Cron;
+namespace Servebolt\Sdk\Endpoints\Cron;
 
-use Servebolt\SDK\Traits\ApiEndpoint;
-use Servebolt\SDK\Models\CronJob;
-use Servebolt\SDK\Helpers\Response;
+use Servebolt\Sdk\Traits\ApiEndpoint;
+use Servebolt\Sdk\Models\CronJob;
+use Servebolt\Sdk\Helpers\Response;
 
 /**
  * Class Cron
