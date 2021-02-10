@@ -7,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 class ResponseObjectTest extends TestCase
 {
 
-    function testThatPropertiesGetsSetInObject()
+    public function testThatPropertiesGetsSetInObject()
     {
-
     }
-
 }

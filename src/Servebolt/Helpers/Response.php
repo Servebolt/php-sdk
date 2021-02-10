@@ -19,7 +19,6 @@ class Response
         print_r($this->responseData);
         die;
         */
-
     }
 
     private function parseData()
@@ -30,13 +29,12 @@ class Response
             $this->items = array_map(function ($item) {
                 return new $this->modelClass($item);
             }, $result);
-        } {
+        } else {
             $this->items[] = $result;
-    }
+        }
     }
 
     private function parseResult()
     {
-
     }
 }
