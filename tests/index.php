@@ -6,29 +6,28 @@ error_reporting(E_ALL);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Servebolt\Sdk\Client;
-
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-$apiToken = $_ENV['API_TOKEN'];
-$baseUri = $_ENV['BASE_URI'];
-$environmentId = $_ENV['ENV_ID'];
-$authDriver = isset($_ENV['AUTH_DRIVER']) ? $_ENV['AUTH_DRIVER'] : 'apiToken';
-
-$client = new Client(compact('apiToken', 'baseUri', 'authDriver'));
+$client = new Servebolt\Sdk\Client([
+    'apiToken'   => $_ENV['API_TOKEN'],
+    'baseUri'    => $_ENV['BASE_URI'],
+    'authDriver' => $_ENV['AUTH_DRIVER']
+]);
 
 try {
-    echo '<pre>';
-    $cronJobs = $client->cron->list();
-    print_r($cronJobs->getCronJobs());
+    $response = $client->cron->list();
+    foreach($response->getCronJobs() as $cronJob) {
+        print_r($cronJob->schedule . ' ' . $cronJob->command);
+    }
 } catch (Exception $exception) {
     var_dump($exception->getCode());
     var_dump($exception->getMessage());
 }
 
 /*
-print_r($client->environment->setEnvironment($environmentId)->cache->purge([
+$environmentId = $_ENV['ENV_ID'];
+if ($client->environment->setEnvironment($environmentId)->cache->purge([
     'https://example.com/',
     'example.com/a/b/c',
     'example.com/a/b/c/',
@@ -37,5 +36,7 @@ print_r($client->environment->setEnvironment($environmentId)->cache->purge([
     'http://example.com',
     'https://example.com',
     'example.com/some-path',
-]));
+])) {
+    echo 'We purged cache!';
+}
 */
