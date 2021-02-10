@@ -5,6 +5,7 @@ namespace Servebolt\Sdk\Endpoints\Cron;
 use Servebolt\Sdk\Traits\ApiEndpoint;
 use Servebolt\Sdk\Models\CronJob;
 use Servebolt\Sdk\Helpers\Response;
+use Servebolt\Sdk\Exceptions\ServeboltHttpClientException;
 
 /**
  * Class Cron
@@ -19,8 +20,12 @@ class Cron
 
     public function list()
     {
-        $httpResponse = $this->httpClient->get('/cronjobs');
-        return new Response($httpResponse->getData(), $this->modelBinding);
+        try {
+            $httpResponse = $this->httpClient->get('/cronjobs');
+            return new Response($httpResponse->getData(), $this->modelBinding);
+        } catch (\Exception $exception) {
+            throw new ServeboltHttpClientException($exception->getMessage(), $exception->getCode());
+        }
     }
 
     public function create(CronJob $cronJob)

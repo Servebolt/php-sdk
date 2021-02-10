@@ -18,10 +18,14 @@ $authDriver = isset($_ENV['AUTH_DRIVER']) ? $_ENV['AUTH_DRIVER'] : 'apiToken';
 
 $client = new Client(compact('apiToken', 'baseUri', 'authDriver'));
 
-echo '<pre>';
-$crons = $client->cron->list();
-print_r($crons->getItems());
-die;
+try {
+    echo '<pre>';
+    $cronJobs = $client->cron->list();
+    print_r($cronJobs->getCronJobs());
+} catch (Exception $exception) {
+    var_dump($exception->getCode());
+    var_dump($exception->getMessage());
+}
 
 /*
 print_r($client->environment->setEnvironment($environmentId)->cache->purge([
