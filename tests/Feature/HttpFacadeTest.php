@@ -1,9 +1,9 @@
 <?php
 
-namespace Servebolt\SDK\Tests;
+namespace Servebolt\Sdk\Tests;
 
 use GuzzleHttp\Psr7\Response;
-use Servebolt\SDK\Facades\Http;
+use Servebolt\Sdk\Facades\Http;
 use PHPUnit\Framework\TestCase;
 
 class HttpFacadeTest extends TestCase
@@ -22,9 +22,9 @@ class HttpFacadeTest extends TestCase
             ->once()->andReturn(new Response(200, []));
         Http::shouldReceive('request')->withSomeOfArgs('POST', 'http://example.com/index.php')
             ->once()->andReturn(new Response(501, []));
-        $response = Http::get('http://example.com/index.php', []);
+        $response = Http::get('http://example.com/index.php');
         $this->assertEquals(200, $response->getStatusCode());
-        $response = Http::post('http://example.com/index.php', []);
+        $response = Http::post('http://example.com/index.php');
         $this->assertEquals(501, $response->getStatusCode());
     }
 }

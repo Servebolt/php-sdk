@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Servebolt\SDK\Client;
+use Servebolt\Sdk\Client;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -18,6 +18,13 @@ $authDriver = isset($_ENV['AUTH_DRIVER']) ? $_ENV['AUTH_DRIVER'] : 'apiToken';
 
 $client = new Client(compact('apiToken', 'baseUri', 'authDriver'));
 echo '<pre>';
-print_r($client->cron->list());
-die;
-print_r($client->environment->setEnvironment($environmentId)->cache->purge());
+print_r($client->environment->setEnvironment($environmentId)->cache->purge([
+    'https://example.com/',
+    'example.com/a/b/c',
+    'example.com/a/b/c/',
+], [
+    'ssh://example.com',
+    'http://example.com',
+    'https://example.com',
+    'example.com/some-path',
+]));

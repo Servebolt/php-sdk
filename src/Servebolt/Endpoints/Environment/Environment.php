@@ -1,13 +1,13 @@
 <?php
 
-namespace Servebolt\SDK\Endpoints\Environment;
+namespace Servebolt\Sdk\Endpoints\Environment;
 
-use Servebolt\SDK\Traits\ApiEndpoint;
-use Servebolt\SDK\Traits\HasHierarchy;
+use Servebolt\Sdk\Traits\ApiEndpoint;
+use Servebolt\Sdk\Traits\HasHierarchy;
 
 /**
  * Class Environment
- * @package Servebolt\SDK\Endpoints
+ * @package Servebolt\Sdk\Endpoints
  */
 class Environment
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace Servebolt\SDK\Http;
+namespace Servebolt\Sdk\Http;
 
-use Servebolt\SDK\ConfigHelper;
-use Servebolt\SDK\Facades\Http;
-use Servebolt\SDK\Auth\ApiAuth;
+use Servebolt\Sdk\ConfigHelper;
+use Servebolt\Sdk\Facades\Http;
+use Servebolt\Sdk\Auth\ApiAuth;
 use GuzzleHttp\Psr7\Response;
 
 /**
  * Class Client
- * @package Servebolt\SDK\Http
+ * @package Servebolt\Sdk\Http
  */
 class Client
 {
@@ -86,8 +86,20 @@ class Client
      */
     public function post(string $uri, array $body = [], array $headers = []) : Client
     {
-        $this->response = Http::post($this->buildRequestURL($uri), $body, $this->getRequestHeaders($headers));
-        return $this;
+        return Http::post(
+            $this->buildRequestURL($uri),
+            $this->handleRequestBody($body),
+            $this->getRequestHeaders($headers)
+        );
+    }
+
+    /**
+     * @param $body
+     * @return false|string
+     */
+    private function handleRequestBody(array $body) : string
+    {
+        return json_encode($body);
     }
 
     /**

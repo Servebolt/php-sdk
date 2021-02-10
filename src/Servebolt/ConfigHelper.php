@@ -1,10 +1,10 @@
 <?php
 
-namespace Servebolt\SDK;
+namespace Servebolt\Sdk;
 
 /**
  * Class ConfigHelper
- * @package Servebolt\SDK
+ * @package Servebolt\Sdk
  */
 class ConfigHelper
 {
