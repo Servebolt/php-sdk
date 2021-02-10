@@ -37,10 +37,10 @@ class Response
 
     /**
      * Response constructor.
-     * @param $responseData
+     * @param object $responseData
      * @param null $modelClass
      */
-    public function __construct($responseData, $modelClass = null)
+    public function __construct(object $responseData, $modelClass = null)
     {
         $this->responseData = $responseData;
         if ($modelClass) {
@@ -48,6 +48,47 @@ class Response
             $this->modelClass = $modelClass;
         }
         $this->parseData();
+    }
+
+    /**
+     * @return false|mixed|string
+     */
+    private function getModelClassName()
+    {
+        if ($this->modelClass) {
+            $parts = explode('\\', $this->modelClass);
+            return end($parts);
+        }
+        return false;
+    }
+
+    /**
+     * @param $name
+     * @param $arguments
+     * @return array|false|object|null
+     */
+    public function __call($name, $arguments)
+    {
+        if ($className = $this->getModelClassName()) {
+            if ($name === 'get' . $className . 's') {
+                if ($this->hasMultiple()) {
+                    return $this->getData();
+                }
+                return false;
+            }
+            if ($name === 'get' . $className) {
+                return $this->getFirstItem();
+            }
+        }
+        trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
+    }
+
+    /**
+     * @return null|object
+     */
+    public function getRawData()
+    {
+        return $this->responseData;
     }
 
     /**
@@ -92,14 +133,31 @@ class Response
     }
 
     /**
+     * @return array|object
+     */
+    public function getItems()
+    {
+        if ($this->hasMultiple()) {
+            $data = $this->getData();
+            if (is_array($data)) {
+                return $data;
+            }
+        }
+    }
+
+    /**
      * @return null|object
      */
     public function getFirstItem()
     {
-        if ($this->hasMultiple() && $this->hasData()) {
+        if ($this->hasData()) {
             $data = $this->getData();
-            if (is_array($data) && !empty($data)) {
-                return current($data);
+            if ($this->hasMultiple()) {
+                if (is_array($data)) {
+                    return current($data);
+                }
+            } else {
+                return $data;
             }
         }
     }
