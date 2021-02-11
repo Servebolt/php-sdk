@@ -35,7 +35,7 @@ function purgeCache($client)
     try {
         $environmentId = $_ENV['ENV_ID'];
         if ($client->environment->setEnvironment($environmentId)->cache->purge([
-            'https://wtf.com/some/url/to/a/file.html',
+            'https://example.com/some/url/to/a/file.html',
         ])) {
             echo 'We purged cache!';
         }
@@ -43,4 +43,4 @@ function purgeCache($client)
         $responseObject = $exception->getResponseObject();
     }
 }
-purgeCache($client);
+//purgeCache($client);
