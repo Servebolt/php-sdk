@@ -5,7 +5,7 @@ namespace Servebolt\Sdk\Http;
 use Servebolt\Sdk\ConfigHelper;
 use Servebolt\Sdk\Facades\Http;
 use Servebolt\Sdk\Auth\ApiAuth;
-use Servebolt\Sdk\Traits\MethodToPropertyAccessorApiAuth;
+use Servebolt\Sdk\Traits\MethodToPropertyAccessor;
 use GuzzleHttp\Psr7\Response;
 
 /**
