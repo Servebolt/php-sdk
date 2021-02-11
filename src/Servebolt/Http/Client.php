@@ -59,7 +59,10 @@ class Client
 
     private function throwExceptionsOnClientError() : bool
     {
-        return filter_var($this->config->get('throwExceptionsOnClientError', Http::shouldThrowClientExceptions()), FILTER_VALIDATE_BOOLEAN);
+        return filter_var(
+            $this->config->get('throwExceptionsOnClientError', Http::shouldThrowClientExceptions()),
+            FILTER_VALIDATE_BOOLEAN
+        );
     }
 
 
