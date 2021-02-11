@@ -5,7 +5,6 @@ namespace Servebolt\Sdk\Http;
 use Servebolt\Sdk\ConfigHelper;
 use Servebolt\Sdk\Facades\Http;
 use Servebolt\Sdk\Auth\ApiAuth;
-use Servebolt\Sdk\Traits\MethodToPropertyAccessor;
 use GuzzleHttp\Psr7\Response;
 
 /**
@@ -14,8 +13,6 @@ use GuzzleHttp\Psr7\Response;
  */
 class Client
 {
-
-    use MethodToPropertyAccessor;
 
     /**
      * The config class containing configuration values.
