@@ -49,8 +49,22 @@ class Client
         if ($baseUri = $this->config->get('baseUri')) {
             $this->baseUri = $baseUri;
         }
+        if ($this->throwExceptionsOnClientError()) {
+            Http::enableClientExceptions();
+        } else {
+            Http::disableClientExceptions();
+        }
         $this->headers = $authentication->getAuthHeaders();
     }
+
+    private function throwExceptionsOnClientError() : bool
+    {
+        return filter_var(
+            $this->config->get('throwExceptionsOnClientError', Http::shouldThrowClientExceptions()),
+            FILTER_VALIDATE_BOOLEAN
+        );
+    }
+
 
     public function getResponseObject() : Response
     {

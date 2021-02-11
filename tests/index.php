@@ -13,19 +13,28 @@ $dotenv->load();
 $client = new Servebolt\Sdk\Client([
     'apiToken'   => $_ENV['API_TOKEN'],
     'baseUri'    => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
-    'authDriver' => $_ENV['AUTH_DRIVER'] // Default: apiToken
+    'authDriver' => $_ENV['AUTH_DRIVER'], // Default: apiToken
+    'throwExceptionsOnClientError' => true // Default: true
 ]);
 
 function printCronJobs($client)
 {
     try {
         $response = $client->cron->list();
-        foreach ($response->getCronJobs() as $cronJob) {
-            print_r($cronJob->schedule . ' ' . $cronJob->command);
-        }
+    } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {
+        $response = $exception->getResponseObject();
+        echo '<pre>';
+        print_r($response->getErrors());
+        return;
     } catch (Exception $exception) {
         var_dump($exception->getCode());
         var_dump($exception->getMessage());
+        return;
+    }
+    if ($response->wasSuccessful()) {
+        foreach ($response->getCronJobs() as $cronJob) {
+            print_r($cronJob->schedule . ' ' . $cronJob->command);
+        }
     }
 }
 //printCronJobs($client);
@@ -34,13 +43,19 @@ function purgeCache($client)
 {
     try {
         $environmentId = $_ENV['ENV_ID'];
-        if ($client->environment->setEnvironment($environmentId)->cache->purge([
-            'https://example.com/some/url/to/a/file.html',
-        ])) {
-            echo 'We purged cache!';
-        }
+        $response = $client->environment->setEnvironment($environmentId)->cache->purge([
+            'https://example.com/path/to/something'
+        ]);
     } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {
-        $responseObject = $exception->getResponseObject();
+        $response = $exception->getResponseObject();
+        echo '<pre>';
+        print_r($response->getErrors());
+        return;
+    } catch (Exception $exception) {
+        var_dump($exception->getCode());
+        var_dump($exception->getMessage());
+        return;
     }
+    var_dump($response->wasSuccessful());
 }
 //purgeCache($client);
