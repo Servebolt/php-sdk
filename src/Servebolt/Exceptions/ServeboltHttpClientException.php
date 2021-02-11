@@ -3,7 +3,7 @@
 namespace Servebolt\Sdk\Exceptions;
 
 use GuzzleHttp\Exception\ClientException;
-use Servebolt\Sdk\Helpers\Response as ServeboltResponse;
+use Servebolt\Sdk\Helpers\Response;
 
 class ServeboltHttpClientException extends ClientException
 {
@@ -13,8 +13,8 @@ class ServeboltHttpClientException extends ClientException
         return json_decode($this->getResponse()->getBody()->getContents());
     }
 
-    public function getResponseObject()
+    public function getResponseObject() : Response
     {
-        return new ServeboltResponse($this->getDecodeMessage());
+        return new Response($this->getDecodeMessage());
     }
 }
