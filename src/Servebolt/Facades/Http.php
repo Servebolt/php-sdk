@@ -17,10 +17,16 @@ class Http
     private static Http $service;
     private Client $client;
     private MockInterface $mock;
+    private static bool $shouldThrowClientExceptions = true;
 
     private function isMocked() : bool
     {
         return isset($this->mock);
+    }
+
+    public static function shouldThrowClientExceptions() : bool
+    {
+        return self::$shouldThrowClientExceptions;
     }
 
     private function mock() : MockInterface
@@ -51,22 +57,43 @@ class Http
                 'headers' => $headers,
                 'body' => $body
             ]);
-            return new Response(
-                $response->getStatusCode(),
-                $response->getHeaders(),
-                $response->getBody(),
-                $response->getProtocolVersion(),
-                $response->getReasonPhrase()
-            );
+            return $this->buildResponseObject($response);
         } catch (ClientException $e) {
-            throw new ServeboltHttpClientException(
-                $e->getMessage(),
-                $e->getRequest(),
-                $e->getResponse(),
-                $e,
-                $e->getHandlerContext()
-            ); // Throw our own exceptions for 4xx-errors
+            if (self::$shouldThrowClientExceptions) {
+                throw new ServeboltHttpClientException(
+                    $e->getMessage(),
+                    $e->getRequest(),
+                    $e->getResponse(),
+                    $e,
+                    $e->getHandlerContext()
+                ); // Throw our own exceptions for 4xx-errors
+            } else {
+                return $this->buildResponseObject($e->getResponse());
+            }
         }
+    }
+
+    private function buildResponseObject($response) : Response
+    {
+        return new Response(
+            $response->getStatusCode(),
+            $response->getHeaders(),
+            $response->getBody(),
+            $response->getProtocolVersion(),
+            $response->getReasonPhrase()
+        );
+    }
+
+    public static function disableClientExceptions() : void
+    {
+        $facade = self::facade();
+        $facade::$shouldThrowClientExceptions = false;
+    }
+
+    public static function enableClientExceptions() : void
+    {
+        $facade = self::facade();
+        $facade::$shouldThrowClientExceptions = true;
     }
 
     private static function facade() : Http
