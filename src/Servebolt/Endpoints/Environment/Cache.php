@@ -29,7 +29,7 @@ class Cache
 
         $files = self::sanitizeFiles($files);
         $prefixes = self::sanitizePrefixes($prefixes);
-        $requestData = compact('files', 'prefixes');
+        $requestData = array_filter(compact('files', 'prefixes'));
 
         $requestUrl = '/environments/' . $this->config->get('environmentId') . '/purge_cache';
         $httpResponse = $this->httpClient->post($requestUrl, $requestData);
