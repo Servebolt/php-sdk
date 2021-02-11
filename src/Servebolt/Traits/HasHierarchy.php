@@ -9,6 +9,8 @@ namespace Servebolt\Sdk\Traits;
 trait HasHierarchy
 {
 
+    use MethodToPropertyAccessor;
+
     /**
      * Check if the current endpoint has a hierarchy, and if so initialize it.
      */
