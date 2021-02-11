@@ -2,6 +2,7 @@
 
 namespace Servebolt\Sdk\Facades;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -9,6 +10,7 @@ use Mockery;
 use Mockery\MockInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Servebolt\Sdk\Exceptions\ServeboltHttpClientException;
 
 class Http
 {
@@ -44,17 +46,27 @@ class Http
         if ($this->isMocked()) {
             return $this->mock()->request($method, $uri, $headers);
         }
-        $response = $this->client()->request($method, $uri, [
-            'headers' => $headers,
-            'body' => $body
-        ]);
-        return new Response(
-            $response->getStatusCode(),
-            $response->getHeaders(),
-            $response->getBody(),
-            $response->getProtocolVersion(),
-            $response->getReasonPhrase()
-        );
+        try {
+            $response = $this->client()->request($method, $uri, [
+                'headers' => $headers,
+                'body' => $body
+            ]);
+            return new Response(
+                $response->getStatusCode(),
+                $response->getHeaders(),
+                $response->getBody(),
+                $response->getProtocolVersion(),
+                $response->getReasonPhrase()
+            );
+        } catch (ClientException $e) {
+            throw new ServeboltHttpClientException(
+                $e->getMessage(),
+                $e->getRequest(),
+                $e->getResponse(),
+                $e,
+                $e->getHandlerContext()
+            ); // Throw our own exceptions for 4xx-errors
+        }
     }
 
     private static function facade() : Http

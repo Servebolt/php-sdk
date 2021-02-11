@@ -26,4 +26,24 @@ trait HasErrors
             return current($this->getErrors());
         }
     }
+
+    /**
+     * @return null|string
+     */
+    public function getFirstErrorMessage()
+    {
+        if ($error = $this->getFirstError()) {
+            return $error->message;
+        }
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getFirstErrorCode()
+    {
+        if ($error = $this->getFirstError()) {
+            return $error->code;
+        }
+    }
 }

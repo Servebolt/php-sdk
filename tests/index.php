@@ -35,15 +35,12 @@ function purgeCache($client)
     try {
         $environmentId = $_ENV['ENV_ID'];
         if ($client->environment->setEnvironment($environmentId)->cache->purge([
-            'https://example.com/some/url/to/a/file.html',
-        ], [
-            'https://example.com/some/partial/path',
+            'https://wtf.com/some/url/to/a/file.html',
         ])) {
             echo 'We purged cache!';
         }
-    } catch (Exception $exception) {
-        var_dump($exception->getCode());
-        var_dump($exception->getMessage());
+    } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {
+        $responseObject = $exception->getResponseObject();
     }
 }
-//purgeCache($client);
+purgeCache($client);
