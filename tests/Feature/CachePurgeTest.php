@@ -11,12 +11,6 @@ class CachePurgeTest extends TestCase
 {
     private int $environmentId = 123;
 
-    public function testAssertTrue()
-    {
-        $this->assertTrue(true);
-    }
-
-    /*
     public function testThatCachePurges()
     {
         $testUrl = 'https://api.servebolt.io/v1/environments/' . $this->environmentId . '/purge_cache';
@@ -26,11 +20,10 @@ class CachePurgeTest extends TestCase
             'apiToken' => 'foo',
         ]);
         $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
-        $this->assertTrue($client->environment->setEnvironment($this->environmentId)->cache->purge($files, []));
+        $response = $client->environment->setEnvironment($this->environmentId)->cache->purge($files, []);
+        $this->assertTrue($response->wasSuccessful());
     }
-    */
 
-    /*
     public function testThatCachePurgeFails()
     {
         $testUrl = 'https://api.servebolt.io/v1/environments/' . $this->environmentId . '/purge_cache';
@@ -40,7 +33,7 @@ class CachePurgeTest extends TestCase
             'apiToken' => 'foo',
         ]);
         $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
-        $this->assertFalse($client->environment->setEnvironment($this->environmentId)->cache->purge($files, []));
+        $response = $client->environment->setEnvironment($this->environmentId)->cache->purge($files, []);
+        $this->assertFalse($response->wasSuccessful());
     }
-    */
 }

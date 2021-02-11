@@ -5,6 +5,7 @@ namespace Servebolt\Sdk;
 use Servebolt\Sdk\Auth\ApiToken;
 use Servebolt\Sdk\Http\Client as HttpClient;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidAuthDriver;
+use Servebolt\Sdk\Traits\MethodToPropertyAccessor;
 
 /**
  * Class Client
@@ -12,6 +13,8 @@ use Servebolt\Sdk\Exceptions\ServeboltInvalidAuthDriver;
  */
 class Client
 {
+
+    use MethodToPropertyAccessor;
 
     /**
      * The configuration helper class.

@@ -2,6 +2,7 @@
 
 namespace Servebolt\Sdk\Facades;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -9,16 +10,23 @@ use Mockery;
 use Mockery\MockInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Servebolt\Sdk\Exceptions\ServeboltHttpClientException;
 
 class Http
 {
     private static Http $service;
     private Client $client;
     private MockInterface $mock;
+    private static bool $shouldThrowClientExceptions = true;
 
     private function isMocked() : bool
     {
         return isset($this->mock);
+    }
+
+    public static function shouldThrowClientExceptions() : bool
+    {
+        return self::$shouldThrowClientExceptions;
     }
 
     private function mock() : MockInterface
@@ -32,7 +40,9 @@ class Http
     private function client() : Client
     {
         if (!isset($this->client)) {
-            $this->client = new Client([]);
+            $this->client = new Client([
+                'http_errors' => true,
+            ]);
         }
         return $this->client;
     }
@@ -42,10 +52,29 @@ class Http
         if ($this->isMocked()) {
             return $this->mock()->request($method, $uri, $headers);
         }
-        $response = $this->client()->request($method, $uri, [
-            'headers' => $headers,
-            'body' => $body
-        ]);
+        try {
+            $response = $this->client()->request($method, $uri, [
+                'headers' => $headers,
+                'body' => $body
+            ]);
+            return $this->buildResponseObject($response);
+        } catch (ClientException $e) {
+            if (self::$shouldThrowClientExceptions) {
+                throw new ServeboltHttpClientException(
+                    $e->getMessage(),
+                    $e->getRequest(),
+                    $e->getResponse(),
+                    $e,
+                    $e->getHandlerContext()
+                ); // Throw our own exceptions for 4xx-errors
+            } else {
+                return $this->buildResponseObject($e->getResponse());
+            }
+        }
+    }
+
+    private function buildResponseObject($response) : Response
+    {
         return new Response(
             $response->getStatusCode(),
             $response->getHeaders(),
@@ -53,6 +82,18 @@ class Http
             $response->getProtocolVersion(),
             $response->getReasonPhrase()
         );
+    }
+
+    public static function disableClientExceptions() : void
+    {
+        $facade = self::facade();
+        $facade::$shouldThrowClientExceptions = false;
+    }
+
+    public static function enableClientExceptions() : void
+    {
+        $facade = self::facade();
+        $facade::$shouldThrowClientExceptions = true;
     }
 
     private static function facade() : Http

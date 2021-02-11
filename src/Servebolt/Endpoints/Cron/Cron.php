@@ -13,14 +13,20 @@ use Servebolt\Sdk\Helpers\Response;
 class Cron
 {
 
+    private string $modelBinding = CronJob::class;
+
     use ApiEndpoint;
 
-    public function list()
+    /**
+     * @return Response
+     */
+    public function list() : Response
     {
         $httpResponse = $this->httpClient->get('/cronjobs');
-        return new Response($httpResponse, CronJob::class);
+        return new Response($httpResponse->getData(), $this->modelBinding);
     }
 
+    /*
     public function create(CronJob $cronJob)
     {
     }
@@ -40,4 +46,5 @@ class Cron
     public function replace(CronJob $cronJob)
     {
     }
+    */
 }

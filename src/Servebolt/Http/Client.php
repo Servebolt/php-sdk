@@ -49,12 +49,44 @@ class Client
         if ($baseUri = $this->config->get('baseUri')) {
             $this->baseUri = $baseUri;
         }
+        if ($this->throwExceptionsOnClientError()) {
+            Http::enableClientExceptions();
+        } else {
+            Http::disableClientExceptions();
+        }
         $this->headers = $authentication->getAuthHeaders();
     }
+
+    private function throwExceptionsOnClientError() : bool
+    {
+        return filter_var(
+            $this->config->get('throwExceptionsOnClientError', Http::shouldThrowClientExceptions()),
+            FILTER_VALIDATE_BOOLEAN
+        );
+    }
+
 
     public function getResponseObject() : Response
     {
         return $this->response;
+    }
+
+    /**
+     * Proxy method calls to PSR-7 response object (if present).
+     *
+     * @param $name
+     * @param $arguments
+     * @return false|mixed
+     */
+    public function __call($name, $arguments)
+    {
+        if (is_object($this->response)
+            && is_a($this->response, '\\GuzzleHttp\\Psr7\\Response')
+            && method_exists($this->response, $name)
+        ) {
+            return call_user_func_array([$this->response, $name], $arguments);
+        }
+        trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
     }
 
     /**
@@ -86,11 +118,12 @@ class Client
      */
     public function post(string $uri, array $body = [], array $headers = []) : Client
     {
-        return Http::post(
+        $this->response = Http::post(
             $this->buildRequestURL($uri),
             $this->handleRequestBody($body),
             $this->getRequestHeaders($headers)
         );
+        return $this;
     }
 
     /**
