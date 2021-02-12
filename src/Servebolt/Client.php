@@ -4,7 +4,7 @@ namespace Servebolt\Sdk;
 
 use Servebolt\Sdk\Auth\ApiToken;
 use Servebolt\Sdk\Http\Client as HttpClient;
-use Servebolt\Sdk\Exceptions\ServeboltInvalidAuthDriver;
+use Servebolt\Sdk\Exceptions\ServeboltInvalidOrMissingAuthDriverException;
 use Servebolt\Sdk\Traits\MethodToPropertyAccessor;
 
 /**
@@ -33,7 +33,7 @@ class Client
     /**
      * Client constructor.
      * @param array $config
-     * @throws ServeboltInvalidAuthDriver
+     * @throws ServeboltInvalidOrMissingAuthDriverException
      */
     public function __construct(array $config)
     {
@@ -47,8 +47,15 @@ class Client
      */
     public function initializeApiEndpoints() : void
     {
-        $namespaceFolders = glob(__DIR__ . '/Endpoints/*');
+
+        $rootPath = __DIR__ . '/Endpoints/';
+        $namespaceFolders = glob($rootPath . '*');
+        $filesToIgnore = ['Endpoint.php'];
         foreach ($namespaceFolders as $namespaceFolderPath) {
+            $fileBaseName = str_replace($rootPath, '', $namespaceFolderPath);
+            if (in_array($fileBaseName, $filesToIgnore)) {
+                continue;
+            }
             $namespace = basename($namespaceFolderPath, '.php');
             $lowercaseNamespace = mb_strtolower($namespace);
             if (is_dir($namespaceFolderPath)) {
@@ -63,7 +70,7 @@ class Client
     /**
      * Initialize HTTP client.
      *
-     * @throws ServeboltInvalidAuthDriver
+     * @throws ServeboltInvalidOrMissingAuthDriverException
      */
     private function initializeHTTPClient() : void
     {
@@ -74,16 +81,20 @@ class Client
      * Determine which auth driver to be used with the HTTP client.
      *
      * @return ApiToken
-     * @throws ServeboltInvalidAuthDriver
+     * @throws ServeboltInvalidOrMissingAuthDriverException
      */
     private function getAuthenticationDriver() : object
     {
         switch (strtolower($this->config->get('authDriver'))) {
             case 'apitoken':
             default:
-                return new ApiToken($this->config->get('apiToken'));
+                if ($apiToken = $this->config->get('apiToken')) {
+                    return new ApiToken($apiToken);
+                }
         }
-        throw new ServeboltInvalidAuthDriver; // Invalid auth driver
+        throw new ServeboltInvalidOrMissingAuthDriverException(
+            'Invalid or missing auth driver for client.'
+        ); // Invalid auth driver
     }
 
     /**

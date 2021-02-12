@@ -14,8 +14,36 @@ $client = new Servebolt\Sdk\Client([
     'apiToken'   => $_ENV['API_TOKEN'],
     'baseUri'    => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
     'authDriver' => $_ENV['AUTH_DRIVER'], // Default: apiToken
-    'throwExceptionsOnClientError' => true // Default: true
+    'throwExceptionsOnClientError' => true, // Default: true
 ]);
+
+$environmentId = $_ENV['ENV_ID'];
+$cronJobData = [
+    'environmentId' => 2368,
+    'schedule' => '* * * * *',
+    'command' => 'ls ./',
+    'notifications' => 'none',
+];
+
+function createCronJobUsingFactory($cronJobData, $client)
+{
+    $model = Servebolt\Sdk\Models\CronJob::factory($cronJobData);
+    $response = $client->cron->create($model);
+    var_dump($response->wasSuccessful());
+}
+//createCronJobUsingFactory($cronJobData, $client);
+
+function createCronJobUsingArrayOnly($cronJobData, $client) {
+    try {
+        $response = $client->cron->create();
+        var_dump($response->wasSuccessful());
+    } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
+        echo '<pre>';
+        print_r($e->getDecodeMessage());
+        die;
+    }
+}
+//createCronJobUsingArrayOnly($cronJobData, client);
 
 function printCronJobs($client)
 {

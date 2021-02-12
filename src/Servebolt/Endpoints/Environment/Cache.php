@@ -2,6 +2,7 @@
 
 namespace Servebolt\Sdk\Endpoints\Environment;
 
+use Servebolt\Sdk\Endpoints\Endpoint;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
 use Servebolt\Sdk\Helpers\Response;
 use Servebolt\Sdk\Traits\ApiEndpoint;
@@ -10,7 +11,7 @@ use Servebolt\Sdk\Traits\ApiEndpoint;
  * Class Cache
  * @package Servebolt\Sdk\Endpoints
  */
-class Cache
+class Cache extends Endpoint
 {
     use ApiEndpoint;
 

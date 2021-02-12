@@ -177,7 +177,7 @@ class Response
                 $this->isMultiple = true;
                 if (isset($this->modelClass) && is_subclass_of($this->modelClass, 'Servebolt\\Sdk\\Models\\Model')) {
                     $this->data = array_map(function ($item) {
-                        return new $this->modelClass($item);
+                        return new $this->modelClass($item, true);
                     }, $this->responseData->result);
                 } else {
                     $this->data = $this->responseData->result;

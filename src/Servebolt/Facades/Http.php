@@ -47,16 +47,22 @@ class Http
         return $this->client;
     }
 
+    private function buildRequestOptions($requestOptions = [], $headers = [], $body = null) : array
+    {
+        $requestOptions['headers'] = $headers;
+        if ($body) {
+            $requestOptions['body'] = $body;
+        }
+        return $requestOptions;
+    }
+
     public function request(string $method, string $uri, array $headers = [], $body = null) : ResponseInterface
     {
         if ($this->isMocked()) {
             return $this->mock()->request($method, $uri, $headers);
         }
         try {
-            $response = $this->client()->request($method, $uri, [
-                'headers' => $headers,
-                'body' => $body
-            ]);
+            $response = $this->client()->request($method, $uri, $this->buildRequestOptions([], $headers, $body));
             return $this->buildResponseObject($response);
         } catch (ClientException $e) {
             if (self::$shouldThrowClientExceptions) {
