@@ -124,7 +124,7 @@ class Response
     /**
      * @return array|object|null
      */
-    private function getResult()
+    public function getResult()
     {
         return $this->result;
     }
