@@ -61,10 +61,10 @@ class ResponseObjectTest extends TestCase
         ]);
         $this->assertTrue($responseObject->wasSuccessful());
         $this->assertTrue($responseObject->hasMultiple());
-        $this->assertTrue($responseObject->hasData());
+        $this->assertTrue($responseObject->hasResult());
         $this->assertFalse($responseObject->hasMessages());
         $this->assertFalse($responseObject->hasErrors());
-        $this->assertEquals($responseObject->getData(), $this->getTestItems());
+        $this->assertEquals($responseObject->getResult(), $this->getTestItems());
         $this->assertEquals($responseObject->getFirstItem(), current($this->getTestItems()));
     }
 
@@ -75,10 +75,10 @@ class ResponseObjectTest extends TestCase
         ]);
         $this->assertTrue($responseObject->wasSuccessful());
         $this->assertFalse($responseObject->hasMultiple());
-        $this->assertFalse($responseObject->hasData());
+        $this->assertFalse($responseObject->hasResult());
         $this->assertFalse($responseObject->hasMessages());
         $this->assertFalse($responseObject->hasErrors());
-        $this->assertNull($responseObject->getData());
+        $this->assertNull($responseObject->getResult());
         $this->assertNull($responseObject->getFirstItem());
     }
 
