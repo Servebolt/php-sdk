@@ -102,7 +102,7 @@ class Client
     /**
      * @param string $uri
      * @param array $headers
-     * @return Response
+     * @return Client
      */
     public function get(string $uri, array $headers = []) : Client
     {
@@ -114,10 +114,33 @@ class Client
      * @param string $uri
      * @param array $body
      * @param array $headers
-     * @return Response
+     * @return Client
+     */
+    public function postJson(string $uri, array $body = [], array $headers = []) : Client
+    {
+        $headers['Content-Type'] = 'application/json';
+        $this->response = Http::post(
+            $this->buildRequestURL($uri),
+            $this->handleJsonRequestBody($body),
+            $this->getRequestHeaders($headers)
+        );
+        return $this;
+    }
+
+    private function handleJsonRequestBody(array $body) : string
+    {
+        return json_encode($body);
+    }
+
+    /**
+     * @param string $uri
+     * @param array $body
+     * @param array $headers
+     * @return Client
      */
     public function post(string $uri, array $body = [], array $headers = []) : Client
     {
+        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
         $this->response = Http::post(
             $this->buildRequestURL($uri),
             $this->handleRequestBody($body),
@@ -126,13 +149,9 @@ class Client
         return $this;
     }
 
-    /**
-     * @param $body
-     * @return false|string
-     */
     private function handleRequestBody(array $body) : string
     {
-        return json_encode($body);
+        return http_build_query($body, '', '&');
     }
 
     /**

@@ -2,12 +2,30 @@
 
 namespace Servebolt\Sdk\Models;
 
+use Servebolt\Sdk\Traits\ModelFactoryTrait;
+
 class CronJob extends Model
 {
 
-    protected $properties = ['id', 'environmentId', 'schedule', 'command', 'comment', 'enabled', 'notifications'];
+    use ModelFactoryTrait;
 
-    protected $casts = [
+    protected array $properties = [
+        'id',
+        'environmentId',
+        'schedule',
+        'command',
+        'comment',
+        'enabled',
+        'notifications',
+    ];
+
+    protected array $requiredPropertiesOnCreation = [
+        'environmentId',
+        'schedule',
+        'command',
+    ];
+
+    protected array $casts = [
         'enabled' => 'boolean',
     ];
 }
