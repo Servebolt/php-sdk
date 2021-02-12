@@ -1,6 +1,6 @@
 {
-    "name": "servebolt/php-sdk",
-    "description": "An SDK for communicating with the Servebolt API.",
+    "name": "servebolt/sdk",
+    "description": "A PHP SDK for communicating with the Servebolt API.",
     "type": "library",
     "homepage": "https://servebolt.com",
     "license": "MIT",

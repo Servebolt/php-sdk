@@ -12,6 +12,11 @@ trait HasMessages
         return count($this->messages) > 0;
     }
 
+    public function hasSingleMessage() : bool
+    {
+        return $this->hasMessages() && count($this->getMessages()) === 1;
+    }
+
     public function getMessages() : array
     {
         return $this->messages;

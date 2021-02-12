@@ -77,7 +77,7 @@ class Response
                 return false;
             }
             if ($name === 'get' . $className) {
-                return $this->getFirstItem();
+                return $this->getFirstResultItem();
             }
         }
         trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
@@ -86,7 +86,7 @@ class Response
     /**
      * @return null|object
      */
-    public function getRawResponse()
+    public function getRawResponse() : object
     {
         return $this->responseBody;
     }
@@ -102,6 +102,16 @@ class Response
     }
 
     /**
+     * An alias of the "hasMultiple"-method.
+     *
+     * @return bool
+     */
+    public function isIterable() : bool
+    {
+        return $this->hasMultiple();
+    }
+
+    /**
      * Whether the request was successful or not.
      *
      * @return bool
@@ -114,7 +124,7 @@ class Response
     /**
      * @return array|object|null
      */
-    public function getResult()
+    private function getResult()
     {
         return $this->result;
     }
@@ -135,7 +145,7 @@ class Response
     /**
      * @return array|object
      */
-    public function getItems()
+    public function getResultItems()
     {
         if ($this->hasMultiple()) {
             $result = $this->getResult();
@@ -148,7 +158,7 @@ class Response
     /**
      * @return null|object
      */
-    public function getFirstItem()
+    public function getFirstResultItem()
     {
         if ($this->hasResult()) {
             $result = $this->getResult();
