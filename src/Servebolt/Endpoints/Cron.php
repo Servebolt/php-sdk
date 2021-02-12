@@ -1,8 +1,7 @@
 <?php
 
-namespace Servebolt\Sdk\Endpoints\Cron;
+namespace Servebolt\Sdk\Endpoints;
 
-use Servebolt\Sdk\Endpoints\Endpoint;
 use Servebolt\Sdk\Traits\ApiEndpoint;
 use Servebolt\Sdk\Models\CronJob;
 use Servebolt\Sdk\Response;

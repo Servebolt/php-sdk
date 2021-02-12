@@ -1,8 +1,7 @@
 <?php
 
-namespace Servebolt\Sdk\Endpoints\Environment;
+namespace Servebolt\Sdk\Endpoints;
 
-use Servebolt\Sdk\Endpoints\Endpoint;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
 use Servebolt\Sdk\Response;
 use Servebolt\Sdk\Traits\ApiEndpoint;
