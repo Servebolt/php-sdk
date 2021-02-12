@@ -14,16 +14,4 @@ class Environment extends Endpoint
 {
 
     use ApiEndpoint, HasHierarchy;
-
-    protected string $environmentId;
-
-    /**
-     * @param $environmentId
-     * @return $this
-     */
-    public function setEnvironment(string $environmentId) : Environment
-    {
-        $this->config->set('environmentId', $environmentId);
-        return $this;
-    }
 }

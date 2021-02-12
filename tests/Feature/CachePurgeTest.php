@@ -20,7 +20,7 @@ class CachePurgeTest extends TestCase
             'apiToken' => 'foo',
         ]);
         $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
-        $response = $client->environment->setEnvironment($this->environmentId)->cache->purge($files, []);
+        $response = $client->environment->cache->purge($this->environmentId, $files);
         $this->assertTrue($response->wasSuccessful());
     }
 
@@ -33,7 +33,7 @@ class CachePurgeTest extends TestCase
             'apiToken' => 'foo',
         ]);
         $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
-        $response = $client->environment->setEnvironment($this->environmentId)->cache->purge($files, []);
+        $response = $client->environment->cache->purge($this->environmentId, $files);
         $this->assertFalse($response->wasSuccessful());
     }
 }

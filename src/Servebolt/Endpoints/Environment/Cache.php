@@ -18,13 +18,14 @@ class Cache extends Endpoint
     /**
      * Purge cache for given files or prefixes.
      *
+     * @param integer|null $environmentId
      * @param string[] $files
      * @param string[] $prefixes
-     * @param integer|null $environmentId
      * @return Response
      * @throws ServeboltInvalidUrlException
+     * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
-    public function purge(array $files = [], array $prefixes = [], int $environmentId = null) : Response
+    public function purge(int $environmentId, array $files = [], array $prefixes = []) : Response
     {
         self::validateUrls($files);
         self::validateUrls($prefixes);
@@ -33,7 +34,6 @@ class Cache extends Endpoint
         $prefixes = self::sanitizePrefixes($prefixes);
 
         $requestData = array_filter(compact('files', 'prefixes'));
-        $environmentId = $environmentId ?? $this->config->get('environmentId');
         $requestUrl = '/environments/' . $environmentId . '/purge_cache';
         $httpResponse = $this->httpClient->postJson($requestUrl, $requestData);
         return new Response($httpResponse->getDecodedBody());

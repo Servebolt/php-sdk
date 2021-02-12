@@ -20,6 +20,7 @@ class Cron extends Endpoint
 
     /**
      * @return Response
+     * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
     public function list() : Response
     {
@@ -27,6 +28,11 @@ class Cron extends Endpoint
         return new Response($httpResponse->getDecodedBody(), $this->modelBinding);
     }
 
+    /**
+     * @param $cronJob
+     * @return Response
+     * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
+     */
     public function create($cronJob)
     {
         $cronJob = CronJob::factory($cronJob);
