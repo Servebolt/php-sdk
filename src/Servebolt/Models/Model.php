@@ -4,7 +4,7 @@ namespace Servebolt\Sdk\Models;
 
 use Servebolt\Sdk\Exceptions\ServeboltInvalidModelDataException;
 use Servebolt\Sdk\Exceptions\ServeboltActionObjectIsNotAnEndpoint;
-use Servebolt\Sdk\Helpers\Response;
+use Servebolt\Sdk\Response;
 
 class Model
 {

@@ -3,7 +3,7 @@
 namespace Servebolt\Sdk\Exceptions;
 
 use GuzzleHttp\Exception\ClientException;
-use Servebolt\Sdk\Helpers\Response;
+use Servebolt\Sdk\Response;
 
 class ServeboltHttpClientException extends ClientException
 {

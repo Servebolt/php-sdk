@@ -9,7 +9,7 @@ trait HasErrors
 
     public function hasErrors() : bool
     {
-        return count($this->errors) > 0;
+        return ! empty($this->errors);
     }
 
     public function getErrors() : array

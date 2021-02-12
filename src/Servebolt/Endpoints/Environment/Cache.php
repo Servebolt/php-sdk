@@ -4,7 +4,7 @@ namespace Servebolt\Sdk\Endpoints\Environment;
 
 use Servebolt\Sdk\Endpoints\Endpoint;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
-use Servebolt\Sdk\Helpers\Response;
+use Servebolt\Sdk\Response;
 use Servebolt\Sdk\Traits\ApiEndpoint;
 
 /**
@@ -20,21 +20,23 @@ class Cache extends Endpoint
      *
      * @param string[] $files
      * @param string[] $prefixes
+     * @param integer|null $environmentId
      * @return Response
      * @throws ServeboltInvalidUrlException
      */
-    public function purge(array $files = [], array $prefixes = []) : Response
+    public function purge(array $files = [], array $prefixes = [], int $environmentId = null) : Response
     {
         self::validateUrls($files);
         self::validateUrls($prefixes);
 
         $files = self::sanitizeFiles($files);
         $prefixes = self::sanitizePrefixes($prefixes);
-        $requestData = array_filter(compact('files', 'prefixes'));
 
-        $requestUrl = '/environments/' . $this->config->get('environmentId') . '/purge_cache';
-        $httpResponse = $this->httpClient->post($requestUrl, $requestData);
-        return new Response($httpResponse->getData());
+        $requestData = array_filter(compact('files', 'prefixes'));
+        $environmentId = $environmentId ?? $this->config->get('environmentId');
+        $requestUrl = '/environments/' . $environmentId . '/purge_cache';
+        $httpResponse = $this->httpClient->postJson($requestUrl, $requestData);
+        return new Response($httpResponse->getDecodedBody());
     }
 
     /**

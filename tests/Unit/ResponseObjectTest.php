@@ -3,7 +3,7 @@
 namespace Servebolt\Sdk\Tests;
 
 use Servebolt\Sdk\Models\CronJob;
-use Servebolt\Sdk\Helpers\Response;
+use Servebolt\Sdk\Response;
 use PHPUnit\Framework\TestCase;
 
 class ResponseObjectTest extends TestCase

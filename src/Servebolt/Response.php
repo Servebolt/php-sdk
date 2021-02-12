@@ -1,6 +1,6 @@
 <?php
 
-namespace Servebolt\Sdk\Helpers;
+namespace Servebolt\Sdk;
 
 use Servebolt\Sdk\Traits\HasErrors;
 use Servebolt\Sdk\Traits\HasMessages;
@@ -16,9 +16,9 @@ class Response
     private string $modelClass;
 
     /**
-     * @var object The response data from the HTTP request.
+     * @var object The response body object from the HTTP request.
      */
-    private object $responseData;
+    private object $responseBody;
 
     /**
      * @var bool Whether the request resulted in a success.
@@ -26,28 +26,28 @@ class Response
     private bool $success;
 
     /**
-     * @var bool Whether the response contains multiple items in the data set.
+     * @var bool Whether the response contains multiple items in the result data set.
      */
     private bool $isMultiple;
 
     /**
-     * @var array|object|null The extracted data from the HTTP response, typically containing the items.
+     * @var array|object|null The extracted result data from the HTTP response.
      */
-    private $data = null;
+    private $result = null;
 
     /**
      * Response constructor.
-     * @param object $responseData
-     * @param null $modelClass
+     * @param object $responseBody
+     * @param string|null $modelClass
      */
-    public function __construct(object $responseData, $modelClass = null)
+    public function __construct(object $responseBody, $modelClass = null)
     {
-        $this->responseData = $responseData;
+        $this->responseBody = $responseBody;
         if ($modelClass) {
-            // The model that should be used with the items in the response data (if any)
+            // The model that should be used with the items in the result data (if any)
             $this->modelClass = $modelClass;
         }
-        $this->parseData();
+        $this->parseResponseBody();
     }
 
     /**
@@ -72,7 +72,7 @@ class Response
         if ($className = $this->getModelClassName()) {
             if ($name === 'get' . $className . 's') {
                 if ($this->hasMultiple()) {
-                    return $this->getData();
+                    return $this->getResult();
                 }
                 return false;
             }
@@ -86,13 +86,13 @@ class Response
     /**
      * @return null|object
      */
-    public function getRawData()
+    public function getRawResponse()
     {
-        return $this->responseData;
+        return $this->responseBody;
     }
 
     /**
-     * Whether this response contains multiple items in the response data.
+     * Whether this response contains multiple items in the response result data.
      *
      * @return bool
      */
@@ -114,19 +114,19 @@ class Response
     /**
      * @return array|object|null
      */
-    public function getData()
+    public function getResult()
     {
-        return $this->data;
+        return $this->result;
     }
 
     /**
-     * Whether we have data present in this response.
+     * Whether we have result data present in this response.
      *
      * @return bool
      */
-    public function hasData() : bool
+    public function hasResult() : bool
     {
-        if (is_null($this->data)) {
+        if (is_null($this->result)) {
             return false;
         }
         return true;
@@ -138,9 +138,9 @@ class Response
     public function getItems()
     {
         if ($this->hasMultiple()) {
-            $data = $this->getData();
-            if (is_array($data)) {
-                return $data;
+            $result = $this->getResult();
+            if (is_array($result)) {
+                return $result;
             }
         }
     }
@@ -150,45 +150,50 @@ class Response
      */
     public function getFirstItem()
     {
-        if ($this->hasData()) {
-            $data = $this->getData();
+        if ($this->hasResult()) {
+            $result = $this->getResult();
             if ($this->hasMultiple()) {
-                if (is_array($data)) {
-                    return current($data);
+                if (is_array($result)) {
+                    return current($result);
                 }
             } else {
-                return $data;
+                return $result;
             }
         }
     }
 
-    private function parseData() : void
+    private function parseResponseBody() : void
     {
-        $this->success = $this->responseData->success;
+        $this->parseSuccessState();
         $this->parseResult();
         $this->parseMessages();
         $this->parseErrors();
     }
 
+    private function parseSuccessState() : void
+    {
+        $this->success = $this->responseBody->success ?? false;
+    }
+
     private function parseResult() : void
     {
-        if (isset($this->responseData->result)) {
-            if (is_array($this->responseData->result)) {
+        if (isset($this->responseBody->result)) {
+            if (is_array($this->responseBody->result)) {
                 $this->isMultiple = true;
                 if (isset($this->modelClass) && is_subclass_of($this->modelClass, 'Servebolt\\Sdk\\Models\\Model')) {
-                    $this->data = array_map(function ($item) {
+                    $this->result = array_map(function ($item) {
                         return new $this->modelClass($item, true);
-                    }, $this->responseData->result);
+                    }, $this->responseBody->result);
                 } else {
-                    $this->data = $this->responseData->result;
+                    $this->result = $this->responseBody->result;
                 }
             } else {
                 $this->isMultiple = false;
-                $this->data = $this->responseData->result;
+                $this->result = $this->responseBody->result;
             }
         } else {
             $this->isMultiple = false;
-            // This response has no result-data
+            // This response has no result in the response body
         }
     }
 
@@ -197,8 +202,8 @@ class Response
         if (!property_exists($this, 'messages')) {
             return;
         }
-        if (isset($this->responseData->messages) && is_array($this->responseData->messages)) {
-            $this->messages = $this->responseData->messages;
+        if (isset($this->responseBody->messages) && is_array($this->responseBody->messages)) {
+            $this->messages = $this->responseBody->messages;
         }
     }
 
@@ -207,8 +212,8 @@ class Response
         if (!property_exists($this, 'errors')) {
             return;
         }
-        if (isset($this->responseData->errors) && is_array($this->responseData->errors)) {
-            $this->errors = $this->responseData->errors;
+        if (isset($this->responseBody->errors) && is_array($this->responseBody->errors)) {
+            $this->errors = $this->responseBody->errors;
         }
     }
 }

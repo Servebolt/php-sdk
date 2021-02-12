@@ -5,6 +5,7 @@ namespace Servebolt\Sdk\Http;
 use Servebolt\Sdk\ConfigHelper;
 use Servebolt\Sdk\Facades\Http;
 use Servebolt\Sdk\Auth\ApiAuth;
+use Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException;
 use GuzzleHttp\Psr7\Response;
 
 /**
@@ -65,7 +66,6 @@ class Client
         );
     }
 
-
     public function getResponseObject() : Response
     {
         return $this->response;
@@ -90,13 +90,21 @@ class Client
     }
 
     /**
-     * Get the JSON-data from the response object.
+     * Get the JSON-data from the response body.
      *
      * @return object
+     * @throws ServeboltInvalidJsonException
      */
-    public function getData() : object
+    public function getDecodedBody() : object
     {
-        return json_decode($this->response->getBody());
+        if ($this->response->getBody()->getContents()) {
+            $decodedBody = json_decode($this->response->getBody());
+            if (json_last_error() == JSON_ERROR_NONE) {
+                return $decodedBody;
+            }
+            throw new ServeboltInvalidJsonException;
+        }
+        return (object) [];
     }
 
     /**

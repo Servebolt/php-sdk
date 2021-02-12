@@ -5,7 +5,7 @@ namespace Servebolt\Sdk\Endpoints\Cron;
 use Servebolt\Sdk\Endpoints\Endpoint;
 use Servebolt\Sdk\Traits\ApiEndpoint;
 use Servebolt\Sdk\Models\CronJob;
-use Servebolt\Sdk\Helpers\Response;
+use Servebolt\Sdk\Response;
 
 /**
  * Class Cron
@@ -24,14 +24,14 @@ class Cron extends Endpoint
     public function list() : Response
     {
         $httpResponse = $this->httpClient->get('/cronjobs');
-        return new Response($httpResponse->getData(), $this->modelBinding);
+        return new Response($httpResponse->getDecodedBody(), $this->modelBinding);
     }
 
     public function create($cronJob)
     {
         $cronJob = CronJob::factory($cronJob);
         $httpResponse = $this->httpClient->post('/cronjobs', $cronJob->toSnakeCase());
-        return new Response($httpResponse->getData(), $this->modelBinding);
+        return new Response($httpResponse->getDecodedBody(), $this->modelBinding);
     }
 
     /*
