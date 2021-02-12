@@ -4,17 +4,17 @@
 namespace Unit;
 
 use PHPUnit\Framework\TestCase;
-use Servebolt\Sdk\Endpoints\Environment\Cache;
+use Servebolt\Sdk\Endpoints\Environment\Environment;
 
 class CacheSdkTest extends TestCase
 {
     /** @noinspection PhpUnhandledExceptionInspection */
     public function testValidUrls()
     {
-        Cache::validateUrl('http://example.com/a/good/url');
-        Cache::validateUrl('https://example.com/a/good/url');
+        Environment::validateUrl('http://example.com/a/good/url');
+        Environment::validateUrl('https://example.com/a/good/url');
         // We will handle URIs without a scheme by adding the missing https
-        Cache::validateUrl('example.com/a/good/url');
+        Environment::validateUrl('example.com/a/good/url');
         $this->assertTrue(true);
     }
 
@@ -27,7 +27,7 @@ class CacheSdkTest extends TestCase
     {
         $url = 'http://example.com::67';
         $this->expectExceptionMessage(sprintf('"%s" is not a valid URL', $url));
-        Cache::validateUrl($url);
+        Environment::validateUrl($url);
     }
 
     /**
@@ -39,7 +39,7 @@ class CacheSdkTest extends TestCase
     {
         $url = 'http://example.com:67';
         $this->expectExceptionMessage(sprintf('"%s" is not a valid URL', $url));
-        Cache::validateUrl($url);
+        Environment::validateUrl($url);
     }
 
     /**
@@ -51,7 +51,7 @@ class CacheSdkTest extends TestCase
     {
         $url = 'http://example.com/foo#bar';
         $this->expectExceptionMessage(sprintf('"%s" is not a valid URL', $url));
-        Cache::validateUrl($url);
+        Environment::validateUrl($url);
     }
 
     /**
@@ -63,7 +63,7 @@ class CacheSdkTest extends TestCase
     {
         $url = 'http://127.0.0.1/foo';
         $this->expectExceptionMessage(sprintf('"%s" is not a valid URL', $url));
-        Cache::validateUrl($url);
+        Environment::validateUrl($url);
     }
 
     public function testSanitizeFiles()
@@ -75,7 +75,7 @@ class CacheSdkTest extends TestCase
                 'https://example.com/',
                 'https://example.com/with/path',
             ],
-            Cache::sanitizeFiles(
+            Environment::sanitizeFiles(
                 [
                     'http://example.com/',
                     'https://example.com/',

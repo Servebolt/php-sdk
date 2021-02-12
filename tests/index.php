@@ -71,10 +71,9 @@ function purgeCache($client)
 {
     try {
         $environmentId = $_ENV['ENV_ID'];
-        $response = $client->environment->cache->purge(
+        $response = $client->environment->purgeCache(
+            $environmentId,
             ['https://example.com/path/to/something'],
-            [],
-            $environmentId
         );
     } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {
         $response = $exception->getResponseObject();
