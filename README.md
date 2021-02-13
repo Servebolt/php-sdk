@@ -22,7 +22,7 @@ Remember to include the Composer autoload-file!
 require __DIR__ . '/vendor/autoload.php';
 use Servebolt\Sdk\Client;
 $client = new Client([
-    'apiToken'   => 'your-api-token',
+    'apiToken' => 'your-api-token',
 ]);
 ```
 
