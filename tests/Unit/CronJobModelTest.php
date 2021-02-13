@@ -90,7 +90,7 @@ class CronJobModelTest extends TestCase
         new CronJob([
             'schedule' => '* * * * *',
             'command' => 'ls ./',
-        ]);
+        ], false, true);
     }
 
     public function testCronJobModelSuccessfulHydration()
