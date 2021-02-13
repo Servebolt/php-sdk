@@ -11,9 +11,11 @@ class CachePurgeTest extends TestCase
 {
     private int $environmentId = 123;
 
-    public function testThatCachePurges()
+    private string $apiBaseUri = 'https://api.servebolt.io/v1/';
+
+    public function testThatCachePurgesPassingEnvironmentIdThroughPurgeMethod()
     {
-        $testUrl = 'https://api.servebolt.io/v1/environments/' . $this->environmentId . '/purge_cache';
+        $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
         Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
             ->once()->andReturn(new Response(200, [], json_encode(['success' => true])));
         $client = new Client([
@@ -24,9 +26,35 @@ class CachePurgeTest extends TestCase
         $this->assertTrue($response->wasSuccessful());
     }
 
+    public function testThatCachePurges()
+    {
+        $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
+        Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
+            ->once()->andReturn(new Response(200, [], json_encode(['success' => true])));
+        $client = new Client([
+            'apiToken' => 'foo',
+        ]);
+        $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
+        $response = $client->environment($this->environmentId)->purgeCache($files);
+        $this->assertTrue($response->wasSuccessful());
+    }
+
+    public function testThatCachePurgesEvenThoMultipleEnvironmentIdsArePresent()
+    {
+        $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
+        Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
+            ->once()->andReturn(new Response(200, [], json_encode(['success' => true])));
+        $client = new Client([
+            'apiToken' => 'foo',
+        ]);
+        $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
+        $response = $client->environment(69)->purgeCache($this->environmentId, $files);
+        $this->assertTrue($response->wasSuccessful());
+    }
+
     public function testThatCachePurgeFails()
     {
-        $testUrl = 'https://api.servebolt.io/v1/environments/' . $this->environmentId . '/purge_cache';
+        $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
         Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
             ->once()->andReturn(new Response(200, [], json_encode(['success' => false])));
         $client = new Client([

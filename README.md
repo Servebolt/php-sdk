@@ -33,18 +33,32 @@ $client = new Client([
     'apiToken' => 'your-api-token',
     
     // Available authentication drivers: apiToken
+    // Default: apiToken
     'authDriver' => 'apiToken',
     
     // Override API URL
-    'baseUri' => 'https://api.servebolt.io/v1/', 
+    // Default: https://api.servebolt.io/v1/
+    'baseUri' => 'https://api.servebolt.io/v1/',
     
     // Whether to throw exceptions whenever a 4xx HTTP error occurs during a request
+    // Default: false
     'throwExceptionsOnClientError' => false,
+    
+    // Use PSR-7 response instead of the custom SDK HTTP response
+    // Default: false
+    'returnPsr7Response' = false,
 ]);
 ```
 
 ### API Authentication
 As of now the API only supports bearer token authentication, and hence only one authentication driver available in the SDK - "apiToken". 
+
+#### How to obtain API token
+1. Go to [admin.servebolt.com](https://admin.servebolt.com/)
+2. Go to the desired bolt
+3. Select a site
+4. Click "API"
+5. Use the token and environment Id visible in the form
 
 ### API documentation
 If you want to do your own testing outside the SDK you can check out our [API-documentation](https://docs.servebolt.io/).

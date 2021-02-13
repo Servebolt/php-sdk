@@ -43,6 +43,18 @@ class ConfigHelper
     }
 
     /**
+     * Unset a configuration item.
+     *
+     * @param string $key
+     */
+    public function unset(string $key) : void
+    {
+        if (array_key_exists($key, $this->configArray)) {
+            unset($this->configArray[$key]);
+        }
+    }
+
+    /**
      * Get a configuration item.
      *
      * @param string $key

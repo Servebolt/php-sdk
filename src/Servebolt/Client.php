@@ -5,7 +5,7 @@ namespace Servebolt\Sdk;
 use Servebolt\Sdk\Auth\ApiToken;
 use Servebolt\Sdk\Http\Client as HttpClient;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidOrMissingAuthDriverException;
-use Servebolt\Sdk\Traits\MethodToPropertyAccessor;
+use Servebolt\Sdk\Traits\RootApiEndpointsLoader;
 
 /**
  * Class Client
@@ -14,7 +14,7 @@ use Servebolt\Sdk\Traits\MethodToPropertyAccessor;
 class Client
 {
 
-    use MethodToPropertyAccessor;
+    use RootApiEndpointsLoader;
 
     /**
      * The configuration helper class.
@@ -39,32 +39,7 @@ class Client
     {
         $this->initializeConfigHelper($config);
         $this->initializeHTTPClient();
-        $this->initializeApiEndpoints();
-    }
-
-    /**
-     * Initialize API endpoints.
-     */
-    public function initializeApiEndpoints() : void
-    {
-
-        $rootPath = __DIR__ . '/Endpoints/';
-        $namespaceFolders = glob($rootPath . '*');
-        $filesToIgnore = ['Endpoint.php'];
-        foreach ($namespaceFolders as $namespaceFolderPath) {
-            $fileBaseName = str_replace($rootPath, '', $namespaceFolderPath);
-            if (in_array($fileBaseName, $filesToIgnore)) {
-                continue;
-            }
-            $namespace = basename($namespaceFolderPath, '.php');
-            $lowercaseNamespace = mb_strtolower($namespace);
-            if (is_dir($namespaceFolderPath)) {
-                $classNameWithNamespace = '\\Servebolt\\Sdk\\Endpoints\\' . $namespace . '\\' . $namespace;
-            } else {
-                $classNameWithNamespace = '\\Servebolt\\Sdk\\Endpoints\\' . $namespace;
-            }
-            $this->{ $lowercaseNamespace } = new $classNameWithNamespace($this->httpClient, $this->config);
-        }
+        $this->readRootApiEndpoints();
     }
 
     /**
