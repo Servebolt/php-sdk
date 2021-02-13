@@ -51,7 +51,7 @@ $client = new Client([
 ### API Authentication
 As of now the API only supports bearer token authentication, and hence only one authentication driver available in the SDK - "apiToken". 
 
-#### How to obtain API token
+#### How to obtain an API token
 1. Go to [admin.servebolt.com](https://admin.servebolt.com/)
 2. Go to the desired bolt
 3. Go to the desired site
@@ -119,7 +119,7 @@ $response->wasSuccessful() : bool
 ```
 
 ```php
-$response->getRawResponse() : object // Use this to get the decoded response from the HTTP request
+$response->getRawResponse() : object // Use this to get the JSON decoded response from the HTTP request
 ```
 
 ```php
