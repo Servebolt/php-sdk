@@ -15,7 +15,7 @@ class Model
     protected array $guardedProperties = ['id'];
     protected array $casts = [];
 
-    private bool $throwExceptionOnInvalidData = true;
+    private bool $throwExceptionOnInvalidData = false;
     private bool $modelDataValid = true;
     private bool $isHydrated = false;
     private bool $isPersisted = false;
