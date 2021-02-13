@@ -44,9 +44,10 @@ $client = new Client([
     // Default: false
     'throwExceptionsOnClientError' => false,
     
-    // Use PSR-7 response instead of the custom SDK HTTP response
-    // Default: false
-    'returnPsr7Response' = false,
+    // Decide how you want the SDK to respond after querying the API.
+    // Options: customResponse, psr7, rawObject
+    // Default: customResponse
+    'responseObjectType' = 'customResponse',
 ]);
 ```
 
