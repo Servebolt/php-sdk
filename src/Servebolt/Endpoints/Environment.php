@@ -1,10 +1,8 @@
 <?php
 
-namespace Servebolt\Sdk\Endpoints\Environment;
+namespace Servebolt\Sdk\Endpoints;
 
-use Servebolt\Sdk\Endpoints\Endpoint;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
-use Servebolt\Sdk\Response;
 use Servebolt\Sdk\Traits\ApiEndpoint;
 
 /**
@@ -17,27 +15,43 @@ class Environment extends Endpoint
     use ApiEndpoint;
 
     /**
+     * @var int|null
+     */
+    protected $environmentId;
+
+    public function loadArguments($arguments) : void
+    {
+        $this->environmentId = (isset($arguments[0]) ? $arguments[0] : null);
+    }
+
+    /**
      * Purge cache for given files or prefixes.
      *
-     * @param integer|null $environmentId
+     * @param integer|null|array $environmentId
      * @param string[] $files
      * @param string[] $prefixes
-     * @return Response
+     * @return Response|object
      * @throws ServeboltInvalidUrlException
      * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
-    public function purgeCache(int $environmentId, array $files = [], array $prefixes = []) : Response
+    public function purgeCache($environmentId = null, array $files = [], array $prefixes = [])
     {
         self::validateUrls($files);
         self::validateUrls($prefixes);
 
+        if (is_array($environmentId)) { // Offset method argument order
+            $prefixes = $files;
+            $files = $environmentId;
+        }
+
         $files = self::sanitizeFiles($files);
         $prefixes = self::sanitizePrefixes($prefixes);
-
         $requestData = array_filter(compact('files', 'prefixes'));
+
+        $environmentId = is_numeric($environmentId) ? $environmentId : $this->environmentId;
         $requestUrl = '/environments/' . $environmentId . '/purge_cache';
         $httpResponse = $this->httpClient->postJson($requestUrl, $requestData);
-        return new Response($httpResponse->getDecodedBody());
+        return $this->response($httpResponse);
     }
 
     /**

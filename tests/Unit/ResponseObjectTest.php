@@ -65,7 +65,7 @@ class ResponseObjectTest extends TestCase
         $this->assertFalse($responseObject->hasMessages());
         $this->assertFalse($responseObject->hasErrors());
         $this->assertEquals($responseObject->getResult(), $this->getTestItems());
-        $this->assertEquals($responseObject->getFirstItem(), current($this->getTestItems()));
+        $this->assertEquals($responseObject->getFirstResultItem(), current($this->getTestItems()));
     }
 
     public function testSuccessResponseWithoutData()
@@ -79,7 +79,7 @@ class ResponseObjectTest extends TestCase
         $this->assertFalse($responseObject->hasMessages());
         $this->assertFalse($responseObject->hasErrors());
         $this->assertNull($responseObject->getResult());
-        $this->assertNull($responseObject->getFirstItem());
+        $this->assertNull($responseObject->getFirstResultItem());
     }
 
     public function testAccessToPropertiesOnCronJobItem()
@@ -88,7 +88,7 @@ class ResponseObjectTest extends TestCase
             'result' => $this->getTestItems(),
             'success' => true,
         ], CronJob::class);
-        $firstItem = $responseObject->getFirstItem();
+        $firstItem = $responseObject->getFirstResultItem();
         $this->assertIsObject($firstItem);
         $this->assertEquals(90, $firstItem->id);
         $this->assertEquals(2368, $firstItem->environmentId);

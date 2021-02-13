@@ -12,6 +12,11 @@ trait HasErrors
         return ! empty($this->errors);
     }
 
+    public function hasSingleError() : bool
+    {
+        return $this->hasErrors() && count($this->getErrors()) === 1;
+    }
+
     public function getErrors() : array
     {
         return $this->errors;

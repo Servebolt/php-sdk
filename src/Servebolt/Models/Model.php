@@ -15,7 +15,7 @@ class Model
     protected array $guardedProperties = ['id'];
     protected array $casts = [];
 
-    private bool $throwExceptionOnInvalidData = true;
+    private bool $throwExceptionOnInvalidData;
     private bool $modelDataValid = true;
     private bool $isHydrated = false;
     private bool $isPersisted = false;
@@ -25,8 +25,9 @@ class Model
      * @param array|object $modelData
      * @param false $isPersisted
      */
-    public function __construct($modelData = [], $isPersisted = false)
+    public function __construct($modelData = [], $isPersisted = false, $throwExceptionOnInvalidData = false)
     {
+        $this->throwExceptionOnInvalidData = $throwExceptionOnInvalidData;
         if ($isPersisted) {
             $this->isPersisted = $isPersisted;
         }

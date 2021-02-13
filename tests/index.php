@@ -14,6 +14,7 @@ $client = new Servebolt\Sdk\Client([
     'apiToken'   => $_ENV['API_TOKEN'],
     'baseUri'    => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
     'authDriver' => $_ENV['AUTH_DRIVER'], // Default: apiToken
+    'returnPsr7Response' => false, // Default: false
     'throwExceptionsOnClientError' => false, // Default: true
 ]);
 
@@ -67,12 +68,37 @@ function printCronJobs($client)
 }
 //printCronJobs($client);
 
-function purgeCache($client)
+function purgeCachePassingEnvIdThroughPurgeMethod($client)
 {
     try {
         $environmentId = $_ENV['ENV_ID'];
         $response = $client->environment->purgeCache(
             $environmentId,
+            ['https://example.com/path/to/something'],
+        );
+    } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {
+        $response = $exception->getResponseObject();
+        echo '<pre>';
+        print_r($response->getErrors());
+        return;
+    } catch (Exception $exception) {
+        var_dump($exception->getCode());
+        var_dump($exception->getMessage());
+        return;
+    }
+    var_dump($response->wasSuccessful());
+    if ($response->hasErrors()) {
+        echo '<pre>';
+        print_r($response->getErrors());
+    }
+}
+//purgeCachePassingEnvIdThroughPurgeMethod($client);
+
+function purgeCache($client)
+{
+    try {
+        $environmentId = $_ENV['ENV_ID'];
+        $response = $client->environment($environmentId)->purgeCache(
             ['https://example.com/path/to/something'],
         );
     } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {

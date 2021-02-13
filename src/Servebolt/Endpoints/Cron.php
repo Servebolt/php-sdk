@@ -1,11 +1,9 @@
 <?php
 
-namespace Servebolt\Sdk\Endpoints\Cron;
+namespace Servebolt\Sdk\Endpoints;
 
-use Servebolt\Sdk\Endpoints\Endpoint;
 use Servebolt\Sdk\Traits\ApiEndpoint;
 use Servebolt\Sdk\Models\CronJob;
-use Servebolt\Sdk\Response;
 
 /**
  * Class Cron
@@ -14,30 +12,30 @@ use Servebolt\Sdk\Response;
 class Cron extends Endpoint
 {
 
-    private string $modelBinding = CronJob::class;
+    protected string $modelBinding = CronJob::class;
 
     use ApiEndpoint;
 
     /**
-     * @return Response
+     * @return Response|object
      * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
-    public function list() : Response
+    public function list()
     {
         $httpResponse = $this->httpClient->get('/cronjobs');
-        return new Response($httpResponse->getDecodedBody(), $this->modelBinding);
+        return $this->response($httpResponse);
     }
 
     /**
      * @param $cronJob
-     * @return Response
+     * @return Response|object
      * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
     public function create($cronJob)
     {
         $cronJob = CronJob::factory($cronJob);
         $httpResponse = $this->httpClient->post('/cronjobs', $cronJob->toSnakeCase());
-        return new Response($httpResponse->getDecodedBody(), $this->modelBinding);
+        return $this->response($httpResponse);
     }
 
     /*

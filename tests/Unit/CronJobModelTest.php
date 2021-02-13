@@ -33,7 +33,7 @@ class CronJobModelTest extends TestCase
         $model = new CronJob($modelData);
         $client = new Client(['apiToken' => 'foo']);
         $response = $model->persist($client->cron);
-        $this->assertEquals($fullModelData, (array) $response->getFirstItem());
+        $this->assertEquals($fullModelData, (array) $response->getFirstResultItem());
         $this->assertTrue($response->wasSuccessful());
     }
 
@@ -90,7 +90,7 @@ class CronJobModelTest extends TestCase
         new CronJob([
             'schedule' => '* * * * *',
             'command' => 'ls ./',
-        ]);
+        ], false, true);
     }
 
     public function testCronJobModelSuccessfulHydration()
