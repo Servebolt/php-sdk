@@ -17,7 +17,7 @@ class CachePurgeTest extends TestCase
     public function testThatWeCanConfigureResponseObjectTypes()
     {
         $responseObjectTypes = [
-            'rawObject' => \stdClass::class,
+            'decodedBody' => \stdClass::class,
             'psr7' => Response::class,
             'customResponse' => ServeboltResponse::class,
         ];

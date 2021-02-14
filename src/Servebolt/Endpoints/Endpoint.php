@@ -19,11 +19,15 @@ abstract class Endpoint
         switch ($this->config->get('responseObjectType')) {
             case 'psr7':
                 return $httpResponse->getResponseObject();
-            case 'rawObject':
+            case 'decodedBody':
                 return $httpResponse->getDecodedBody();
             case 'customResponse':
             default:
-                return new Response($httpResponse->getDecodedBody(), $this->getModelBinding());
+                return new Response(
+                    $httpResponse->getDecodedBody(),
+                    $httpResponse->getResponseObject()->getStatusCode(),
+                    $this->getModelBinding()
+                );
         }
     }
 

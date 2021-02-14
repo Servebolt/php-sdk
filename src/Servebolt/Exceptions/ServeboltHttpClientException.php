@@ -15,6 +15,6 @@ class ServeboltHttpClientException extends ClientException
 
     public function getResponseObject() : Response
     {
-        return new Response($this->getDecodeMessage());
+        return new Response($this->getDecodeMessage(), $this->getResponse()->getStatusCode());
     }
 }

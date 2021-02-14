@@ -24,7 +24,7 @@ class ResponseObjectTest extends TestCase
         $responseObject = new Response((object)[
             'success' => false,
             'errors' => $errorMessages,
-        ]);
+        ], 400);
         $this->assertFalse($responseObject->wasSuccessful());
         $this->assertTrue($responseObject->hasErrors());
         $this->assertEquals($errorMessages, $responseObject->getErrors());
@@ -46,11 +46,19 @@ class ResponseObjectTest extends TestCase
         $responseObject = new Response((object)[
             'success' => false,
             'messages' => $messages,
-        ]);
+        ], 400);
         $this->assertTrue($responseObject->hasMessages());
         $this->assertEquals($messages, $responseObject->getMessages());
         $this->assertEquals(current($messages), $responseObject->getFirstMessage());
         $this->assertEquals('This is a notification about something', $responseObject->getFirstMessage()->message);
+    }
+
+    public function testResponseStatusCode()
+    {
+        $responseObject = new Response((object)[
+            'success' => false
+        ], 418);
+        $this->assertEquals(418, $responseObject->getStatusCode());
     }
 
     public function testSuccessResponseWithData()
@@ -58,7 +66,7 @@ class ResponseObjectTest extends TestCase
         $responseObject = new Response((object)[
             'result' => $this->getTestItems(),
             'success' => true,
-        ]);
+        ], 200);
         $this->assertTrue($responseObject->wasSuccessful());
         $this->assertTrue($responseObject->hasMultiple());
         $this->assertTrue($responseObject->hasResult());
@@ -72,7 +80,7 @@ class ResponseObjectTest extends TestCase
     {
         $responseObject = new Response((object)[
             'success' => true,
-        ]);
+        ], 200);
         $this->assertTrue($responseObject->wasSuccessful());
         $this->assertFalse($responseObject->hasMultiple());
         $this->assertFalse($responseObject->hasResult());
@@ -87,7 +95,7 @@ class ResponseObjectTest extends TestCase
         $responseObject = new Response((object) [
             'result' => $this->getTestItems(),
             'success' => true,
-        ], CronJob::class);
+        ], 200, CronJob::class);
         $firstItem = $responseObject->getFirstResultItem();
         $this->assertIsObject($firstItem);
         $this->assertEquals(90, $firstItem->id);
