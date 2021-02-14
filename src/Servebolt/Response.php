@@ -21,6 +21,11 @@ class Response
     private object $responseBody;
 
     /**
+     * @var int The response body object from the HTTP request.
+     */
+    private int $httpStatusCode;
+
+    /**
      * @var bool Whether the request resulted in a success.
      */
     private bool $success;
@@ -38,16 +43,30 @@ class Response
     /**
      * Response constructor.
      * @param object $responseBody
+     * @param int $httpStatusCode
      * @param string|null $modelClass
      */
-    public function __construct(object $responseBody, $modelClass = null)
+    public function __construct(object $responseBody, $httpStatusCode = null, $modelClass = null)
     {
         $this->responseBody = $responseBody;
+        if (is_int($httpStatusCode)) {
+            $this->httpStatusCode = $httpStatusCode;
+        }
         if ($modelClass) {
             // The model that should be used with the items in the result data (if any)
             $this->modelClass = $modelClass;
         }
         $this->parseResponseBody();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getStatusCode()
+    {
+        if (isset($this->httpStatusCode)) {
+            return $this->httpStatusCode;
+        }
     }
 
     /**

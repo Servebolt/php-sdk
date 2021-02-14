@@ -43,7 +43,7 @@ $client = new Client([
     'throwExceptionsOnClientError' => false,
     
     // Decide how you want the SDK to respond after querying the API
-    // Options: customResponse, psr7, rawObject
+    // Options: customResponse, psr7, decodedBody
     'responseObjectType' = 'customResponse',
 ]);
 ```
@@ -113,6 +113,10 @@ if ($response->wasSuccessful()) {
 ```
 
 ### Available methods
+
+```php
+$response->getStatusCode() : bool // Get HTTP status code (if present)
+```
 
 ```php
 $response->wasSuccessful() : bool
