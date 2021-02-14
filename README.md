@@ -24,6 +24,7 @@ use Servebolt\Sdk\Client;
 $client = new Client([
     'apiToken' => 'your-api-token',
 ]);
+$response = $client->cron->list(); // Get all cron jobs
 ```
 
 <a name="additional-instantiation-example"></a>An example with additional configuration options (using default values):
