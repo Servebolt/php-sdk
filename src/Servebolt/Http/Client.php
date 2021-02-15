@@ -120,19 +120,31 @@ class Client
 
     /**
      * @param string $uri
-     * @param array $body
+     * @param string|null $body
      * @param array $headers
      * @return Client
+     */
+    public function post(string $uri, string $body = null, array $headers = []) : Client
+    {
+        $this->response = Http::post(
+            $this->buildRequestURL($uri),
+            $body,
+            $this->getRequestHeaders($headers)
+        );
+        return $this;
+    }
+
+    /**
+     * @param string $uri
+     * @param array $body
+     * @param array $headers
+     * @return $this
      */
     public function postJson(string $uri, array $body = [], array $headers = []) : Client
     {
         $headers['Content-Type'] = 'application/json';
-        $this->response = Http::post(
-            $this->buildRequestURL($uri),
-            $this->handleJsonRequestBody($body),
-            $this->getRequestHeaders($headers)
-        );
-        return $this;
+        $body = $this->handleJsonRequestBody($body);
+        return $this->post($uri, $body, $headers);
     }
 
     private function handleJsonRequestBody(array $body) : string
@@ -146,18 +158,14 @@ class Client
      * @param array $headers
      * @return Client
      */
-    public function post(string $uri, array $body = [], array $headers = []) : Client
+    public function postFormData(string $uri, array $body = [], array $headers = []) : Client
     {
         $headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        $this->response = Http::post(
-            $this->buildRequestURL($uri),
-            $this->handleRequestBody($body),
-            $this->getRequestHeaders($headers)
-        );
-        return $this;
+        $body = $this->handleFormRequestBody($body);
+        return $this->post($uri, $body, $headers);
     }
 
-    private function handleRequestBody(array $body) : string
+    private function handleFormRequestBody(array $body) : string
     {
         return http_build_query($body, '', '&');
     }
