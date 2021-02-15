@@ -18,6 +18,11 @@ $client = new Servebolt\Sdk\Client([
     'throwExceptionsOnClientError' => false, // Default: true
 ]);
 
+function domain() : string
+{
+    return $_ENV['SITE_DOMAIN'];
+}
+
 $environmentId = $_ENV['ENV_ID'];
 $cronJobData = [
     'environmentId' => 2368,
@@ -36,7 +41,7 @@ function createCronJobUsingFactory($cronJobData, $client)
 
 function createCronJobUsingArrayOnly($cronJobData, $client) {
     try {
-        $response = $client->cron->create();
+        $response = $client->cron->create($cronJobData);
         var_dump($response->wasSuccessful());
     } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
         echo '<pre>';
@@ -44,7 +49,7 @@ function createCronJobUsingArrayOnly($cronJobData, $client) {
         die;
     }
 }
-//createCronJobUsingArrayOnly($cronJobData, client);
+//createCronJobUsingArrayOnly($cronJobData, $client);
 
 function printCronJobs($client)
 {
@@ -74,7 +79,7 @@ function purgeCachePassingEnvIdThroughPurgeMethod($client)
         $environmentId = $_ENV['ENV_ID'];
         $response = $client->environment->purgeCache(
             $environmentId,
-            ['https://example.com/path/to/something'],
+            [domain() . '/path/to/something'],
         );
     } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {
         $response = $exception->getResponseObject();
@@ -99,7 +104,7 @@ function purgeCache($client)
     try {
         $environmentId = $_ENV['ENV_ID'];
         $response = $client->environment($environmentId)->purgeCache(
-            ['https://example.com/path/to/something'],
+            [domain() . '/path/to/something'],
         );
     } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {
         $response = $exception->getResponseObject();

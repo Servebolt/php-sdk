@@ -34,7 +34,7 @@ class Cron extends Endpoint
     public function create($cronJob)
     {
         $cronJob = CronJob::factory($cronJob);
-        $httpResponse = $this->httpClient->post('/cronjobs', $cronJob->toSnakeCase());
+        $httpResponse = $this->httpClient->postJson('/cronjobs', $cronJob->toSnakeCase());
         return $this->response($httpResponse);
     }
 
