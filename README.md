@@ -139,6 +139,10 @@ $response->hasResult() : bool
 ```
 
 ```php
+$response->countResultItems()
+```
+
+```php
 $response->getResultItems()
 ```
 
