@@ -162,13 +162,14 @@ class Response
     }
 
     /**
-     * @return int|void
+     * @return int
      */
-    public function countResultItems()
+    public function countResultItems() : int
     {
         if ($resultItems = $this->getResultItems()) {
             return count($resultItems);
         }
+        return 0;
     }
 
     /**

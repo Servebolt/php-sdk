@@ -140,7 +140,7 @@ $response->hasResult() : bool
 ```
 
 ```php
-$response->countResultItems()
+$response->countResultItems() : int
 ```
 
 ```php
