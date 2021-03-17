@@ -5,7 +5,7 @@ namespace Servebolt\Sdk\Traits;
 trait RootApiEndpointsLoader
 {
 
-    private array $rootApiEndpoints = [];
+    private $rootApiEndpoints = [];
 
     /**
      * @param $name

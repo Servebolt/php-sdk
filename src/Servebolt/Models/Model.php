@@ -9,16 +9,16 @@ use Servebolt\Sdk\Response;
 class Model
 {
 
-    protected array $properties = [];
-    protected array $propertyValues = [];
-    protected array $requiredPropertiesOnCreation = [];
-    protected array $guardedProperties = ['id'];
-    protected array $casts = [];
+    protected $properties = [];
+    protected $propertyValues = [];
+    protected $requiredPropertiesOnCreation = [];
+    protected $guardedProperties = ['id'];
+    protected $casts = [];
 
-    private bool $throwExceptionOnInvalidData;
-    private bool $modelDataValid = true;
-    private bool $isHydrated = false;
-    private bool $isPersisted = false;
+    private $throwExceptionOnInvalidData;
+    private $modelDataValid = true;
+    private $isHydrated = false;
+    private $isPersisted = false;
 
     /**
      * Model constructor.

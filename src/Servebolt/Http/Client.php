@@ -20,24 +20,24 @@ class Client
      *
      * @var ConfigHelper
      */
-    private ConfigHelper $config;
+    private $config;
 
     /**
      * @var string
      */
-    private string $baseUri = 'https://api.servebolt.io/v1/';
+    private $baseUri = 'https://api.servebolt.io/v1/';
 
     /**
      * An array containing the request headers.
      *
      * @var string[]
      */
-    private array $headers = [];
+    private $headers = [];
 
     /**
      * @var Response
      */
-    private Response $response;
+    private $response;
 
     /**
      * Client constructor.

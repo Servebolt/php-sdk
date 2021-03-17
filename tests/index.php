@@ -16,6 +16,7 @@ $client = new Servebolt\Sdk\Client([
     'authDriver' => $_ENV['AUTH_DRIVER'], // Default: apiToken
     'returnPsr7Response' => false, // Default: false
     'throwExceptionsOnClientError' => false, // Default: true
+    'throwExceptionsOnServerError' => true, // Default: false
 ]);
 
 function domain() : string
