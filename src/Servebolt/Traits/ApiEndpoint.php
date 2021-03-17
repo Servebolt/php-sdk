@@ -16,14 +16,14 @@ trait ApiEndpoint
      *
      * @var ConfigHelper
      */
-    protected ConfigHelper $config;
+    protected $config;
 
     /**
      * Guzzle HTTP client facade.
      *
      * @var HttpClient
      */
-    public HttpClient $httpClient;
+    public $httpClient;
 
     /**
      * ApiEndpoint constructor.

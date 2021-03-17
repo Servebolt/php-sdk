@@ -12,7 +12,7 @@ use Servebolt\Sdk\Models\CronJob;
 class Cron extends Endpoint
 {
 
-    protected string $modelBinding = CronJob::class;
+    protected $modelBinding = CronJob::class;
 
     use ApiEndpoint;
 

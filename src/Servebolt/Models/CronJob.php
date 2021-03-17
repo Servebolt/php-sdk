@@ -9,7 +9,7 @@ class CronJob extends Model
 
     use ModelFactoryTrait;
 
-    protected array $properties = [
+    protected $properties = [
         'id',
         'environmentId',
         'schedule',
@@ -19,13 +19,13 @@ class CronJob extends Model
         'notifications',
     ];
 
-    protected array $requiredPropertiesOnCreation = [
+    protected $requiredPropertiesOnCreation = [
         'environmentId',
         'schedule',
         'command',
     ];
 
-    protected array $casts = [
+    protected $casts = [
         'enabled' => 'boolean',
     ];
 }

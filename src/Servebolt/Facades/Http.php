@@ -14,9 +14,9 @@ use Servebolt\Sdk\Exceptions\ServeboltHttpClientException;
 
 class Http
 {
-    private static Http $service;
-    private Client $client;
-    private MockInterface $mock;
+    private static $service;
+    private $client;
+    private $mock;
     private static bool $shouldThrowClientExceptions = false;
 
     private function isMocked() : bool

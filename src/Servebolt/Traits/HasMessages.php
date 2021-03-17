@@ -5,7 +5,7 @@ namespace Servebolt\Sdk\Traits;
 trait HasMessages
 {
 
-    private array $messages = [];
+    private $messages = [];
 
     public function hasMessages() : bool
     {
