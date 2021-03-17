@@ -14,7 +14,7 @@ class ConfigHelper
      *
      * @var array
      */
-    private array $configArray = [];
+    private $configArray = [];
 
     /**
      * Set the configuration using an associative array.

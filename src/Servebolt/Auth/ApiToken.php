@@ -5,7 +5,7 @@ namespace Servebolt\Sdk\Auth;
 class ApiToken implements ApiAuth
 {
 
-    private string $apiToken;
+    private $apiToken;
 
     public function __construct(string $apiToken)
     {

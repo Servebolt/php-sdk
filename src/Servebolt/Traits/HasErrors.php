@@ -5,7 +5,7 @@ namespace Servebolt\Sdk\Traits;
 trait HasErrors
 {
 
-    private array $errors = [];
+    private $errors = [];
 
     public function hasErrors() : bool
     {

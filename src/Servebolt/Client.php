@@ -21,14 +21,14 @@ class Client
      *
      * @var ConfigHelper
      */
-    private ConfigHelper $config;
+    private $config;
 
     /**
      * Guzzle HTTP client facade.
      *
      * @var HttpClient
      */
-    public HttpClient $httpClient;
+    public $httpClient;
 
     /**
      * Client constructor.

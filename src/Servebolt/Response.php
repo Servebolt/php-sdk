@@ -13,27 +13,27 @@ class Response
     /**
      * @var string|mixed The (optional) model that the items should be converted to.
      */
-    private string $modelClass;
+    private $modelClass;
 
     /**
      * @var object The response body object from the HTTP request.
      */
-    private object $responseBody;
+    private $responseBody;
 
     /**
      * @var int The response body object from the HTTP request.
      */
-    private int $httpStatusCode;
+    private $httpStatusCode;
 
     /**
      * @var bool Whether the request resulted in a success.
      */
-    private bool $success;
+    private $success;
 
     /**
      * @var bool Whether the response contains multiple items in the result data set.
      */
-    private bool $isMultiple;
+    private $isMultiple;
 
     /**
      * @var array|object|null The extracted result data from the HTTP response.
