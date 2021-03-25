@@ -17,7 +17,7 @@ class Http
     private static $service;
     private $client;
     private $mock;
-    private static bool $shouldThrowClientExceptions = false;
+    private static $shouldThrowClientExceptions = false;
 
     private function isMocked() : bool
     {
