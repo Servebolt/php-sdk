@@ -3,7 +3,7 @@
 
 namespace Unit;
 
-use GuzzleHttp\Psr7\Response;
+use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Servebolt\Sdk\Client;
 use Servebolt\Sdk\Facades\Http;

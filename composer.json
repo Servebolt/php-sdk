@@ -30,9 +30,26 @@
     "autoload": {
         "psr-4": {
             "Servebolt\\Sdk\\": "src/Servebolt"
-        }
+        },
+        "classmap": [
+            "vendor_prefixed/"
+        ]
     },
     "scripts": {
+        "prefix-dependencies": [
+            "composer prefix-guzzlehttp-client"
+        ],
+        "prefix-guzzlehttp-client": [
+            "ci/php-scoper.phar add-prefix --prefix=ServeboltOptimizer_Vendor --output-dir=./vendor_prefixed/guzzlehttp --config=config/php-scoper/guzzlehttp.inc.php --force --quiet",
+            "ci/php-scoper.phar add-prefix --prefix=ServeboltOptimizer_Vendor --output-dir=./vendor_prefixed/psr --config=config/php-scoper/psr.inc.php --force --quiet"
+        ],
+        "compile-di": [
+            "composer du --no-scripts"
+        ],
+        "post-autoload-dump": [
+            "composer prefix-dependencies",
+            "composer compile-di"
+        ],
         "phpunit": "ci/runtests",
         "test": ["ci/phpcs.sh","ci/phplint.sh","ci/phan.sh"]
     }

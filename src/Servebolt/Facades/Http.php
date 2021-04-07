@@ -2,14 +2,14 @@
 
 namespace Servebolt\Sdk\Facades;
 
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
+use ServeboltOptimizer_Vendor\GuzzleHttp\Exception\ClientException;
+use ServeboltOptimizer_Vendor\GuzzleHttp\Client;
+use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Request;
+use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response;
 use Mockery;
 use Mockery\MockInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use ServeboltOptimizer_Vendor\Psr\Http\Message\RequestInterface;
+use ServeboltOptimizer_Vendor\Psr\Http\Message\ResponseInterface;
 use Servebolt\Sdk\Exceptions\ServeboltHttpClientException;
 
 class Http
@@ -134,9 +134,9 @@ class Http
     /**
      * @param string|UriInterface                   $uri     URI
      * @param array                                 $headers Request headers
-     * @return \GuzzleHttp\Psr7\Response
+     * @return Response
      */
-    public static function get(string $uri, array $headers = []) : \GuzzleHttp\Psr7\Response
+    public static function get(string $uri, array $headers = []) : Response
     {
         return self::send(new Request('GET', $uri, $headers));
     }
@@ -145,9 +145,9 @@ class Http
      * @param string|UriInterface                   $uri     URI
      * @param string|null                           $body    Request body
      * @param array                                 $headers Request headers
-     * @return \GuzzleHttp\Psr7\Response
+     * @return Response
      */
-    public static function post(string $uri, $body = null, array $headers = []) : \GuzzleHttp\Psr7\Response
+    public static function post(string $uri, $body = null, array $headers = []) : Response
     {
         return self::send(new Request('POST', $uri, $headers, $body));
     }
