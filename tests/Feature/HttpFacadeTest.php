@@ -2,7 +2,7 @@
 
 namespace Servebolt\Sdk\Tests;
 
-use GuzzleHttp\Psr7\Response;
+use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response;
 use Servebolt\Sdk\Facades\Http;
 use PHPUnit\Framework\TestCase;
 

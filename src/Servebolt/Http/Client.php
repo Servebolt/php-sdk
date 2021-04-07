@@ -6,7 +6,7 @@ use Servebolt\Sdk\ConfigHelper;
 use Servebolt\Sdk\Facades\Http;
 use Servebolt\Sdk\Auth\ApiAuth;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException;
-use GuzzleHttp\Psr7\Response;
+use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response;
 
 /**
  * Class Client
