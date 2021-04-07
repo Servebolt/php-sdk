@@ -1,16 +1,56 @@
 {
-    "name": "servebolt/php-sdk",
-    "description": "Servebolt SDK",
-    "type": "project",
+    "name": "servebolt/sdk",
+    "description": "A PHP SDK for communicating with the Servebolt API.",
+    "type": "library",
+    "homepage": "https://servebolt.com",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Robert Sæther",
+            "email": "robert@servebolt.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.3",
         "ext-json": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "guzzlehttp/guzzle": "^7.0",
+        "jakeasmith/http_build_url": "^1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
         "phan/phan": "^4.0",
         "squizlabs/php_codesniffer": "^3.5",
-        "overtrue/phplint": "^2.3"
+        "overtrue/phplint": "^2.3",
+        "mockery/mockery": "^1.4",
+        "vlucas/phpdotenv": "^5.3",
+        "dms/phpunit-arraysubset-asserts": "^0.2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Servebolt\\Sdk\\": "src/Servebolt"
+        },
+        "classmap": [
+            "vendor_prefixed/"
+        ]
+    },
+    "scripts": {
+        "prefix-dependencies": [
+            "composer prefix-guzzlehttp-client"
+        ],
+        "prefix-guzzlehttp-client": [
+            "ci/php-scoper.phar add-prefix --prefix=ServeboltOptimizer_Vendor --output-dir=./vendor_prefixed/guzzlehttp --config=config/php-scoper/guzzlehttp.inc.php --force --quiet",
+            "ci/php-scoper.phar add-prefix --prefix=ServeboltOptimizer_Vendor --output-dir=./vendor_prefixed/psr --config=config/php-scoper/psr.inc.php --force --quiet"
+        ],
+        "compile-di": [
+            "composer du --no-scripts"
+        ],
+        "post-autoload-dump": [
+            "composer prefix-dependencies",
+            "composer compile-di"
+        ],
+        "phpunit": "ci/runtests",
+        "test": ["ci/phpcs.sh","ci/phplint.sh","ci/phan.sh"]
     }
 }
