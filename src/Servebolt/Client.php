@@ -5,7 +5,7 @@ namespace Servebolt\Sdk;
 use Servebolt\Sdk\Auth\ApiToken;
 use Servebolt\Sdk\Http\Client as HttpClient;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidOrMissingAuthDriverException;
-use Servebolt\Sdk\Traits\RootApiEndpointsLoader;
+use Servebolt\Sdk\Traits\ApiEndpointsLoader;
 
 /**
  * Class Client
@@ -14,7 +14,7 @@ use Servebolt\Sdk\Traits\RootApiEndpointsLoader;
 class Client
 {
 
-    use RootApiEndpointsLoader;
+    use ApiEndpointsLoader;
 
     /**
      * The configuration helper class.
@@ -39,7 +39,7 @@ class Client
     {
         $this->initializeConfigHelper($config);
         $this->initializeHTTPClient();
-        $this->readRootApiEndpoints();
+        $this->loadEndpoints();
     }
 
     /**
