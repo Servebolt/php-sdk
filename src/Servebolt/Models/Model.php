@@ -70,7 +70,9 @@ abstract class Model
         if ($endpointBinding = $this->getEndpointBinding()) {
             $client = \Servebolt\Sdk\Client::getInstance();
             //var_dump($client);die;
-            // TODO: Loop through all the endpoints, find the endpoint that has a binding to this model, return an instance of that endpoint
+            // TODO: Loop through all the endpoints,
+            // find the endpoint that has a binding to this model,
+            // return an instance of that endpoint
         }
         return null;
     }
