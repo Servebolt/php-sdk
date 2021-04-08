@@ -31,15 +31,49 @@ class Client
     public $httpClient;
 
     /**
+     * Static accessor for client instance.
+     *
+     * @var Client
+     */
+    private static $instance;
+
+    /**
      * Client constructor.
-     * @param array $config
+     * @param array $config An array of configuration variables
+     * @param bool $storeStatically Whether to make this instance statically accessible
      * @throws ServeboltInvalidOrMissingAuthDriverException
      */
-    public function __construct(array $config)
+    public function __construct(array $config, bool $storeStatically = true)
     {
         $this->initializeConfigHelper($config);
         $this->initializeHTTPClient();
         $this->loadEndpoints();
+        if ($storeStatically) {
+            $this->allowStaticClientAccess();
+        }
+    }
+
+    /**
+     * Static Client accessor.
+     *
+     * @return Client|null
+     */
+    public static function getInstance(): ?object
+    {
+        if (self::$instance) {
+            return self::$instance;
+        }
+        return null;
+    }
+
+    /**
+     * Store the
+     */
+    private function allowStaticClientAccess(): void
+    {
+        if (!self::$instance) {
+            self::$instance = $this;
+        }
     }
 
     /**

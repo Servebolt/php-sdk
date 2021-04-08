@@ -69,8 +69,9 @@ abstract class Endpoint
      */
     private function getModelBinding()
     {
-        if (property_exists($this, 'modelBinding') && $this->modelBinding) {
-            return $this->modelBinding;
+        $class = get_class($this);
+        if (property_exists($class, 'modelBinding') && $class::$modelBinding) {
+            return $class::$modelBinding;
         }
     }
 }
