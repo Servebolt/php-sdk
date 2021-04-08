@@ -3,7 +3,6 @@
 namespace Servebolt\Sdk\Endpoints;
 
 use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
-use Servebolt\Sdk\Traits\ApiEndpoint;
 
 /**
  * Class Environment
@@ -11,8 +10,6 @@ use Servebolt\Sdk\Traits\ApiEndpoint;
  */
 class Environment extends Endpoint
 {
-
-    use ApiEndpoint;
 
     /**
      * @var int|null

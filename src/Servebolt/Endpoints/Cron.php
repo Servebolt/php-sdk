@@ -14,8 +14,6 @@ class Cron extends Endpoint
 
     protected $modelBinding = CronJob::class;
 
-    use ApiEndpoint;
-
     /**
      * @return Response|object
      * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
