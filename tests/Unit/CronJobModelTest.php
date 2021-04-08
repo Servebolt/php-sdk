@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Unit;
 
 use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response;
@@ -13,6 +12,7 @@ use Servebolt\Sdk\Exceptions\ServeboltInvalidModelDataException;
 class CronJobModelTest extends TestCase
 {
 
+    /*
     public function testCronJobModelCreation()
     {
         $modelData = [
@@ -36,6 +36,7 @@ class CronJobModelTest extends TestCase
         $this->assertEquals($fullModelData, (array) $response->getFirstResultItem());
         $this->assertTrue($response->wasSuccessful());
     }
+    */
 
     /*
     public function testCronJobModelReplace()

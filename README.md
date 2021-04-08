@@ -86,6 +86,7 @@ $client->environment->purgeCache($environmentId, $files, $prefixes);
 
 ### Cron
 
+<em>This feature is WIP.</em><br>
 Cron jobs can be fully managed through the API and SDK.<br>
 TODO: Document the Cron endpoint when methods are done.
 

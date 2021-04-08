@@ -5,6 +5,10 @@ namespace Servebolt\Sdk\Endpoints;
 use Servebolt\Sdk\Response;
 use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response as Psr7Response;
 
+/**
+ * Class Endpoint
+ * @package Servebolt\Sdk\Endpoints
+ */
 abstract class Endpoint
 {
 
