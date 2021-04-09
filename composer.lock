@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "690a955d067cb4b6efb4c11cdf5d30f9",
+    "content-hash": "1432acc661acc4c9a4acc3bd464d728d",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -557,16 +557,7 @@
                     "McAskill\\Composer\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\McAskill\\Composer\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "simple-phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
