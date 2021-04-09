@@ -19,7 +19,7 @@
         "jakeasmith/http_build_url": "^1",
         "psr/container": "1.1.1",
         "psr/log": "1.1.3",
-        "servebolt/composer-autoload-exclude": "^2.2"
+        "servebolt/composer-autoload-exclude": "^2.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
@@ -54,13 +54,14 @@
     },
     "extra": {
         "autoload-exclude": {
-            "exclude-from-files": [
-                "guzzlehttp\\*",
-                "psr\\*"
-            ],
-            "exclude-from-psr4": [
-                "GuzzleHttp\\*",
-                "Psr\\*"
+            "exclude-by-packages": [
+                "guzzlehttp/guzzle",
+                "guzzlehttp/promises",
+                "guzzlehttp/psr7",
+                "psr/container",
+                "psr/http-client",
+                "psr/http-message",
+                "psr/log"
             ]
         }
     }

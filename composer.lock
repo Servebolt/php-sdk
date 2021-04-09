@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1432acc661acc4c9a4acc3bd464d728d",
+    "content-hash": "07a7e458b7df5441d590938c6c4aaaab",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -525,16 +525,16 @@
         },
         {
             "name": "servebolt/composer-autoload-exclude",
-            "version": "v2.2.1",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Servebolt/composer-plugin-autoload-exclude.git",
-                "reference": "0fe7ad571ca4d48160e1316abac0cad99d1e667e"
+                "reference": "60cc3d012698314fccc8fb25dec5c288df31c016"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Servebolt/composer-plugin-autoload-exclude/zipball/0fe7ad571ca4d48160e1316abac0cad99d1e667e",
-                "reference": "0fe7ad571ca4d48160e1316abac0cad99d1e667e",
+                "url": "https://api.github.com/repos/Servebolt/composer-plugin-autoload-exclude/zipball/60cc3d012698314fccc8fb25dec5c288df31c016",
+                "reference": "60cc3d012698314fccc8fb25dec5c288df31c016",
                 "shasum": ""
             },
             "require": {
@@ -573,9 +573,9 @@
             ],
             "description": "Exclude files/namespaces from composer autoload.",
             "support": {
-                "source": "https://github.com/Servebolt/composer-plugin-autoload-exclude/tree/v2.2.1"
+                "source": "https://github.com/Servebolt/composer-plugin-autoload-exclude/tree/v2.3.0"
             },
-            "time": "2021-04-09T09:23:43+00:00"
+            "time": "2021-04-09T10:47:46+00:00"
         }
     ],
     "packages-dev": [
