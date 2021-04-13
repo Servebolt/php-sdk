@@ -2,14 +2,14 @@
 
 namespace Servebolt\Sdk\Facades;
 
-use ServeboltOptimizer_Vendor\GuzzleHttp\Exception\ClientException;
-use ServeboltOptimizer_Vendor\GuzzleHttp\Client;
-use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Request;
-use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Mockery;
 use Mockery\MockInterface;
-use ServeboltOptimizer_Vendor\Psr\Http\Message\RequestInterface;
-use ServeboltOptimizer_Vendor\Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Servebolt\Sdk\Exceptions\ServeboltHttpClientException;
 
 class Http

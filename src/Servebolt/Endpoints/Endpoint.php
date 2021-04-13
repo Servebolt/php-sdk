@@ -5,7 +5,7 @@ namespace Servebolt\Sdk\Endpoints;
 use Servebolt\Sdk\Response;
 use Servebolt\Sdk\ConfigHelper;
 use Servebolt\Sdk\Http\Client as HttpClient;
-use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response as Psr7Response;
+use GuzzleHttp\Psr7\Response as Psr7Response;
 
 abstract class Endpoint
 {
