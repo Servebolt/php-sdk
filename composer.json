@@ -14,7 +14,6 @@
     "require": {
         "php": "^7.3",
         "ext-json": "*",
-        "ext-pdo": "*",
         "guzzlehttp/guzzle": "^7.0",
         "jakeasmith/http_build_url": "^1"
     },
