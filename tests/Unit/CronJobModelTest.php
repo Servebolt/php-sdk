@@ -2,7 +2,7 @@
 
 namespace Unit;
 
-use ServeboltOptimizer_Vendor\GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Servebolt\Sdk\Client;
 use Servebolt\Sdk\Facades\Http;
@@ -33,6 +33,33 @@ class CronJobModelTest extends TestCase
         $model = new CronJob($modelData);
         $client = new Client(['apiToken' => 'foo']);
         $response = $model->persist($client->cron);
+        $this->assertEquals($fullModelData, (array) $response->getFirstResultItem());
+        $this->assertTrue($response->wasSuccessful());
+    }
+    */
+
+    /*
+     * This test is WIP due to the endpoint-binding of models is not done yet.
+    public function testCronJobModelCreationWithoutClientReference()
+    {
+        $modelData = [
+            'environmentId' => 69,
+            'schedule' => '* * * * *',
+            'command' => 'ls ./',
+            'comment' => 'A string'
+        ];
+        $fullModelData = $modelData + [
+                'id' => 1,
+                'enabled' => true,
+                'notifications' => 'all',
+            ];
+        Http::shouldReceive('request')->once()->andReturn(new Response(201, [], json_encode((object) [
+            'success' => true,
+            'result' => (object) $fullModelData,
+        ])));
+        new Client(['apiToken' => 'foo']);
+        $model = new CronJob($modelData);
+        $response = $model->persist();
         $this->assertEquals($fullModelData, (array) $response->getFirstResultItem());
         $this->assertTrue($response->wasSuccessful());
     }

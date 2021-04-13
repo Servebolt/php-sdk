@@ -6,7 +6,7 @@ use Servebolt\Sdk\Exceptions\ServeboltInvalidModelDataException;
 use Servebolt\Sdk\Exceptions\ServeboltActionObjectIsNotAnEndpoint;
 use Servebolt\Sdk\Response;
 
-class Model
+abstract class Model
 {
 
     protected $properties = [];
@@ -23,7 +23,8 @@ class Model
     /**
      * Model constructor.
      * @param array|object $modelData
-     * @param false $isPersisted
+     * @param bool $isPersisted
+     * @param bool $throwExceptionOnInvalidData
      */
     public function __construct($modelData = [], $isPersisted = false, $throwExceptionOnInvalidData = false)
     {
@@ -41,17 +42,60 @@ class Model
         return $this->isPersisted === true;
     }
 
-    public function persist(object $action) : Response
+    /**
+     * Alias of mehod "persist".
+     *
+     * @param object|null $endpointObject
+     * @return Response
+     * @throws ServeboltActionObjectIsNotAnEndpoint
+     */
+    public function save(?object $endpointObject = null) : Response
     {
-        if (!is_subclass_of($action, '\\Servebolt\\Sdk\\Endpoints\\Endpoint')) {
+        return $this->persist($endpointObject);
+    }
+
+    /**
+     * @return null|string
+     */
+    private function getEndpointBinding()
+    {
+        $class = get_class($this);
+        if (property_exists($class, 'endpointBinding') && $class::$endpointBinding) {
+            return $class::$endpointBinding;
+        }
+    }
+
+    private function resolveEndpointObject()
+    {
+        if ($endpointBinding = $this->getEndpointBinding()) {
+            $client = \Servebolt\Sdk\Client::getInstance();
+            //var_dump($client);die;
+            // TODO: Loop through all the endpoints,
+            // find the endpoint that has a binding to this model,
+            // return an instance of that endpoint
+        }
+        return null;
+    }
+
+    /**
+     * @param object|null $endpointObject
+     * @return Response
+     * @throws ServeboltActionObjectIsNotAnEndpoint
+     */
+    public function persist(?object $endpointObject = null) : Response
+    {
+        if (is_null($endpointObject)) {
+            $endpointObject = $this->resolveEndpointObject();
+        }
+        if (!is_subclass_of($endpointObject, '\\Servebolt\\Sdk\\Endpoints\\Endpoint')) {
             throw new ServeboltActionObjectIsNotAnEndpoint(
                 'You\'re trying to persist a model with an object that is not an instance of an endpoint-class.'
             );
         }
         if ($this->isPersisted()) {
-            return $action->replace($this);
+            return $endpointObject->replace($this);
         } else {
-            $response = $action->create($this);
+            $response = $endpointObject->create($this);
             if ($response->wasSuccessful()) {
                 $this->isPersisted = true;
             }

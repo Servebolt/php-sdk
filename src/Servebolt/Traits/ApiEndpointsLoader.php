@@ -2,10 +2,10 @@
 
 namespace Servebolt\Sdk\Traits;
 
-trait RootApiEndpointsLoader
+trait ApiEndpointsLoader
 {
 
-    private $rootApiEndpoints = [];
+    private $apiEndpoints = [];
 
     /**
      * @param $name
@@ -43,7 +43,7 @@ trait RootApiEndpointsLoader
         return $this->{$name};
     }
 
-    private function readRootApiEndpoints(): void
+    private function loadEndpoints(): void
     {
         $rootPath = __DIR__ . '/../Endpoints/';
         $namespaceFolders = glob($rootPath . '*');
@@ -60,7 +60,7 @@ trait RootApiEndpointsLoader
             } else {
                 $class = '\\Servebolt\\Sdk\\Endpoints\\' . $namespace;
             }
-            $this->rootApiEndpoints[$lowercaseNamespace] = $class;
+            $this->apiEndpoints[$lowercaseNamespace] = $class;
         }
     }
 
@@ -70,8 +70,8 @@ trait RootApiEndpointsLoader
      */
     private function resolveApiEndpointClass($name)
     {
-        if (array_key_exists($name, $this->rootApiEndpoints)) {
-            return $this->rootApiEndpoints[$name];
+        if (array_key_exists($name, $this->apiEndpoints)) {
+            return $this->apiEndpoints[$name];
         }
         return false;
     }

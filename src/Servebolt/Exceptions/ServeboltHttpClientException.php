@@ -2,7 +2,7 @@
 
 namespace Servebolt\Sdk\Exceptions;
 
-use ServeboltOptimizer_Vendor\GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ClientException;
 use Servebolt\Sdk\Response;
 
 class ServeboltHttpClientException extends ClientException
