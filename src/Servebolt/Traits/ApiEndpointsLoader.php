@@ -55,10 +55,11 @@ trait ApiEndpointsLoader
             }
             $namespace = basename($namespaceFolderPath, '.php');
             $lowercaseNamespace = mb_strtolower($namespace);
+            $baseNamespace = "\Servebolt\Sdk\Endpoints";
             if (is_dir($namespaceFolderPath)) {
-                $class = "\Servebolt\Sdk\Endpoints\{$namespace}\{$namespace}";
+                $class = sprintf("%s\%s\%s", $baseNamespace, $namespace, $namespace);
             } else {
-                $class = "\Servebolt\Sdk\Endpoints\{$namespace}";
+                $class = sprintf("%s\%s", $baseNamespace, $namespace);
             }
             $this->apiEndpoints[$lowercaseNamespace] = $class;
         }
