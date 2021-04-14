@@ -81,7 +81,7 @@ class Client
     public function __call($name, $arguments)
     {
         if (is_object($this->response)
-            && is_a($this->response, '\\GuzzleHttp\\Psr7\\Response')
+            && is_a($this->response, "\GuzzleHttp\Psr7\Response")
             && method_exists($this->response, $name)
         ) {
             return call_user_func_array([$this->response, $name], $arguments);
