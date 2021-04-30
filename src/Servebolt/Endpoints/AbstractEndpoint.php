@@ -7,7 +7,7 @@ use Servebolt\Sdk\ConfigHelper;
 use Servebolt\Sdk\Http\Client as HttpClient;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 
-abstract class Endpoint
+abstract class AbstractEndpoint
 {
     /**
      * The configuration helper class.

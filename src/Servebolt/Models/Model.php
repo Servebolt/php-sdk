@@ -87,7 +87,7 @@ abstract class Model
         if (is_null($endpointObject)) {
             $endpointObject = $this->resolveEndpointObject();
         }
-        if (!is_subclass_of($endpointObject, "\Servebolt\Sdk\Endpoints\Endpoint")) {
+        if (!is_subclass_of($endpointObject, "\Servebolt\Sdk\Endpoints\AbstractEndpoint")) {
             throw new ServeboltActionObjectIsNotAnEndpoint(
                 'You\'re trying to persist a model with an object that is not an instance of an endpoint-class.'
             );

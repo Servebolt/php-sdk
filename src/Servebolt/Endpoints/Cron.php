@@ -9,7 +9,7 @@ use Servebolt\Sdk\Models\CronJob;
  * Class Cron
  * @package Servebolt\SDK\Endpoints
  */
-class Cron extends Endpoint
+class Cron extends AbstractEndpoint
 {
 
     public static $modelBinding = CronJob::class;
