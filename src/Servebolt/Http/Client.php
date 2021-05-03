@@ -100,7 +100,7 @@ class Client
         if ($this->response->getBody()->getContents()) {
             $decodedBody = json_decode($this->response->getBody());
             if (json_last_error() == JSON_ERROR_NONE) {
-                return $decodedBody;
+                return (object) $decodedBody;
             }
             throw new ServeboltInvalidJsonException;
         }
