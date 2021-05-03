@@ -214,7 +214,8 @@ class Response
     {
         //$this->success = $this->responseBody->success ?? false;
         //$this->success = (bool) preg_match('/^20/', );
-        $this->success = substr($this->httpStatusCode, 0, 2) == '20'; // Make sure that the HTTP status code is in the 200-range
+        // Make sure that the HTTP status code is in the 200-range
+        $this->success = substr($this->httpStatusCode, 0, 2) == '20';
     }
 
     private function parseResult() : void
