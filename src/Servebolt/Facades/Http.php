@@ -41,7 +41,7 @@ class Http
     {
         if (!isset($this->client)) {
             $this->client = new Client([
-                'http_errors' => true
+                'http_errors' => true,
             ]);
         }
         return $this->client;
