@@ -43,6 +43,7 @@ class Http
             $this->client = new Client([
                 'http_errors' => true,
             ]);
+            $this->client->setUserAgent('ServeboltPhpSdk/' . SB_SDK_VERSION);
         }
         return $this->client;
     }
