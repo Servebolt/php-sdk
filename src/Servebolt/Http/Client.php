@@ -55,7 +55,22 @@ class Client
         } else {
             Http::disableClientExceptions();
         }
-        $this->headers = $authentication->getAuthHeaders();
+        $this->headers = $this->setDefaultHeaders($authentication);
+    }
+
+    private function userAgentString(): string
+    {
+        return 'ServeboltPhpSdk/' . SB_SDK_VERSION;
+    }
+
+    private function setDefaultHeaders($authentication): array
+    {
+        return array_merge(
+            $authentication->getAuthHeaders(),
+            [
+                'User-Agent' => $this->userAgentString(),
+            ]
+        );
     }
 
     private function throwExceptionsOnClientError() : bool
