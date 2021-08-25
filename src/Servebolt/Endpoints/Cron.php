@@ -18,13 +18,11 @@ class Cron extends AbstractEndpoint
      * @return Response|object
      * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
-    /*
     public function list()
     {
         $httpResponse = $this->httpClient->get('/cronjobs');
         return $this->response($httpResponse);
     }
-    */
 
     /**
      * @param $cronJob

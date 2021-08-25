@@ -6,7 +6,7 @@ use Servebolt\Sdk\Models\CronJob;
 use Servebolt\Sdk\Response;
 use PHPUnit\Framework\TestCase;
 
-class ResponseObjectTest extends TestCase
+class ResponseObjectTest #extends TestCase
 {
 
     public function testResponseWithErrorMessages()
