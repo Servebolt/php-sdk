@@ -17,11 +17,21 @@ class Http
     private static $service;
     private $client;
     private $mock;
+    private static $shouldVerifySsl = true;
     private static $shouldThrowClientExceptions = false;
 
     private function isMocked() : bool
     {
         return isset($this->mock);
+    }
+
+    public static function shouldVerifySsl($bool = null)
+    {
+        if (is_bool($bool)) {
+            self::$shouldVerifySsl = $bool;
+            return;
+        }
+        return self::$shouldVerifySsl;
     }
 
     public static function shouldThrowClientExceptions() : bool
@@ -40,9 +50,13 @@ class Http
     private function client() : Client
     {
         if (!isset($this->client)) {
-            $this->client = new Client([
+            $clientArguments = [
                 'http_errors' => true,
-            ]);
+            ];
+            if (!$this->shouldVerifySsl()) {
+                $clientArguments['verify'] = false;
+            }
+            $this->client = new Client($clientArguments);
         }
         return $this->client;
     }

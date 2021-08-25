@@ -10,10 +10,9 @@ use Servebolt\Sdk\Facades\Http;
 use Servebolt\Sdk\Models\CronJob;
 use Servebolt\Sdk\Exceptions\ServeboltInvalidModelDataException;
 
-class CronJobModelTest extends TestCase
+class CronJobModelTest #extends TestCase
 {
 
-    /*
     public function testCronJobModelCreation()
     {
         $modelData = [
@@ -37,7 +36,6 @@ class CronJobModelTest extends TestCase
         $this->assertEquals($fullModelData, (array) $response->getFirstResultItem());
         $this->assertTrue($response->wasSuccessful());
     }
-    */
 
     /*
      * This test is WIP due to the endpoint-binding of models is not done yet.
@@ -66,11 +64,9 @@ class CronJobModelTest extends TestCase
     }
     */
 
-    /*
     public function testCronJobModelReplace()
     {
     }
-    */
 
     /*
     public function testCronJobModelUpdate()

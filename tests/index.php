@@ -11,8 +11,9 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $client = new Servebolt\Sdk\Client([
-    'apiToken'   => $_ENV['API_TOKEN'],
-    'baseUri'    => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
+    'verifySsl' => false,
+    'apiToken' => $_ENV['API_TOKEN'],
+    'baseUri' => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
     'authDriver' => $_ENV['AUTH_DRIVER'], // Default: apiToken
     'returnPsr7Response' => false, // Default: false
     'throwExceptionsOnClientError' => false, // Default: true
@@ -124,3 +125,10 @@ function purgeCache($client)
     }
 }
 //purgeCache($client);
+
+function listCronJobs($client)
+{
+    echo '<pre>';
+    print_r($client->cron->list());
+}
+listCronJobs($client);

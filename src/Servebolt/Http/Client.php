@@ -50,6 +50,9 @@ class Client
         if ($baseUri = $this->config->get('baseUri')) {
             $this->baseUri = $baseUri;
         }
+        if ($this->config->get('verifySsl') === false) {
+            Http::shouldVerifySsl(false);
+        }
         if ($this->throwExceptionsOnClientError()) {
             Http::enableClientExceptions();
         } else {
@@ -129,7 +132,10 @@ class Client
      */
     public function get(string $uri, array $headers = []) : Client
     {
-        $this->response = Http::get($this->buildRequestURL($uri), $this->getRequestHeaders($headers));
+        $this->response = Http::get(
+            $this->buildRequestURL($uri),
+            $this->getRequestHeaders($headers)
+        );
         return $this;
     }
 
