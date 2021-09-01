@@ -22,22 +22,20 @@ class Cron extends AbstractEndpoint
     }
 
     /**
-     * @param $cronJob
+     * @param array $data
      * @return Response|object
      * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
-    /*
-    public function create($cronJob)
+    public function create($data)
     {
-        $cronJob = CronJob::factory($cronJob);
-        $httpResponse = $this->httpClient->postJson('/cronjobs', $cronJob->toArray());
+        $httpResponse = $this->httpClient->postJson('/cronjobs', $data);
         return $this->response($httpResponse);
     }
-    */
 
-    /*
     public function get($id)
     {
+        $httpResponse = $this->httpClient->get('/cronjobs/' . $id);
+        return $this->response($httpResponse);
     }
 
     public function delete($id)
@@ -53,5 +51,4 @@ class Cron extends AbstractEndpoint
     {
         $cronJob = CronJob::factory($cronJob);
     }
-    */
 }
