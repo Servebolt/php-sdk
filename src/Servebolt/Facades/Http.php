@@ -157,6 +157,16 @@ class Http
 
     /**
      * @param string|UriInterface                   $uri     URI
+     * @param array                                 $headers Request headers
+     * @return Response
+     */
+    public static function delete(string $uri, array $headers = []) : Response
+    {
+        return self::send(new Request('DELETE', $uri, $headers));
+    }
+
+    /**
+     * @param string|UriInterface                   $uri     URI
      * @param string|null                           $body    Request body
      * @param array                                 $headers Request headers
      * @return Response

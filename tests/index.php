@@ -96,8 +96,7 @@ function listCronJobs($client)
 }
 //listCronJobs($client);
 
-/*
-function getCronJobs($client)
+function getCronJob($client)
 {
     $response = $client->cron->get(181);
     if ($response->wasSuccessful()) {
@@ -105,8 +104,20 @@ function getCronJobs($client)
         print_r($response->getFirstResultItem());
     }
 }
-getCronJobs($client);
-*/
+//getCronJob($client);
+
+function deleteCronJob($client)
+{
+    try {
+        $response = $client->cron->delete(181);
+        var_dump($response->wasSuccessful());
+    } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
+        echo '<pre>';
+        print_r($e->getDecodeMessage());
+        die;
+    }
+}
+//deleteCronJob($client);
 
 function purgeCachePassingEnvIdThroughPurgeMethod($client)
 {

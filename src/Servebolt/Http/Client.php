@@ -130,6 +130,20 @@ class Client
      * @param array $headers
      * @return Client
      */
+    public function delete(string $uri, array $headers = []) : Client
+    {
+        $this->response = Http::delete(
+            $this->buildRequestURL($uri),
+            $this->getRequestHeaders($headers)
+        );
+        return $this;
+    }
+
+    /**
+     * @param string $uri
+     * @param array $headers
+     * @return Client
+     */
     public function get(string $uri, array $headers = []) : Client
     {
         $this->response = Http::get(
