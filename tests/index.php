@@ -33,15 +33,7 @@ $cronJobData = [
     'notifications' => 'none',
 ];
 
-function createCronJobUsingFactory($cronJobData, $client)
-{
-    $model = Servebolt\Sdk\Models\CronJob::factory($cronJobData);
-    $response = $client->cron->create($model);
-    var_dump($response->wasSuccessful());
-}
-//createCronJobUsingFactory($cronJobData, $client);
-
-function createCronJobUsingArrayOnly($cronJobData, $client) {
+function createCronJob($cronJobData, $client) {
     try {
         $response = $client->cron->create($cronJobData);
         var_dump($response->wasSuccessful());
@@ -51,7 +43,7 @@ function createCronJobUsingArrayOnly($cronJobData, $client) {
         die;
     }
 }
-//createCronJobUsingArrayOnly($cronJobData, $client);
+//createCronJob($cronJobData, $client);
 
 function printCronJobs($client)
 {
@@ -68,8 +60,9 @@ function printCronJobs($client)
         return;
     }
     if ($response->wasSuccessful()) {
-        foreach ($response->getCronJobs() as $cronJob) {
-            print_r($cronJob->schedule . ' ' . $cronJob->command);
+        echo '<pre>';
+        foreach ($response->getResultItems() as $cronJob) {
+            print_r($cronJob);
         }
     }
 }
@@ -125,10 +118,3 @@ function purgeCache($client)
     }
 }
 //purgeCache($client);
-
-function listCronJobs($client)
-{
-    echo '<pre>';
-    print_r($client->cron->list());
-}
-listCronJobs($client);
