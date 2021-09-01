@@ -40,6 +40,8 @@ class Cron extends AbstractEndpoint
 
     public function delete($id)
     {
+        $httpResponse = $this->httpClient->delete('/cronjobs/' . $id);
+        return $this->response($httpResponse);
     }
 
     public function update($cronJob)
