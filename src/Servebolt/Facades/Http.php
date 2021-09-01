@@ -171,6 +171,28 @@ class Http
      * @param array                                 $headers Request headers
      * @return Response
      */
+    public static function put(string $uri, $body = null, array $headers = []) : Response
+    {
+        return self::send(new Request('PUT', $uri, $headers, $body));
+    }
+
+    /**
+     * @param string|UriInterface                   $uri     URI
+     * @param string|null                           $body    Request body
+     * @param array                                 $headers Request headers
+     * @return Response
+     */
+    public static function patch(string $uri, $body = null, array $headers = []) : Response
+    {
+        return self::send(new Request('PATCH', $uri, $headers, $body));
+    }
+
+    /**
+     * @param string|UriInterface                   $uri     URI
+     * @param string|null                           $body    Request body
+     * @param array                                 $headers Request headers
+     * @return Response
+     */
     public static function post(string $uri, $body = null, array $headers = []) : Response
     {
         return self::send(new Request('POST', $uri, $headers, $body));

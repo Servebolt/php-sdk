@@ -26,13 +26,8 @@ function domain() : string
 }
 
 $environmentId = $_ENV['ENV_ID'];
-$cronJobData = [
-    'environmentId' => $environmentId,
-    'schedule' => '* * * * *',
-    'command' => 'ls ./',
-    'notifications' => 'none',
-];
 
+$cronJobId = 178;
 $cronJobData = [
     'data' => [
         'type' => 'cronjobs',
@@ -58,6 +53,14 @@ $cronJobData = [
                 'id' => $environmentId,
             ]
         ]
+    ]
+];
+
+$cronJobUpdateData = [
+    'data' => [
+        'attributes' => [
+            'comment' => 'This is a cron job that was updated using the PHP SDK',
+        ],
     ]
 ];
 
@@ -94,22 +97,26 @@ function listCronJobs($client)
         }
     }
 }
-//listCronJobs($client);
+listCronJobs($client);
 
-function getCronJob($client)
-{
-    $response = $client->cron->get(181);
-    if ($response->wasSuccessful()) {
-        echo '<pre>';
-        print_r($response->getFirstResultItem());
-    }
-}
-//getCronJob($client);
-
-function deleteCronJob($client)
+function getCronJob($client, $id)
 {
     try {
-        $response = $client->cron->delete(181);
+        $response = $client->cron->get($id);
+        if ($response->wasSuccessful()) {
+            echo '<pre>';
+            print_r($response->getFirstResultItem());
+        }
+    } catch (Exception $e) {
+
+    }
+}
+//getCronJob($client, $cronJobId);
+
+function deleteCronJob($client, $id)
+{
+    try {
+        $response = $client->cron->delete($id);
         var_dump($response->wasSuccessful());
     } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
         echo '<pre>';
@@ -117,7 +124,20 @@ function deleteCronJob($client)
         die;
     }
 }
-//deleteCronJob($client);
+//deleteCronJob($client, $cronJobId);
+
+function updateCronJob($client, $data, $id)
+{
+    try {
+        $response = $client->cron->update($id, $data);
+        var_dump($response->wasSuccessful());
+    } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
+        echo '<pre>';
+        print_r($e->getDecodeMessage());
+        die;
+    }
+}
+updateCronJob($client, $cronJobUpdateData, $cronJobId);
 
 function purgeCachePassingEnvIdThroughPurgeMethod($client)
 {
