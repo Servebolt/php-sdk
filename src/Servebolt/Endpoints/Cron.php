@@ -44,13 +44,9 @@ class Cron extends AbstractEndpoint
         return $this->response($httpResponse);
     }
 
-    public function update($cronJob)
+    public function update($id, $data)
     {
-        $cronJob = CronJob::factory($cronJob);
-    }
-
-    public function replace(CronJob $cronJob)
-    {
-        $cronJob = CronJob::factory($cronJob);
+        $httpResponse = $this->httpClient->patchJson('/cronjobs/' . $id, $data);
+        return $this->response($httpResponse);
     }
 }

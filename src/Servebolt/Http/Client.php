@@ -182,6 +182,64 @@ class Client
         return $this->post($uri, $body, $headers);
     }
 
+    /**
+     * @param string $uri
+     * @param array $body
+     * @param array $headers
+     * @return $this
+     */
+    public function patchJson(string $uri, array $body = [], array $headers = []) : Client
+    {
+        $headers['Content-Type'] = 'application/json';
+        $body = $this->handleJsonRequestBody($body);
+        return $this->patch($uri, $body, $headers);
+    }
+
+    /**
+     * @param string $uri
+     * @param string|null $body
+     * @param array $headers
+     * @return Client
+     */
+    public function patch(string $uri, string $body = null, array $headers = []) : Client
+    {
+        $this->response = Http::patch(
+            $this->buildRequestURL($uri),
+            $body,
+            $this->getRequestHeaders($headers)
+        );
+        return $this;
+    }
+
+    /**
+     * @param string $uri
+     * @param array $body
+     * @param array $headers
+     * @return $this
+     */
+    public function putJson(string $uri, array $body = [], array $headers = []) : Client
+    {
+        $headers['Content-Type'] = 'application/json';
+        $body = $this->handleJsonRequestBody($body);
+        return $this->patch($uri, $body, $headers);
+    }
+
+    /**
+     * @param string $uri
+     * @param string|null $body
+     * @param array $headers
+     * @return Client
+     */
+    public function put(string $uri, string $body = null, array $headers = []) : Client
+    {
+        $this->response = Http::put(
+            $this->buildRequestURL($uri),
+            $body,
+            $this->getRequestHeaders($headers)
+        );
+        return $this;
+    }
+
     private function handleJsonRequestBody(array $body) : string
     {
         return json_encode($body);
