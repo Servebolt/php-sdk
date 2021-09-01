@@ -27,10 +27,38 @@ function domain() : string
 
 $environmentId = $_ENV['ENV_ID'];
 $cronJobData = [
-    'environmentId' => 2368,
+    'environmentId' => $environmentId,
     'schedule' => '* * * * *',
     'command' => 'ls ./',
     'notifications' => 'none',
+];
+
+$cronJobData = [
+    'data' => [
+        'type' => 'cronjobs',
+        'attributes' => [
+            'enabled' => 1,
+            'command' => 'ls ./',
+            'comment' => 'This is a cron job created using the PHP SDK',
+            'schedule' => '* * * * *',
+            'notifications' => 'none',
+        ],
+        'relationships' => [
+            'environment' => [
+                'data' => [
+                    'type' => 'environments',
+                    'id' => $environmentId,
+                ]
+            ]
+        ],
+        'links' => [
+            'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+            'data' => [
+                'type' => 'environments',
+                'id' => $environmentId,
+            ]
+        ]
+    ]
 ];
 
 function createCronJob($cronJobData, $client) {
@@ -45,7 +73,7 @@ function createCronJob($cronJobData, $client) {
 }
 //createCronJob($cronJobData, $client);
 
-function printCronJobs($client)
+function listCronJobs($client)
 {
     try {
         $response = $client->cron->list();
@@ -66,7 +94,19 @@ function printCronJobs($client)
         }
     }
 }
-//printCronJobs($client);
+//listCronJobs($client);
+
+/*
+function getCronJobs($client)
+{
+    $response = $client->cron->get(181);
+    if ($response->wasSuccessful()) {
+        echo '<pre>';
+        print_r($response->getFirstResultItem());
+    }
+}
+getCronJobs($client);
+*/
 
 function purgeCachePassingEnvIdThroughPurgeMethod($client)
 {
