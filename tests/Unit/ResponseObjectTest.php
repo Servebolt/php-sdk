@@ -2,7 +2,6 @@
 
 namespace Servebolt\Sdk\Tests;
 
-use Servebolt\Sdk\Models\CronJob;
 use Servebolt\Sdk\Response;
 use PHPUnit\Framework\TestCase;
 

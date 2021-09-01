@@ -3,7 +3,6 @@
 namespace Servebolt\Sdk\Endpoints;
 
 use Servebolt\Sdk\Traits\ApiEndpoint;
-use Servebolt\Sdk\Models\CronJob;
 
 /**
  * Class Cron
@@ -11,8 +10,6 @@ use Servebolt\Sdk\Models\CronJob;
  */
 class Cron extends AbstractEndpoint
 {
-
-    public static $modelBinding = CronJob::class;
 
     /**
      * @return Response|object

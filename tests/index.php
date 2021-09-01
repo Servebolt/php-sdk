@@ -33,14 +33,6 @@ $cronJobData = [
     'notifications' => 'none',
 ];
 
-function createCronJobUsingFactory($cronJobData, $client)
-{
-    $model = Servebolt\Sdk\Models\CronJob::factory($cronJobData);
-    $response = $client->cron->create($model);
-    var_dump($response->wasSuccessful());
-}
-//createCronJobUsingFactory($cronJobData, $client);
-
 function createCronJobUsingArrayOnly($cronJobData, $client) {
     try {
         $response = $client->cron->create($cronJobData);
@@ -128,7 +120,17 @@ function purgeCache($client)
 
 function listCronJobs($client)
 {
-    echo '<pre>';
-    print_r($client->cron->list());
+    try {
+        echo '<pre>';
+        $response = $client->cron->list();
+        print_r($response->getResultItems());
+        /*
+        $items = $response->getResultItems();
+        $item = $response->getResultItem();
+        print_r($item->environmentId);
+        */
+    } catch (Exception $exception) {
+
+    }
 }
 listCronJobs($client);

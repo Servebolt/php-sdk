@@ -58,20 +58,8 @@ abstract class AbstractEndpoint
             default:
                 return new Response(
                     $httpResponse->getDecodedBody(),
-                    $httpResponse->getResponseObject()->getStatusCode(),
-                    $this->getModelBinding()
+                    $httpResponse->getResponseObject()->getStatusCode()
                 );
-        }
-    }
-
-    /**
-     * @return null|string
-     */
-    private function getModelBinding()
-    {
-        $class = get_class($this);
-        if (property_exists($class, 'modelBinding') && $class::$modelBinding) {
-            return $class::$modelBinding;
         }
     }
 }

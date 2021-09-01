@@ -5,15 +5,14 @@ namespace Servebolt\Sdk;
 use Servebolt\Sdk\Traits\HasErrors;
 use Servebolt\Sdk\Traits\HasMessages;
 
+/**
+ * Class Response
+ * @package Servebolt\Sdk
+ */
 class Response
 {
 
     use HasErrors, HasMessages;
-
-    /**
-     * @var string|mixed The (optional) model that the items should be converted to.
-     */
-    private $modelClass;
 
     /**
      * @var object The response body object from the HTTP request.
@@ -44,17 +43,12 @@ class Response
      * Response constructor.
      * @param object $responseBody
      * @param int $httpStatusCode
-     * @param string|null $modelClass
      */
-    public function __construct(object $responseBody, $httpStatusCode = null, $modelClass = null)
+    public function __construct($responseBody, $httpStatusCode = null)
     {
         $this->responseBody = $responseBody;
         if (is_int($httpStatusCode)) {
             $this->httpStatusCode = $httpStatusCode;
-        }
-        if ($modelClass) {
-            // The model that should be used with the items in the result data (if any)
-            $this->modelClass = $modelClass;
         }
         $this->parseResponseBody();
     }
@@ -67,39 +61,6 @@ class Response
         if (isset($this->httpStatusCode)) {
             return $this->httpStatusCode;
         }
-    }
-
-    /**
-     * @return false|mixed|string
-     */
-    private function getModelClassName()
-    {
-        if ($this->modelClass) {
-            $parts = explode('\\', $this->modelClass);
-            return end($parts);
-        }
-        return false;
-    }
-
-    /**
-     * @param $name
-     * @param $arguments
-     * @return array|false|object|null
-     */
-    public function __call($name, $arguments)
-    {
-        if ($className = $this->getModelClassName()) {
-            if ($name === 'get' . $className . 's') {
-                if ($this->hasMultiple()) {
-                    return $this->getResult();
-                }
-                return false;
-            }
-            if ($name === 'get' . $className) {
-                return $this->getFirstResultItem();
-            }
-        }
-        trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
     }
 
     /**
@@ -186,6 +147,18 @@ class Response
     }
 
     /**
+     * Alias for "getFirstResultItem".
+     *
+     * @return null|object
+     */
+    public function getResultItem()
+    {
+        return $this->getFirstResultItem();
+    }
+
+    /**
+     * Get the first item in results.
+     *
      * @return null|object
      */
     public function getFirstResultItem()
@@ -218,25 +191,17 @@ class Response
         $this->success = substr($this->httpStatusCode, 0, 2) == '20';
     }
 
-    private function parseResult() : void
+    /**
+     * Parse the result body by best effort.
+     */
+    private function parseResult(): void
     {
-        if (isset($this->responseBody->result)) {
-            if (is_array($this->responseBody->result)) {
-                $this->isMultiple = true;
-                if (isset($this->modelClass) && is_subclass_of($this->modelClass, 'Servebolt\\Sdk\\Models\\Model')) {
-                    $this->result = array_map(function ($item) {
-                        return new $this->modelClass($item, true);
-                    }, $this->responseBody->result);
-                } else {
-                    $this->result = $this->responseBody->result;
-                }
-            } else {
-                $this->isMultiple = false;
-                $this->result = $this->responseBody->result;
-            }
+        if (isset($this->responseBody->data)) {
+            $this->isMultiple = is_array($this->responseBody->data);
+            $this->result = $this->responseBody->data; // Return plain result
         } else {
-            $this->isMultiple = false;
             // This response has no result in the response body
+            $this->isMultiple = false;
         }
     }
 
