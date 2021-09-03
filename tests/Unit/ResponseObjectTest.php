@@ -58,9 +58,7 @@ class ResponseObjectTest extends TestCase
 
     public function testResponseStatusCode()
     {
-        $responseObject = new Response((object)[
-            'success' => false
-        ], 418);
+        $responseObject = new Response(null, 418);
         $this->assertEquals(418, $responseObject->getStatusCode());
     }
 
@@ -81,9 +79,7 @@ class ResponseObjectTest extends TestCase
 
     public function testSuccessResponseWithoutData()
     {
-        $responseObject = new Response((object)[
-            'success' => true,
-        ], 200);
+        $responseObject = new Response(null, 200);
         $this->assertTrue($responseObject->wasSuccessful());
         $this->assertFalse($responseObject->hasMultiple());
         $this->assertFalse($responseObject->hasResult());
