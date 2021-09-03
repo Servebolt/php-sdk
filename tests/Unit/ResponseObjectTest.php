@@ -5,31 +5,36 @@ namespace Servebolt\Sdk\Tests;
 use Servebolt\Sdk\Response;
 use PHPUnit\Framework\TestCase;
 
-class ResponseObjectTest #extends TestCase
+class ResponseObjectTest extends TestCase
 {
 
     public function testResponseWithErrorMessages()
     {
         $errorMessages = [
             (object) [
-                'message' => 'The foo field is required.',
-                'field' => 'foo',
+                'title' => 'Invalid input',
+                'detail' => 'Invalid URL www.servebolt.nl.',
+                'code' => 1115,
+                'source' => (object) []
             ],
             (object) [
-                'message' => 'The bar field is required.',
-                'field' => 'bar',
+                'title' => 'Invalid input',
+                'detail' => 'Invalid URL www.servebolt.nl.',
+                'code' => 1115,
+                'source' => (object) []
             ],
         ];
         $responseObject = new Response((object)[
-            'success' => false,
             'errors' => $errorMessages,
-        ], 400);
+        ], 422);
         $this->assertFalse($responseObject->wasSuccessful());
         $this->assertTrue($responseObject->hasErrors());
         $this->assertEquals($errorMessages, $responseObject->getErrors());
         $this->assertEquals(current($errorMessages), $responseObject->getFirstError());
-        $this->assertEquals('The foo field is required.', $responseObject->getFirstError()->message);
-        $this->assertEquals('foo', $responseObject->getFirstError()->field);
+        $this->assertEquals('Invalid input', $responseObject->getFirstError()->title);
+        $this->assertEquals('Invalid URL www.servebolt.nl.', $responseObject->getFirstError()->detail);
+        $this->assertEquals('1115', $responseObject->getFirstError()->code);
+        $this->assertEquals((object) [], $responseObject->getFirstError()->source);
     }
 
     public function testResponseWithMessages()
@@ -43,9 +48,8 @@ class ResponseObjectTest #extends TestCase
             ],
         ];
         $responseObject = new Response((object)[
-            'success' => false,
             'messages' => $messages,
-        ], 400);
+        ], 422);
         $this->assertTrue($responseObject->hasMessages());
         $this->assertEquals($messages, $responseObject->getMessages());
         $this->assertEquals(current($messages), $responseObject->getFirstMessage());
@@ -62,17 +66,17 @@ class ResponseObjectTest #extends TestCase
 
     public function testSuccessResponseWithData()
     {
+        $testItems = $this->getTestItems();
         $responseObject = new Response((object)[
-            'result' => $this->getTestItems(),
-            'success' => true,
+            'data' => $testItems,
         ], 200);
         $this->assertTrue($responseObject->wasSuccessful());
         $this->assertTrue($responseObject->hasMultiple());
         $this->assertTrue($responseObject->hasResult());
         $this->assertFalse($responseObject->hasMessages());
         $this->assertFalse($responseObject->hasErrors());
-        $this->assertEquals($responseObject->getResult(), $this->getTestItems());
-        $this->assertEquals($responseObject->getFirstResultItem(), current($this->getTestItems()));
+        $this->assertEquals($responseObject->getResult(), $testItems);
+        $this->assertEquals($responseObject->getFirstResultItem(), current($testItems));
     }
 
     public function testSuccessResponseWithoutData()
@@ -92,40 +96,73 @@ class ResponseObjectTest #extends TestCase
     public function testAccessToPropertiesOnCronJobItem()
     {
         $responseObject = new Response((object) [
-            'result' => $this->getTestItems(),
-            'success' => true,
+            'data' => $this->getTestItems(),
         ], 200, CronJob::class);
         $firstItem = $responseObject->getFirstResultItem();
         $this->assertIsObject($firstItem);
         $this->assertEquals(90, $firstItem->id);
-        $this->assertEquals(2368, $firstItem->environmentId);
-        $this->assertEquals(true, $firstItem->enabled);
-        $this->assertEquals('cd ./', $firstItem->command);
-        $this->assertEquals('This is a comment', $firstItem->comment);
-        $this->assertEquals('* * * * 1', $firstItem->schedule);
-        $this->assertEquals('errors', $firstItem->notifications);
+        $this->assertEquals(2368, $firstItem->relationships->environment->data->id);
+        $this->assertEquals(true, $firstItem->attributes->enabled);
+        $this->assertEquals('ls ./', $firstItem->attributes->command);
+        $this->assertEquals('This is a comment', $firstItem->attributes->comment);
+        $this->assertEquals('* * * * 1', $firstItem->attributes->schedule);
+        $this->assertEquals('errors', $firstItem->attributes->notifications);
     }
 
     private function getTestItems() : array
     {
         return [
             (object) [
+                'type' => 'cronjobs',
                 'id' => 90,
-                'environmentId' => 2368,
-                'enabled' => 1,
-                'command' => 'cd ./',
-                'comment' => 'This is a comment',
-                'schedule' => '* * * * 1',
-                'notifications' => 'errors',
+                'attributes' => (object) [
+                    'enabled' => 1,
+                    'command' => 'ls ./',
+                    'comment' => 'This is a comment',
+                    'schedule' => '* * * * 1',
+                    'notifications' => 'errors',
+                ],
+                'relationships' => (object) [
+                    'environment' => (object) [
+                        'data' => (object) [
+                            'type' => 'environments',
+                            'id' => 2368,
+                        ]
+                    ]
+                ],
+                'links' => (object) [
+                    'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+                    'data' => (object) [
+                        'type' => 'environments',
+                        'id' => 2368,
+                    ]
+                ]
             ],
             (object) [
+                'type' => 'cronjobs',
                 'id' => 91,
-                'environmentId' => 2368,
-                'enabled' => 1,
-                'command' => 'ls ./',
-                'comment' => '',
-                'schedule' => '* * * * *',
-                'notifications' => 'none',
+                'attributes' => (object) [
+                    'enabled' => 1,
+                    'command' => 'ls ./',
+                    'comment' => 'This is a cron job created using the PHP SDK',
+                    'schedule' => '* * * * *',
+                    'notifications' => 'none',
+                ],
+                'relationships' => (object) [
+                    'environment' => (object) [
+                        'data' => (object) [
+                            'type' => 'environments',
+                            'id' => 2368,
+                        ]
+                    ]
+                ],
+                'links' => (object) [
+                    'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+                    'data' => (object) [
+                        'type' => 'environments',
+                        'id' => 2368,
+                    ]
+                ]
             ],
         ];
     }
