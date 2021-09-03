@@ -29,39 +29,35 @@ $environmentId = $_ENV['ENV_ID'];
 
 $cronJobId = 178;
 $cronJobData = [
-    'data' => [
-        'type' => 'cronjobs',
-        'attributes' => [
-            'enabled' => 1,
-            'command' => 'ls ./',
-            'comment' => 'This is a cron job created using the PHP SDK',
-            'schedule' => '* * * * *',
-            'notifications' => 'none',
-        ],
-        'relationships' => [
-            'environment' => [
-                'data' => [
-                    'type' => 'environments',
-                    'id' => $environmentId,
-                ]
-            ]
-        ],
-        'links' => [
-            'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+    'type' => 'cronjobs',
+    'attributes' => [
+        'enabled' => 1,
+        'command' => 'ls ./',
+        'comment' => 'This is a cron job created using the PHP SDK',
+        'schedule' => '* * * * *',
+        'notifications' => 'none',
+    ],
+    'relationships' => [
+        'environment' => [
             'data' => [
                 'type' => 'environments',
                 'id' => $environmentId,
             ]
         ]
+    ],
+    'links' => [
+        'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+        'data' => [
+            'type' => 'environments',
+            'id' => $environmentId,
+        ]
     ]
 ];
 
 $cronJobUpdateData = [
-    'data' => [
-        'attributes' => [
-            'comment' => 'This is a cron job that was updated using the PHP SDK',
-        ],
-    ]
+    'attributes' => [
+        'comment' => 'This is a cron job that was updated using the PHP SDK',
+    ],
 ];
 
 function createCronJob($cronJobData, $client) {
@@ -97,7 +93,7 @@ function listCronJobs($client)
         }
     }
 }
-listCronJobs($client);
+//listCronJobs($client);
 
 function getCronJob($client, $id)
 {
@@ -137,7 +133,7 @@ function updateCronJob($client, $data, $id)
         die;
     }
 }
-updateCronJob($client, $cronJobUpdateData, $cronJobId);
+//updateCronJob($client, $cronJobUpdateData, $cronJobId);
 
 function purgeCachePassingEnvIdThroughPurgeMethod($client)
 {

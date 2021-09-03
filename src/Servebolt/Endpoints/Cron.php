@@ -28,7 +28,7 @@ class Cron extends AbstractEndpoint
      */
     public function create($data)
     {
-        $httpResponse = $this->httpClient->postJson('/cronjobs', $data);
+        $httpResponse = $this->httpClient->postJson('/cronjobs', compact('data'));
         return $this->response($httpResponse);
     }
 
@@ -46,7 +46,7 @@ class Cron extends AbstractEndpoint
 
     public function update($id, $data)
     {
-        $httpResponse = $this->httpClient->patchJson('/cronjobs/' . $id, $data);
+        $httpResponse = $this->httpClient->patchJson('/cronjobs/' . $id, compact('data'));
         return $this->response($httpResponse);
     }
 }
