@@ -84,10 +84,56 @@ $prefixes = [
 $client->environment->purgeCache($environmentId, $files, $prefixes);
 ```
 
+You can also call the method without the `$environmentId`-argument. The system will then use the environment ID specified in the `.env`-file instead.
+
+```php
+$files = [
+    'https://example.com/some/path.html',
+    'https://example.com/some/other/path.html',
+];
+$prefixes = [
+    'https://example.com/some/prefix/path',
+    'https://example.com/some/other/prefix/path',
+];
+$client->environment->purgeCache($files, $prefixes);
+```
+
 ### Cron
 
 Cron jobs can be fully managed through the API and SDK.<br>
-TODO: Document the Cron endpoint when methods are done.
+The cron endpoint contains methods to execute CRUD.
+
+#### List
+```php
+$client->cron->list();
+```
+
+#### Create
+```php
+$client->cron->create([
+
+]);
+```
+
+#### Get
+```php
+$client->cron->get(69);
+```
+
+#### Delete
+```php
+$client->cron->delete(69);
+```
+
+#### Update
+```php
+$client->cron->update(69, [
+    'attributes' => [
+        'comment' => 'Updated comment'
+    ]
+]
+]);
+```
 
 ## <a name="response-object"></a>Response object
 We've created a unified response object that will get returned from all methods in the SDK that communicates with the API. Using this object is default behaviour, but it can be changed by using the "responseObjectType" configuration option when [initializing the client](#additional-instantiation-example).
