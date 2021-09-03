@@ -64,7 +64,7 @@ class ResponseObjectTest extends TestCase
 
     public function testSuccessResponseWithData()
     {
-        $testItems = $this->getTestItems();
+        $testItems = $this->getCronjobTestItems();
         $responseObject = new Response((object)[
             'data' => $testItems,
         ], 200);
@@ -92,7 +92,7 @@ class ResponseObjectTest extends TestCase
     public function testAccessToPropertiesOnCronJobItem()
     {
         $responseObject = new Response((object) [
-            'data' => $this->getTestItems(),
+            'data' => $this->getCronjobTestItems(),
         ], 200, CronJob::class);
         $firstItem = $responseObject->getFirstResultItem();
         $this->assertIsObject($firstItem);
@@ -105,7 +105,7 @@ class ResponseObjectTest extends TestCase
         $this->assertEquals('errors', $firstItem->attributes->notifications);
     }
 
-    private function getTestItems() : array
+    private function getCronjobTestItems(): array
     {
         return [
             (object) [
