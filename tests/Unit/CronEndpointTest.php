@@ -8,5 +8,4 @@ use PHPUnit\Framework\TestCase;
 class CronEndpointTest extends TestCase
 {
 
-
 }
