@@ -94,7 +94,7 @@ $prefixes = [
 $client->environment->purgeCache($environmentId, $files, $prefixes);
 ```
 
-You can also call the method without the `$environmentId`-argument. The system will then use the environment ID specified in the `.env`-file instead.
+You can also specify the environment ID in the chained method calls.
 
 ```php
 $files = [
@@ -105,7 +105,7 @@ $prefixes = [
     'https://example.com/some/prefix/path',
     'https://example.com/some/other/prefix/path',
 ];
-$client->environment->purgeCache($files, $prefixes);
+$client->environment($environmentId)->purgeCache($files, $prefixes);
 ```
 
 ### Cron
