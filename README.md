@@ -118,7 +118,7 @@ Returns all cronjobs for selected environment, which is controlled by which API 
 ```php
 $response = $client->cron->list();
 if ($response->wasSuccessful()) {
-    $items = $cronJobs = $response->getResultItems();
+    $items = $response->getResultItems();
     // Do something with items
 }
 ```
