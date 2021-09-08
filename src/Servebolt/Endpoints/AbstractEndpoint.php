@@ -8,10 +8,10 @@ use Servebolt\Sdk\Http\Client as HttpClient;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 
 /**
- * Class Endpoint
+ * Class AbstractEndpoint
  * @package Servebolt\Sdk\Endpoints
  */
-abstract class Endpoint
+abstract class AbstractEndpoint
 {
     /**
      * The configuration helper class.
@@ -62,20 +62,8 @@ abstract class Endpoint
             default:
                 return new Response(
                     $httpResponse->getDecodedBody(),
-                    $httpResponse->getResponseObject()->getStatusCode(),
-                    $this->getModelBinding()
+                    $httpResponse->getResponseObject()->getStatusCode()
                 );
-        }
-    }
-
-    /**
-     * @return null|string
-     */
-    private function getModelBinding()
-    {
-        $class = get_class($this);
-        if (property_exists($class, 'modelBinding') && $class::$modelBinding) {
-            return $class::$modelBinding;
         }
     }
 }

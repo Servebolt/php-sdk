@@ -3,16 +3,13 @@
 namespace Servebolt\Sdk\Endpoints;
 
 use Servebolt\Sdk\Traits\ApiEndpoint;
-use Servebolt\Sdk\Models\CronJob;
 
 /**
  * Class Cron
  * @package Servebolt\SDK\Endpoints
  */
-class Cron extends Endpoint
+class Cron extends AbstractEndpoint
 {
-
-    public static $modelBinding = CronJob::class;
 
     /**
      * @return Response|object
@@ -25,34 +22,31 @@ class Cron extends Endpoint
     }
 
     /**
-     * @param $cronJob
+     * @param array $data
      * @return Response|object
      * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
-    public function create($cronJob)
+    public function create($data)
     {
-        $cronJob = CronJob::factory($cronJob);
-        $httpResponse = $this->httpClient->postJson('/cronjobs', $cronJob->toSnakeCase());
+        $httpResponse = $this->httpClient->postJson('/cronjobs', compact('data'));
         return $this->response($httpResponse);
     }
 
-    /*
     public function get($id)
     {
+        $httpResponse = $this->httpClient->get('/cronjobs/' . $id);
+        return $this->response($httpResponse);
     }
 
     public function delete($id)
     {
+        $httpResponse = $this->httpClient->delete('/cronjobs/' . $id);
+        return $this->response($httpResponse);
     }
 
-    public function update($cronJob)
+    public function update($id, $data)
     {
-        $cronJob = CronJob::factory($cronJob);
+        $httpResponse = $this->httpClient->patchJson('/cronjobs/' . $id, compact('data'));
+        return $this->response($httpResponse);
     }
-
-    public function replace(CronJob $cronJob)
-    {
-        $cronJob = CronJob::factory($cronJob);
-    }
-    */
 }

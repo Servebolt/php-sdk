@@ -50,12 +50,30 @@ class Client
         if ($baseUri = $this->config->get('baseUri')) {
             $this->baseUri = $baseUri;
         }
+        if ($this->config->get('verifySsl') === false) {
+            Http::shouldVerifySsl(false);
+        }
         if ($this->throwExceptionsOnClientError()) {
             Http::enableClientExceptions();
         } else {
             Http::disableClientExceptions();
         }
-        $this->headers = $authentication->getAuthHeaders();
+        $this->headers = $this->setDefaultHeaders($authentication);
+    }
+
+    private function userAgentString(): string
+    {
+        return 'ServeboltPhpSdk/' . SB_SDK_VERSION;
+    }
+
+    private function setDefaultHeaders($authentication): array
+    {
+        return array_merge(
+            $authentication->getAuthHeaders(),
+            [
+                'User-Agent' => $this->userAgentString(),
+            ]
+        );
     }
 
     private function throwExceptionsOnClientError() : bool
@@ -81,7 +99,7 @@ class Client
     public function __call($name, $arguments)
     {
         if (is_object($this->response)
-            && is_a($this->response, '\\GuzzleHttp\\Psr7\\Response')
+            && is_a($this->response, "\GuzzleHttp\Psr7\Response")
             && method_exists($this->response, $name)
         ) {
             return call_user_func_array([$this->response, $name], $arguments);
@@ -100,7 +118,7 @@ class Client
         if ($this->response->getBody()->getContents()) {
             $decodedBody = json_decode($this->response->getBody());
             if (json_last_error() == JSON_ERROR_NONE) {
-                return $decodedBody;
+                return (object) $decodedBody;
             }
             throw new ServeboltInvalidJsonException;
         }
@@ -112,9 +130,26 @@ class Client
      * @param array $headers
      * @return Client
      */
+    public function delete(string $uri, array $headers = []) : Client
+    {
+        $this->response = Http::delete(
+            $this->buildRequestURL($uri),
+            $this->getRequestHeaders($headers)
+        );
+        return $this;
+    }
+
+    /**
+     * @param string $uri
+     * @param array $headers
+     * @return Client
+     */
     public function get(string $uri, array $headers = []) : Client
     {
-        $this->response = Http::get($this->buildRequestURL($uri), $this->getRequestHeaders($headers));
+        $this->response = Http::get(
+            $this->buildRequestURL($uri),
+            $this->getRequestHeaders($headers)
+        );
         return $this;
     }
 
@@ -145,6 +180,64 @@ class Client
         $headers['Content-Type'] = 'application/json';
         $body = $this->handleJsonRequestBody($body);
         return $this->post($uri, $body, $headers);
+    }
+
+    /**
+     * @param string $uri
+     * @param array $body
+     * @param array $headers
+     * @return $this
+     */
+    public function patchJson(string $uri, array $body = [], array $headers = []) : Client
+    {
+        $headers['Content-Type'] = 'application/json';
+        $body = $this->handleJsonRequestBody($body);
+        return $this->patch($uri, $body, $headers);
+    }
+
+    /**
+     * @param string $uri
+     * @param string|null $body
+     * @param array $headers
+     * @return Client
+     */
+    public function patch(string $uri, string $body = null, array $headers = []) : Client
+    {
+        $this->response = Http::patch(
+            $this->buildRequestURL($uri),
+            $body,
+            $this->getRequestHeaders($headers)
+        );
+        return $this;
+    }
+
+    /**
+     * @param string $uri
+     * @param array $body
+     * @param array $headers
+     * @return $this
+     */
+    public function putJson(string $uri, array $body = [], array $headers = []) : Client
+    {
+        $headers['Content-Type'] = 'application/json';
+        $body = $this->handleJsonRequestBody($body);
+        return $this->patch($uri, $body, $headers);
+    }
+
+    /**
+     * @param string $uri
+     * @param string|null $body
+     * @param array $headers
+     * @return Client
+     */
+    public function put(string $uri, string $body = null, array $headers = []) : Client
+    {
+        $this->response = Http::put(
+            $this->buildRequestURL($uri),
+            $body,
+            $this->getRequestHeaders($headers)
+        );
+        return $this;
     }
 
     private function handleJsonRequestBody(array $body) : string

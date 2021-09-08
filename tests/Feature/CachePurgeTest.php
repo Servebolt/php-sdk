@@ -8,11 +8,21 @@ use Servebolt\Sdk\Facades\Http;
 use PHPUnit\Framework\TestCase;
 use Servebolt\Sdk\Response as ServeboltResponse;
 
+/**
+ * Class CachePurgeTest
+ * @package Servebolt\Sdk\Tests
+ */
 class CachePurgeTest extends TestCase
 {
-    private int $environmentId = 123;
+    /**
+     * @var int The Servebolt environment Id.
+     */
+    private $environmentId = 123;
 
-    private string $apiBaseUri = 'https://api.servebolt.io/v1/';
+    /**
+     * @var string The API URL.
+     */
+    private $apiBaseUri = 'https://api.servebolt.io/v1/';
 
     public function testThatWeCanConfigureResponseObjectTypes()
     {
@@ -24,7 +34,7 @@ class CachePurgeTest extends TestCase
         foreach ($responseObjectTypes as $responseObjectType => $responseObjectTypeClass) {
             $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
             Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
-                ->once()->andReturn(new Response(200, [], json_encode(['success' => true])));
+                ->once()->andReturn(new Response(200));
             $client = new Client([
                 'apiToken' => 'foo',
                 'responseObjectType' => $responseObjectType,
@@ -39,12 +49,13 @@ class CachePurgeTest extends TestCase
     {
         $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
         Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
-            ->once()->andReturn(new Response(200, [], json_encode(['success' => true])));
+            ->once()->andReturn(new Response(200));
         $client = new Client([
             'apiToken' => 'foo',
         ]);
         $files = ['https://domain.com/url-1', 'https://domain.com/url-2'];
         $response = $client->environment($this->environmentId)->purgeCache($files);
+        $this->assertInstanceOf(ServeboltResponse::class, $response);
         $this->assertTrue($response->wasSuccessful());
     }
 
@@ -52,7 +63,7 @@ class CachePurgeTest extends TestCase
     {
         $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
         Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
-            ->once()->andReturn(new Response(200, [], json_encode(['success' => true])));
+            ->once()->andReturn(new Response(200));
         $client = new Client([
             'apiToken' => 'foo',
         ]);
@@ -65,7 +76,7 @@ class CachePurgeTest extends TestCase
     {
         $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
         Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
-            ->once()->andReturn(new Response(200, [], json_encode(['success' => true])));
+            ->once()->andReturn(new Response(200));
         $client = new Client([
             'apiToken' => 'foo',
         ]);
@@ -78,7 +89,7 @@ class CachePurgeTest extends TestCase
     {
         $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
         Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
-            ->once()->andReturn(new Response(200, [], json_encode(['success' => false])));
+            ->once()->andReturn(new Response(422));
         $client = new Client([
             'apiToken' => 'foo',
         ]);

@@ -11,8 +11,9 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $client = new Servebolt\Sdk\Client([
-    'apiToken'   => $_ENV['API_TOKEN'],
-    'baseUri'    => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
+    'verifySsl' => false,
+    'apiToken' => $_ENV['API_TOKEN'],
+    'baseUri' => $_ENV['BASE_URI'], // Default: https://api.servebolt.io/v1/
     'authDriver' => $_ENV['AUTH_DRIVER'], // Default: apiToken
     'returnPsr7Response' => false, // Default: false
     'throwExceptionsOnClientError' => false, // Default: true
@@ -25,24 +26,44 @@ function domain() : string
 }
 
 $environmentId = $_ENV['ENV_ID'];
+
+$cronJobId = 178;
 $cronJobData = [
-    'environmentId' => 2368,
-    'schedule' => '* * * * *',
-    'command' => 'ls ./',
-    'notifications' => 'none',
+    'type' => 'cronjobs',
+    'attributes' => [
+        'enabled' => 1,
+        'command' => 'ls ./',
+        'comment' => 'This is a cron job created using the PHP SDK',
+        'schedule' => '* * * * *',
+        'notifications' => 'none',
+    ],
+    'relationships' => [
+        'environment' => [
+            'data' => [
+                'type' => 'environments',
+                'id' => $environmentId,
+            ]
+        ]
+    ],
+    'links' => [
+        'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+        'data' => [
+            'type' => 'environments',
+            'id' => $environmentId,
+        ]
+    ]
 ];
 
-function createCronJobUsingFactory($cronJobData, $client)
-{
-    $model = Servebolt\Sdk\Models\CronJob::factory($cronJobData);
-    $response = $client->cron->create($model);
-    var_dump($response->wasSuccessful());
-}
-//createCronJobUsingFactory($cronJobData, $client);
+$cronJobUpdateData = [
+    'attributes' => [
+        'comment' => 'This is a cron job that was updated using the PHP SDK',
+    ],
+];
 
-function createCronJobUsingArrayOnly($cronJobData, $client) {
+function createCronJob($cronJobData, $client) {
     try {
         $response = $client->cron->create($cronJobData);
+        var_dump($response->getStatusCode());
         var_dump($response->wasSuccessful());
     } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
         echo '<pre>';
@@ -50,9 +71,9 @@ function createCronJobUsingArrayOnly($cronJobData, $client) {
         die;
     }
 }
-//createCronJobUsingArrayOnly($cronJobData, $client);
+//createCronJob($cronJobData, $client);
 
-function printCronJobs($client)
+function listCronJobs($client)
 {
     try {
         $response = $client->cron->list();
@@ -67,12 +88,53 @@ function printCronJobs($client)
         return;
     }
     if ($response->wasSuccessful()) {
-        foreach ($response->getCronJobs() as $cronJob) {
-            print_r($cronJob->schedule . ' ' . $cronJob->command);
+        echo '<pre>';
+        foreach ($response->getResultItems() as $cronJob) {
+            print_r($cronJob);
         }
     }
 }
-//printCronJobs($client);
+//listCronJobs($client);
+
+function getCronJob($client, $id)
+{
+    try {
+        $response = $client->cron->get($id);
+        if ($response->wasSuccessful()) {
+            echo '<pre>';
+            print_r($response->getFirstResultItem());
+        }
+    } catch (Exception $e) {
+
+    }
+}
+//getCronJob($client, $cronJobId);
+
+function deleteCronJob($client, $id)
+{
+    try {
+        $response = $client->cron->delete($id);
+        var_dump($response->wasSuccessful());
+    } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
+        echo '<pre>';
+        print_r($e->getDecodeMessage());
+        die;
+    }
+}
+//deleteCronJob($client, $cronJobId);
+
+function updateCronJob($client, $data, $id)
+{
+    try {
+        $response = $client->cron->update($id, $data);
+        var_dump($response->wasSuccessful());
+    } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
+        echo '<pre>';
+        print_r($e->getDecodeMessage());
+        die;
+    }
+}
+//updateCronJob($client, $cronJobUpdateData, $cronJobId);
 
 function purgeCachePassingEnvIdThroughPurgeMethod($client)
 {

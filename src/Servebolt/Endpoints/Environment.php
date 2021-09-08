@@ -8,7 +8,7 @@ use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
  * Class Environment
  * @package Servebolt\Sdk\Endpoints
  */
-class Environment extends Endpoint
+class Environment extends AbstractEndpoint
 {
 
     /**
