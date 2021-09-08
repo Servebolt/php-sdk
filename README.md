@@ -111,10 +111,10 @@ $client->environment($environmentId)->purgeCache($files, $prefixes);
 ### Cron
 
 Cron jobs can be fully managed through the API and SDK.<br>
-The cron endpoint contains methods to execute CRUD-operations.
+The section contains methods to execute CRUD-operations against the Cron endpoints.
 
 #### List
-Returns all cronjobs for selected environment, which is control by which API token that is in use.
+Returns all cronjobs for selected environment, which is controlled by which API token that is in use.
 ```php
 $response = $client->cron->list();
 if ($response->wasSuccessful()) {
