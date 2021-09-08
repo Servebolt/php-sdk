@@ -116,7 +116,11 @@ The cron endpoint contains methods to execute CRUD-operations.
 #### List
 Returns all cronjobs for selected environment, which is control by which API token that is in use.
 ```php
-$client->cron->list();
+$response = $client->cron->list();
+if ($response->wasSuccessful()) {
+    $items = $cronJobs = $response->getResultItems();
+    // Do something with items
+}
 ```
 
 #### Create
