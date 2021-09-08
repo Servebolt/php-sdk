@@ -63,6 +63,7 @@ $cronJobUpdateData = [
 function createCronJob($cronJobData, $client) {
     try {
         $response = $client->cron->create($cronJobData);
+        var_dump($response->getStatusCode());
         var_dump($response->wasSuccessful());
     } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
         echo '<pre>';

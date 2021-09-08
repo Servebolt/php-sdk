@@ -12,6 +12,9 @@ You can install **servebolt-php-sdk** via composer or by downloading the source.
 composer require servebolt/sdk
 ```
 
+### From source:
+
+
 ## Usage
 
 ### Initialization
@@ -24,7 +27,7 @@ use Servebolt\Sdk\Client;
 $client = new Client([
     'apiToken' => 'your-api-token',
 ]);
-$response = $client->cron->list(); // Get all cron jobs
+$response = $client->cron->list(); // Example call - get all cron jobs
 ```
 
 <a name="additional-instantiation-example"></a>An example with additional configuration options (using default values):
@@ -37,7 +40,7 @@ $client = new Client([
     // Available authentication drivers: apiToken
     'authDriver' => 'apiToken',
     
-    // Override API URL
+    // API base URL
     'baseUri' => 'https://api.servebolt.io/v1/',
     
     // Whether to throw exceptions whenever a 4xx HTTP error occurs during a request
@@ -62,11 +65,15 @@ As of now the API only supports bearer token authentication, and hence only one 
 ### API documentation
 If you want to do your own testing outside the SDK you can check out our [API-documentation](https://docs.servebolt.io/).
 
+## Response types
+`customResponse` (default) - returns an instance of Servebolt\Sdk\Response. See further documentation [here](#response-object).<br>
+`psr7` - returns an instance of GuzzleHttp\Psr7\Response.<br>
+`decodedBody` - returns a stdClass object of the decoded JSON body.<br>
+
 ## Endpoints
-This SDK is coupled with the Servebolt API and has corresponding methods in this SDK.
+This SDK is coupled with the Servebolt API and has corresponding methods.
 
 ### Environment
-
 The environment endpoint contains only the cache purge for the time being.
 
 #### Cache purge
@@ -104,39 +111,79 @@ Cron jobs can be fully managed through the API and SDK.<br>
 The cron endpoint contains methods to execute CRUD.
 
 #### List
+Returns all cronjobs for selected environment, which is control by which API token that is in use.
 ```php
 $client->cron->list();
 ```
 
 #### Create
-```php
-$client->cron->create([
+Create a cronjob. Note that you need to specify the environment.
 
+Example:
+```php
+$response = $client->cron->create([
+    'type' => 'cronjobs',
+    'attributes' => [
+        'enabled' => 1,
+        'command' => 'ls ./',
+        'comment' => 'This is a cron job created using the PHP SDK',
+        'schedule' => '* * * * *',
+        'notifications' => 'none',
+    ],
+    'relationships' => [
+        'environment' => [
+            'data' => [
+                'type' => 'environments',
+                'id' => 123,
+            ]
+        ]
+    ],
 ]);
+if ($response->wasSuccessful()) {
+    // Do something
+} elseif ($response->hasErrors()) {
+    $errors = $response->getErrors();
+    // Do something with errors
+}
 ```
 
 #### Get
+Returns a specific cronjob by ID.
 ```php
-$client->cron->get(69);
+$response = $client->cron->get(123);
+if (
+    $response->wasSuccessful() 
+    && $item = $response->getFirstResultItem()
+) {
+    // Do something
+    echo $item->id; // 123
+}
 ```
 
 #### Delete
+Deletes a cronjob by ID.
 ```php
-$client->cron->delete(69);
+$response = $client->cron->delete(123);
+if ($response->wasSuccessful()) {
+    // Cronjob deleted
+}
 ```
 
 #### Update
+Updated a cronjob by ID.
 ```php
-$client->cron->update(69, [
+$response = $client->cron->update(123, [
     'attributes' => [
         'comment' => 'Updated comment'
     ]
-]
 ]);
+if ($response->wasSuccessful()) {
+    // Cronjob updated
+}
 ```
 
 ## <a name="response-object"></a>Response object
-We've created a unified response object that will get returned from all methods in the SDK that communicates with the API. Using this object is default behaviour, but it can be changed by using the "responseObjectType" configuration option when [initializing the client](#additional-instantiation-example).
+We've created a unified response object that will get returned from all methods in the SDK that communicates with the API. Using this object is default behaviour, but it can be changed by setting the "responseObjectType" configuration option when [initializing the client](#additional-instantiation-example).
 
 ### Example
 
@@ -144,18 +191,17 @@ We've created a unified response object that will get returned from all methods 
 use Servebolt\Sdk\Client;
 $client = new Client(['apiToken'   => 'your-api-token']);
 $response = $client->cron->list();
+
 if ($response->hasErrors()) {
     $errors = $response->getErrors();
     // Display errors
-}
-
-if ($response->wasSuccessful()) {
+} elseif ($response->wasSuccessful()) {
     if ($response->hasMessages()) {
-        $errors = $response->getMessages();
-        // Display messages
-    } else {
-        // Display general success
+        $messages = $response->getMessages();
+        // Display messages       
     }
+    $cronJobs = $response->getResultItems();
+    // Do something with the cronjobs
 }
 ```
 
