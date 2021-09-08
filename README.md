@@ -13,7 +13,10 @@ composer require servebolt/sdk
 ```
 
 ### From source:
-
+You can also build the source code yourself.
+1. Check out source: ```git checkout git@github.com:Servebolt/php-sdk.git```<br>
+2. Navigate into directory: `cd php-sdk`
+3. Run `composer install`
 
 ## Usage
 
