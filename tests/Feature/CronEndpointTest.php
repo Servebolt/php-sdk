@@ -51,7 +51,10 @@ class CronEndpointTest extends TestCase
         $this->assertEquals($id, $item->id);
         $this->assertEquals($creationData['type'], $item->type);
         $this->assertEquals($creationData['attributes']['comment'], $item->attributes->comment);
-        $this->assertEquals($creationData['relationships']['environment']['data']['type'], $item->relationships->environment->data->type);
+        $this->assertEquals(
+            $creationData['relationships']['environment']['data']['type'],
+            $item->relationships->environment->data->type
+        );
     }
 
     public function testCronjobGet()
