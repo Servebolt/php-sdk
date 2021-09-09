@@ -7,6 +7,14 @@ trait HasErrors
 
     private $errors = [];
 
+    /**
+     * @param array $errors
+     */
+    private function setErrors($errors) : void
+    {
+        $this->errors = $errors;
+    }
+
     public function hasErrors() : bool
     {
         return ! empty($this->errors);

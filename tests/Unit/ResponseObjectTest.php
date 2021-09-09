@@ -54,7 +54,8 @@ class ResponseObjectTest extends TestCase
         $this->assertTrue($responseObject->hasMessages());
         $this->assertEquals($messages, $responseObject->getMessages());
         $this->assertEquals(current($messages), $responseObject->getFirstMessage());
-        $this->assertEquals('This is a notification about something', $responseObject->getFirstMessage()->title);
+        $this->assertEquals('This is a notification about something', $responseObject->getFirstMessageString());
+        $this->assertEquals('This is a notification about something', $responseObject->getFirstMessage()->message);
     }
 
     public function testResponseStatusCode()
