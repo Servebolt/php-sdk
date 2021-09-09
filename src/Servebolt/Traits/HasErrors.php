@@ -38,7 +38,7 @@ trait HasErrors
     public function getFirstErrorMessage()
     {
         if ($error = $this->getFirstError()) {
-            return $error->message;
+            return $error->title;
         }
     }
 

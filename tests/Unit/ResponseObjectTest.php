@@ -32,6 +32,7 @@ class ResponseObjectTest extends TestCase
         $this->assertEquals($errorMessages, $responseObject->getErrors());
         $this->assertEquals(current($errorMessages), $responseObject->getFirstError());
         $this->assertEquals('Invalid input', $responseObject->getFirstError()->title);
+        $this->assertEquals('Invalid input', $responseObject->getFirstErrorMessage());
         $this->assertEquals('Invalid URL www.servebolt.nl.', $responseObject->getFirstError()->detail);
         $this->assertEquals('1115', $responseObject->getFirstError()->code);
         $this->assertEquals((object) [], $responseObject->getFirstError()->source);
@@ -53,7 +54,7 @@ class ResponseObjectTest extends TestCase
         $this->assertTrue($responseObject->hasMessages());
         $this->assertEquals($messages, $responseObject->getMessages());
         $this->assertEquals(current($messages), $responseObject->getFirstMessage());
-        $this->assertEquals('This is a notification about something', $responseObject->getFirstMessage()->message);
+        $this->assertEquals('This is a notification about something', $responseObject->getFirstMessage()->title);
     }
 
     public function testResponseStatusCode()
