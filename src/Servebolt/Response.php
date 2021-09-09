@@ -211,7 +211,7 @@ class Response
             return;
         }
         if (isset($this->responseBody->messages) && is_array($this->responseBody->messages)) {
-            $this->messages = $this->responseBody->messages;
+            $this->setMessages($this->responseBody->messages);
         }
     }
 
@@ -221,7 +221,7 @@ class Response
             return;
         }
         if (isset($this->responseBody->errors) && is_array($this->responseBody->errors)) {
-            $this->errors = $this->responseBody->errors;
+            $this->setErrors($this->responseBody->errors);
         }
     }
 }

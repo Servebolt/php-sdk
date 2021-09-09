@@ -7,6 +7,14 @@ trait HasMessages
 
     private $messages = [];
 
+    /**
+     * @param array $messages
+     */
+    private function setMessages($messages) : void
+    {
+        $this->messages = $messages;
+    }
+
     public function hasMessages() : bool
     {
         return count($this->messages) > 0;
@@ -20,6 +28,16 @@ trait HasMessages
     public function getMessages() : array
     {
         return $this->messages;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getFirstMessageString()
+    {
+        if ($message = $this->getFirstMessage()) {
+            return $message->message;
+        }
     }
 
     /**
