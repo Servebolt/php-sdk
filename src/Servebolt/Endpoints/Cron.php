@@ -10,6 +10,10 @@ use Servebolt\Sdk\Traits\ApiEndpoint;
  */
 class Cron extends AbstractEndpoint
 {
+    /**
+     * @var string
+     */
+    protected $endpoint = 'cronjobs';
 
     /**
      * @return Response|object
@@ -17,7 +21,7 @@ class Cron extends AbstractEndpoint
      */
     public function list()
     {
-        $httpResponse = $this->httpClient->get('/cronjobs');
+        $httpResponse = $this->httpClient->get('/' . $this->endpoint);
         return $this->response($httpResponse);
     }
 
@@ -28,25 +32,27 @@ class Cron extends AbstractEndpoint
      */
     public function create($data)
     {
-        $httpResponse = $this->httpClient->postJson('/cronjobs', compact('data'));
+        $data = $this->appendCommonRequestData($data);
+        $httpResponse = $this->httpClient->postJson('/' . $this->endpoint, compact('data'));
         return $this->response($httpResponse);
     }
 
     public function get($id)
     {
-        $httpResponse = $this->httpClient->get('/cronjobs/' . $id);
+        $httpResponse = $this->httpClient->get('/' . $this->endpoint . '/' . $id);
         return $this->response($httpResponse);
     }
 
     public function delete($id)
     {
-        $httpResponse = $this->httpClient->delete('/cronjobs/' . $id);
+        $httpResponse = $this->httpClient->delete('/' . $this->endpoint . '/' . $id);
         return $this->response($httpResponse);
     }
 
     public function update($id, $data)
     {
-        $httpResponse = $this->httpClient->patchJson('/cronjobs/' . $id, compact('data'));
+        $data = $this->appendCommonRequestData($data);
+        $httpResponse = $this->httpClient->patchJson('/' . $this->endpoint . '/' . $id, compact('data'));
         return $this->response($httpResponse);
     }
 }
