@@ -46,6 +46,20 @@ abstract class AbstractEndpoint
     }
 
     /**
+     * Append common request data to request data array.
+     *
+     * @param $data
+     * @return mixed
+     */
+    protected function appendCommonRequestData($requestData)
+    {
+        if (isset($this->endpoint) && !array_key_exists('type', $requestData)) {
+            $requestData['type'] = $this->endpoint;
+        }
+        return $requestData;
+    }
+
+    /**
      * Conditional format on HTTP response.
      *
      * @param $httpResponse

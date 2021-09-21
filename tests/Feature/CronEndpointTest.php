@@ -128,7 +128,7 @@ class CronEndpointTest extends TestCase
                 'environment' => (object) [
                     'data' => (object) [
                         'type' => 'environments',
-                        'id' => 2368,
+                        'id' => 1234,
                     ]
                 ]
             ],
@@ -136,7 +136,7 @@ class CronEndpointTest extends TestCase
                 'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
                 'data' => (object) [
                     'type' => 'environments',
-                    'id' => 2368,
+                    'id' => 1234,
                 ]
             ]
         ];
