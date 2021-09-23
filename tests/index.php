@@ -29,7 +29,7 @@ $environmentId = $_ENV['ENV_ID'];
 
 $cronJobId = 178;
 $cronJobData = [
-    'type' => 'cronjobs',
+    //'type' => 'cronjobs',
     'attributes' => [
         'enabled' => 1,
         'command' => 'ls ./',
@@ -37,6 +37,7 @@ $cronJobData = [
         'schedule' => '* * * * *',
         'notifications' => 'none',
     ],
+    /*
     'relationships' => [
         'environment' => [
             'data' => [
@@ -52,6 +53,7 @@ $cronJobData = [
             'id' => $environmentId,
         ]
     ]
+    */
 ];
 
 $cronJobUpdateData = [
@@ -60,9 +62,9 @@ $cronJobUpdateData = [
     ],
 ];
 
-function createCronJob($cronJobData, $client) {
+function createCronJob($cronJobData, $client, $environmentId) {
     try {
-        $response = $client->cron->create($cronJobData);
+        $response = $client->cron->create($cronJobData, $environmentId);
         var_dump($response->getStatusCode());
         var_dump($response->wasSuccessful());
     } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
@@ -71,7 +73,7 @@ function createCronJob($cronJobData, $client) {
         die;
     }
 }
-//createCronJob($cronJobData, $client);
+//createCronJob($cronJobData, $client, $environmentId);
 
 function listCronJobs($client)
 {
@@ -186,3 +188,34 @@ function purgeCache($client)
     }
 }
 //purgeCache($client);
+
+function getEnvironment($client, $id)
+{
+    try {
+        $response = $client->environment->get($id);
+        if ($response->wasSuccessful()) {
+            echo '<pre>';
+            print_r($response->getFirstResultItem());
+        }
+    } catch (Exception $e) {
+
+    }
+}
+//getEnvironment($client, $environmentId);
+
+function updateEnvironment($client, $data, $id)
+{
+    try {
+        $response = $client->environment->update($id, $data);
+        var_dump($response->wasSuccessful());
+    } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
+        echo '<pre>';
+        print_r($e->getDecodeMessage());
+        die;
+    }
+}
+/*updateEnvironment($client, [
+    'attributes' => [
+        'cacheMode' => 'all',
+    ]
+], $environmentId);*/

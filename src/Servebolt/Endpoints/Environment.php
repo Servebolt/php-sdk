@@ -10,6 +10,10 @@ use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
  */
 class Environment extends AbstractEndpoint
 {
+    /**
+     * @var string
+     */
+    protected $endpoint = 'environments';
 
     /**
      * @var int|null
@@ -19,6 +23,19 @@ class Environment extends AbstractEndpoint
     public function loadArguments($arguments) : void
     {
         $this->environmentId = (isset($arguments[0]) ? $arguments[0] : null);
+    }
+
+    public function get($id)
+    {
+        $httpResponse = $this->httpClient->get('/' . $this->endpoint . '/' . $id);
+        return $this->response($httpResponse);
+    }
+
+    public function update($id, $data)
+    {
+        //$data = $this->appendCommonRequestData($data);
+        $httpResponse = $this->httpClient->patchJson('/' . $this->endpoint . '/' . $id, compact('data'));
+        return $this->response($httpResponse);
     }
 
     /**

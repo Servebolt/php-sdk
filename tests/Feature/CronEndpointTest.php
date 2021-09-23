@@ -36,15 +36,15 @@ class CronEndpointTest extends TestCase
     {
         $id = 69;
         $testUrl = $this->apiBaseUri . 'cronjobs';
-        $creationData = $this->getCronjobData(null, true);
-        $responseData = $this->toObject($creationData);
+        $creationData = $this->getCronjobWithoutRelationship(null, true);
+        $responseData = $this->toObject($this->getCronjobData(null, true));
         $responseData->id = $id;
         Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
             ->once()->andReturn(new Response(201, [], json_encode(['data' => $responseData])));
         $client = new Client([
             'apiToken' => 'foo',
         ]);
-        $response = $client->cron->create($creationData);
+        $response = $client->cron->create($creationData, $this->getEnvironmentId());
         $this->assertTrue($response->wasSuccessful());
         $item = $response->getFirstResultItem();
         $this->assertEquals($responseData, $item);
@@ -52,8 +52,8 @@ class CronEndpointTest extends TestCase
         $this->assertEquals($creationData['type'], $item->type);
         $this->assertEquals($creationData['attributes']['comment'], $item->attributes->comment);
         $this->assertEquals(
-            $creationData['relationships']['environment']['data']['type'],
-            $item->relationships->environment->data->type
+            $this->getEnvironmentId(),
+            $item->relationships->environment->data->id
         );
     }
 
@@ -113,6 +113,20 @@ class CronEndpointTest extends TestCase
         $this->assertEquals($item, $response->getFirstResultItem());
     }
 
+    private function getCronjobWithoutRelationship($includeId = false, $asArray = false)
+    {
+        $data = $this->getCronjobData($includeId, $asArray);
+        unset($data['relationships']);
+        unset($data['links']);
+        return $data;
+    }
+
+    private function getEnvironmentId()
+    {
+        return 1234;
+    }
+
+
     private function getCronjobData($includeId = false, $asArray = false)
     {
         $data = (object) [
@@ -128,7 +142,7 @@ class CronEndpointTest extends TestCase
                 'environment' => (object) [
                     'data' => (object) [
                         'type' => 'environments',
-                        'id' => 2368,
+                        'id' => $this->getEnvironmentId(),
                     ]
                 ]
             ],
@@ -136,7 +150,7 @@ class CronEndpointTest extends TestCase
                 'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
                 'data' => (object) [
                     'type' => 'environments',
-                    'id' => 2368,
+                    'id' => $this->getEnvironmentId(),
                 ]
             ]
         ];
