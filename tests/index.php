@@ -37,6 +37,7 @@ $cronJobData = [
         'schedule' => '* * * * *',
         'notifications' => 'none',
     ],
+    /*
     'relationships' => [
         'environment' => [
             'data' => [
@@ -52,6 +53,7 @@ $cronJobData = [
             'id' => $environmentId,
         ]
     ]
+    */
 ];
 
 $cronJobUpdateData = [
@@ -60,9 +62,9 @@ $cronJobUpdateData = [
     ],
 ];
 
-function createCronJob($cronJobData, $client) {
+function createCronJob($cronJobData, $client, $environmentId) {
     try {
-        $response = $client->cron->create($cronJobData);
+        $response = $client->cron->create($cronJobData, $environmentId);
         var_dump($response->getStatusCode());
         var_dump($response->wasSuccessful());
     } catch (\Servebolt\Sdk\Exceptions\ServeboltHttpClientException $e) {
@@ -71,7 +73,7 @@ function createCronJob($cronJobData, $client) {
         die;
     }
 }
-//createCronJob($cronJobData, $client);
+//createCronJob($cronJobData, $client, $environmentId);
 
 function listCronJobs($client)
 {
