@@ -92,6 +92,7 @@ class Environment extends AbstractEndpoint
      */
     public function purgeCacheByArguments(?int $environmentId = null, array $args = [])
     {
+        $args = $this->filterArrayByKeys($args, ['files', 'prefixes', 'hosts', 'type']);
         $environmentId = is_numeric($environmentId) ? $environmentId : $this->environmentId;
         $requestUrl = '/environments/' . $environmentId . '/purge_cache';
         $httpResponse = $this->httpClient->postJson($requestUrl, $args);
