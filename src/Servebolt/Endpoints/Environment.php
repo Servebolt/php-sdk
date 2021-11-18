@@ -74,6 +74,7 @@ class Environment extends AbstractEndpoint
         if (is_array($environmentId)) { // Offset method argument order
             $prefixes = $files;
             $files = $environmentId;
+            $environmentId = null;
         }
 
         $files = self::sanitizeFiles($files);
