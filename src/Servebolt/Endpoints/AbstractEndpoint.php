@@ -46,9 +46,21 @@ abstract class AbstractEndpoint
     }
 
     /**
+     * Filter an array by certain keys.
+     *
+     * @param array $array
+     * @param array $allowedKeys
+     * @return array
+     */
+    protected function filterArrayByKeys(array $array, array $allowedKeys)
+    {
+        return array_intersect_key($array, array_flip($allowedKeys));
+    }
+
+    /**
      * Append common request data to request data array.
      *
-     * @param $data
+     * @param array $requestData
      * @return mixed
      */
     protected function appendCommonRequestData($requestData)

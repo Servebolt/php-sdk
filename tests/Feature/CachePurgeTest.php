@@ -45,6 +45,20 @@ class CachePurgeTest extends TestCase
         }
     }
 
+    public function testThatCdnCachePurges()
+    {
+        $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
+        Http::shouldReceive('request')->withSomeOfArgs('POST', $testUrl)
+            ->once()->andReturn(new Response(200));
+        $client = new Client([
+            'apiToken' => 'foo',
+        ]);
+        $hostnames = ['domain.com', 'domain2.com'];
+        $response = $client->environment->purgeCdnCache($this->environmentId, $hostnames);
+        $this->assertInstanceOf(ServeboltResponse::class, $response);
+        $this->assertTrue($response->wasSuccessful());
+    }
+
     public function testThatCachePurges()
     {
         $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/purge_cache';
