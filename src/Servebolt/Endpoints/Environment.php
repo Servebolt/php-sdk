@@ -3,6 +3,7 @@
 namespace Servebolt\Sdk\Endpoints;
 
 use Servebolt\Sdk\Exceptions\ServeboltInvalidUrlException;
+use Servebolt\Sdk\Exceptions\ServeboltInvalidHostnameException;
 
 /**
  * Class Environment
@@ -39,6 +40,23 @@ class Environment extends AbstractEndpoint
     }
 
     /**
+     * Purge CDN cache for given hosts.
+     *
+     * @param integer|null $environmentId
+     * @param array $hosts
+     * @param string|null $type
+     * @return \GuzzleHttp\Psr7\Response|object|\Servebolt\Sdk\Response
+     * @throws ServeboltInvalidUrlException
+     */
+    public function purgeCdnCache(?int $environmentId = null, array $hosts = [])
+    {
+        self::validateHostnames($hosts);
+        $type = 'serveboltcdn';
+        $requestData = array_filter(compact('hosts', 'type'));
+        return $this->purgeCacheByArguments($environmentId, $requestData);
+    }
+
+    /**
      * Purge cache for given files or prefixes.
      *
      * @param integer|null|array $environmentId
@@ -61,10 +79,21 @@ class Environment extends AbstractEndpoint
         $files = self::sanitizeFiles($files);
         $prefixes = self::sanitizePrefixes($prefixes);
         $requestData = array_filter(compact('files', 'prefixes'));
+        return $this->purgeCacheByArguments($environmentId, $requestData);
+    }
 
+    /**
+     * Send cache purge request.
+     *
+     * @param integer|null $environmentId
+     * @param array $args
+     * @return \GuzzleHttp\Psr7\Response|object|\Servebolt\Sdk\Response
+     */
+    public function purgeCacheByArguments(?int $environmentId = null, array $args = [])
+    {
         $environmentId = is_numeric($environmentId) ? $environmentId : $this->environmentId;
         $requestUrl = '/environments/' . $environmentId . '/purge_cache';
-        $httpResponse = $this->httpClient->postJson($requestUrl, $requestData);
+        $httpResponse = $this->httpClient->postJson($requestUrl, $args);
         return $this->response($httpResponse);
     }
 
@@ -93,6 +122,17 @@ class Environment extends AbstractEndpoint
     }
 
     /**
+     * @param string $hostname
+     * @throws ServeboltInvalidUrlException
+     */
+    public static function validateHostname(string $hostname): void
+    {
+        if (!is_string($hostname) || !filter_var($hostname, FILTER_VALIDATE_DOMAIN)) {
+            throw new ServeboltInvalidHostnameException(sprintf('"%s" is not a valid hostname', $hostname));
+        }
+    }
+
+    /**
      * @param string[] $urls
      * @throws ServeboltInvalidUrlException
      */
@@ -100,6 +140,17 @@ class Environment extends AbstractEndpoint
     {
         foreach ($urls as $url) {
             self::validateUrl($url);
+        }
+    }
+
+    /**
+     * @param string[] $hostnames
+     * @throws ServeboltInvalidUrlException
+     */
+    public static function validateHostnames(array $hostnames): void
+    {
+        foreach ($hostnames as $hostname) {
+            self::validateHostname($hostname);
         }
     }
 

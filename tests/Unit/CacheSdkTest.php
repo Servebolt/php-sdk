@@ -8,6 +8,21 @@ use Servebolt\Sdk\Endpoints\Environment;
 
 class CacheSdkTest extends TestCase
 {
+    public function testValidDomains()
+    {
+        Environment::validateHostname('example.com');
+        Environment::validateHostname('sub.example.com');
+        Environment::validateHostname('exæmple.com');
+        $this->assertTrue(true);
+    }
+
+    public function testInvalidDomains()
+    {
+        $hostname = str_repeat('domain', 20) . 'com';
+        $this->expectExceptionMessage(sprintf('"%s" is not a valid hostname', $hostname));
+        Environment::validateHostname($hostname);
+    }
+
     /** @noinspection PhpUnhandledExceptionInspection */
     public function testValidUrls()
     {
