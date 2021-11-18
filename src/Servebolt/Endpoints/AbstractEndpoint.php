@@ -52,7 +52,7 @@ abstract class AbstractEndpoint
      * @param array $allowedKeys
      * @return array
      */
-    function filterArrayByKeys(array $array, array $allowedKeys)
+    protected function filterArrayByKeys(array $array, array $allowedKeys)
     {
         return array_intersect_key($array, array_flip($allowedKeys));
     }
