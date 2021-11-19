@@ -189,6 +189,32 @@ function purgeCache($client)
 }
 //purgeCache($client);
 
+function purgeCdnCache($client)
+{
+    try {
+        $environmentId = $_ENV['ENV_ID'];
+        $response = $client->environment->purgeCdnCache(
+            $environmentId,
+            [domain()]
+        );
+    } catch (Servebolt\Sdk\Exceptions\ServeboltHttpClientException $exception) {
+        $response = $exception->getResponseObject();
+        echo '<pre>';
+        print_r($response->getErrors());
+        return;
+    } catch (Exception $exception) {
+        var_dump($exception->getCode());
+        var_dump($exception->getMessage());
+        return;
+    }
+    var_dump($response->wasSuccessful());
+    if ($response->hasErrors()) {
+        echo '<pre>';
+        print_r($response->getErrors());
+    }
+}
+//purgeCdnCache($client);
+
 function getEnvironment($client, $id)
 {
     try {
