@@ -100,7 +100,7 @@ class ResponseObjectTest extends TestCase
         $this->assertIsObject($firstItem);
         $this->assertEquals(90, $firstItem->id);
         $this->assertEquals(2368, $firstItem->relationships->environment->data->id);
-        $this->assertEquals(true, $firstItem->attributes->enabled);
+        $this->assertEquals(true, $firstItem->attributes->active);
         $this->assertEquals('ls ./', $firstItem->attributes->command);
         $this->assertEquals('This is a comment', $firstItem->attributes->comment);
         $this->assertEquals('* * * * 1', $firstItem->attributes->schedule);
@@ -114,7 +114,7 @@ class ResponseObjectTest extends TestCase
                 'type' => 'cronjobs',
                 'id' => 90,
                 'attributes' => (object) [
-                    'enabled' => 1,
+                    'active' => 1,
                     'command' => 'ls ./',
                     'comment' => 'This is a comment',
                     'schedule' => '* * * * 1',
@@ -122,6 +122,9 @@ class ResponseObjectTest extends TestCase
                 ],
                 'relationships' => (object) [
                     'environment' => (object) [
+                        'links' => (object) [
+                            'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+                        ],
                         'data' => (object) [
                             'type' => 'environments',
                             'id' => 2368,
@@ -129,18 +132,14 @@ class ResponseObjectTest extends TestCase
                     ]
                 ],
                 'links' => (object) [
-                    'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
-                    'data' => (object) [
-                        'type' => 'environments',
-                        'id' => 2368,
-                    ]
+                    'self' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
                 ]
             ],
             (object) [
                 'type' => 'cronjobs',
                 'id' => 91,
                 'attributes' => (object) [
-                    'enabled' => 1,
+                    'active' => 1,
                     'command' => 'ls ./',
                     'comment' => 'This is a cron job created using the PHP SDK',
                     'schedule' => '* * * * *',
@@ -148,6 +147,9 @@ class ResponseObjectTest extends TestCase
                 ],
                 'relationships' => (object) [
                     'environment' => (object) [
+                        'links' => (object) [
+                            'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+                        ],
                         'data' => (object) [
                             'type' => 'environments',
                             'id' => 2368,
@@ -155,11 +157,7 @@ class ResponseObjectTest extends TestCase
                     ]
                 ],
                 'links' => (object) [
-                    'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
-                    'data' => (object) [
-                        'type' => 'environments',
-                        'id' => 2368,
-                    ]
+                    'self' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
                 ]
             ],
         ];

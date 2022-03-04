@@ -27,11 +27,11 @@ function domain() : string
 
 $environmentId = $_ENV['ENV_ID'];
 
-$cronJobId = 178;
+$cronJobId = 6739;
 $cronJobData = [
     //'type' => 'cronjobs',
     'attributes' => [
-        'enabled' => 1,
+        'active' => 1,
         'command' => 'ls ./',
         'comment' => 'This is a cron job created using the PHP SDK',
         'schedule' => '* * * * *',
