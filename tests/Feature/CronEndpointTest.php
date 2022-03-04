@@ -73,7 +73,7 @@ class CronEndpointTest extends TestCase
         $this->assertEquals($item, $response->getFirstResultItem());
         $this->assertEquals(69, $response->getFirstResultItem()->id);
         $this->assertEquals('cronjobs', $response->getFirstResultItem()->type);
-        $this->assertEquals(1, $response->getFirstResultItem()->attributes->enabled);
+        $this->assertEquals(1, $response->getFirstResultItem()->attributes->active);
         $this->assertEquals('ls ./', $response->getFirstResultItem()->attributes->command);
         $this->assertEquals('This is a comment', $response->getFirstResultItem()->attributes->comment);
         $this->assertEquals('* * * * 1', $response->getFirstResultItem()->attributes->schedule);
@@ -105,7 +105,7 @@ class CronEndpointTest extends TestCase
         ]);
         $response = $client->cron->update($id, [
             'attributes' => [
-                'enabled' => 1,
+                'active' => 1,
                 'comment' => 'This is a comment',
             ],
         ]);
@@ -126,13 +126,12 @@ class CronEndpointTest extends TestCase
         return 1234;
     }
 
-
     private function getCronjobData($includeId = false, $asArray = false)
     {
         $data = (object) [
             'type' => 'cronjobs',
             'attributes' => (object) [
-                'enabled' => 1,
+                'active' => 1,
                 'command' => 'ls ./',
                 'comment' => 'This is a comment',
                 'schedule' => '* * * * 1',
@@ -140,6 +139,9 @@ class CronEndpointTest extends TestCase
             ],
             'relationships' => (object) [
                 'environment' => (object) [
+                    'links' => (object) [
+                        'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
+                    ],
                     'data' => (object) [
                         'type' => 'environments',
                         'id' => $this->getEnvironmentId(),
@@ -147,11 +149,7 @@ class CronEndpointTest extends TestCase
                 ]
             ],
             'links' => (object) [
-                'related' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
-                'data' => (object) [
-                    'type' => 'environments',
-                    'id' => $this->getEnvironmentId(),
-                ]
+                'self' => 'https://api-sbtest.servebolt.io/v1/environments/2686',
             ]
         ];
 
