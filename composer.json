@@ -9,6 +9,11 @@
             "name": "Robert Sæther",
             "email": "robert@servebolt.com",
             "role": "Developer"
+        },
+        {
+            "name": "Andrew Killen",
+            "email": "andrew.killen@servebolt.com",
+            "role": "Developer"
         }
     ],
     "require": {
