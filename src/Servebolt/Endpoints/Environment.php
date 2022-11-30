@@ -62,14 +62,22 @@ class Environment extends AbstractEndpoint
      * @param integer|null|array $environmentId
      * @param string[] $files
      * @param string[] $prefixes
+     * @param string[] $tags
+     * @param string[] $hosts
      * @return Response|object
      * @throws ServeboltInvalidUrlException
-     * @throws \Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
+     * @throws \Servebolt\Optimizer\Dependencies\Servebolt\Sdk\Exceptions\ServeboltInvalidJsonException
      */
-    public function purgeCache($environmentId = null, array $files = [], array $prefixes = [])
-    {
+    public function purgeCache(
+        $environmentId = null,
+        array $files = [],
+        array $prefixes = [],
+        array $tags = [],
+        array $hosts = []
+    ) {
         self::validateUrls($files);
         self::validateUrls($prefixes);
+        self::validateHostnames($hosts);
 
         if (is_array($environmentId)) { // Offset method argument order
             $prefixes = $files;
@@ -79,7 +87,7 @@ class Environment extends AbstractEndpoint
 
         $files = self::sanitizeFiles($files);
         $prefixes = self::sanitizePrefixes($prefixes);
-        $requestData = array_filter(compact('files', 'prefixes'));
+        $requestData = array_filter(compact('files', 'prefixes', 'tags', 'hosts'));
         return $this->purgeCacheByArguments($environmentId, $requestData);
     }
 
@@ -88,11 +96,11 @@ class Environment extends AbstractEndpoint
      *
      * @param integer|null $environmentId
      * @param array $args
-     * @return \GuzzleHttp\Psr7\Response|object|\Servebolt\Sdk\Response
+     * @return \Servebolt\Optimizer\Dependencies\GuzzleHttp\Psr7\Response|object|\Servebolt\Optimizer\Dependencies\Servebolt\Sdk\Response
      */
     public function purgeCacheByArguments(?int $environmentId = null, array $args = [])
     {
-        $args = $this->filterArrayByKeys($args, ['files', 'prefixes', 'hosts', 'type']);
+        $args = $this->filterArrayByKeys($args, ['files', 'prefixes', 'hosts', 'type', 'tags']);
         $environmentId = is_numeric($environmentId) ? $environmentId : $this->environmentId;
         $requestUrl = '/environments/' . $environmentId . '/purge_cache';
         $httpResponse = $this->httpClient->postJson($requestUrl, $args);
@@ -189,5 +197,21 @@ class Environment extends AbstractEndpoint
             ); // Remove scheme
             return $prefix;
         }, $prefixes);
+    }
+
+    /**
+     * @param string[] $tags
+     * @return string[]
+     */
+    public static function sanitizeTags(array $tags) : array
+    {
+        return array_map(function (string $tag) {
+            $tag = preg_replace(
+                '/([a-z0-9_]+)/',
+                '',
+                trim($tag)
+            );// Remove invald characters.
+            return $tag;
+        }, $tags);
     }
 }
