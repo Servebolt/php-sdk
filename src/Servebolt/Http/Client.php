@@ -50,6 +50,9 @@ class Client
         if ($baseUri = $this->config->get('baseUri')) {
             $this->baseUri = $baseUri;
         }
+        if (defined('SERVEBOLT_SDK_BASE_URI')) {
+            $this->baseUri = SERVEBOLT_SDK_BASE_URI;
+        }
         if ($this->config->get('verifySsl') === false) {
             Http::shouldVerifySsl(false);
         }
