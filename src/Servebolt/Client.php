@@ -97,7 +97,11 @@ class Client
      */
     private function getAuthenticationDriver() : object
     {
-        switch (strtolower($this->config->get('authDriver'))) {
+        $value = '';
+        if ($this->config->get('authDriver') != null) {
+            $value = strtolower($this->config->get('authDriver'));
+        }
+        switch ($value) {
             case 'apitoken':
             default:
                 if ($apiToken = $this->config->get('apiToken')) {

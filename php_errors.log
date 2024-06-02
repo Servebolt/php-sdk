@@ -1,0 +1,57 @@
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Constant ASSERT_ACTIVE is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 204
+[02-Jun-2024 11:37:30 UTC] PHP Stack trace:
+[02-Jun-2024 11:37:30 UTC] PHP   1. {main}() /var/www/servebolt/php-sdk/vendor/bin/phan:0
+[02-Jun-2024 11:37:30 UTC] PHP   2. include() /var/www/servebolt/php-sdk/vendor/bin/phan:119
+[02-Jun-2024 11:37:30 UTC] PHP   3. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/phan:10
+[02-Jun-2024 11:37:30 UTC] PHP   4. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/src/phan.php:13
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Function assert_options() is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 204
+[02-Jun-2024 11:37:30 UTC] PHP Stack trace:
+[02-Jun-2024 11:37:30 UTC] PHP   1. {main}() /var/www/servebolt/php-sdk/vendor/bin/phan:0
+[02-Jun-2024 11:37:30 UTC] PHP   2. include() /var/www/servebolt/php-sdk/vendor/bin/phan:119
+[02-Jun-2024 11:37:30 UTC] PHP   3. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/phan:10
+[02-Jun-2024 11:37:30 UTC] PHP   4. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/src/phan.php:13
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Constant ASSERT_WARNING is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 205
+[02-Jun-2024 11:37:30 UTC] PHP Stack trace:
+[02-Jun-2024 11:37:30 UTC] PHP   1. {main}() /var/www/servebolt/php-sdk/vendor/bin/phan:0
+[02-Jun-2024 11:37:30 UTC] PHP   2. include() /var/www/servebolt/php-sdk/vendor/bin/phan:119
+[02-Jun-2024 11:37:30 UTC] PHP   3. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/phan:10
+[02-Jun-2024 11:37:30 UTC] PHP   4. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/src/phan.php:13
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Function assert_options() is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 205
+[02-Jun-2024 11:37:30 UTC] PHP Stack trace:
+[02-Jun-2024 11:37:30 UTC] PHP   1. {main}() /var/www/servebolt/php-sdk/vendor/bin/phan:0
+[02-Jun-2024 11:37:30 UTC] PHP   2. include() /var/www/servebolt/php-sdk/vendor/bin/phan:119
+[02-Jun-2024 11:37:30 UTC] PHP   3. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/phan:10
+[02-Jun-2024 11:37:30 UTC] PHP   4. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/src/phan.php:13
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Constant ASSERT_BAIL is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 206
+[02-Jun-2024 11:37:30 UTC] PHP Stack trace:
+[02-Jun-2024 11:37:30 UTC] PHP   1. {main}() /var/www/servebolt/php-sdk/vendor/bin/phan:0
+[02-Jun-2024 11:37:30 UTC] PHP   2. include() /var/www/servebolt/php-sdk/vendor/bin/phan:119
+[02-Jun-2024 11:37:30 UTC] PHP   3. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/phan:10
+[02-Jun-2024 11:37:30 UTC] PHP   4. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/src/phan.php:13
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Function assert_options() is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 206
+[02-Jun-2024 11:37:30 UTC] PHP Stack trace:
+[02-Jun-2024 11:37:30 UTC] PHP   1. {main}() /var/www/servebolt/php-sdk/vendor/bin/phan:0
+[02-Jun-2024 11:37:30 UTC] PHP   2. include() /var/www/servebolt/php-sdk/vendor/bin/phan:119
+[02-Jun-2024 11:37:30 UTC] PHP   3. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/phan:10
+[02-Jun-2024 11:37:30 UTC] PHP   4. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/src/phan.php:13
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Constant ASSERT_CALLBACK is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 211
+[02-Jun-2024 11:37:30 UTC] PHP Stack trace:
+[02-Jun-2024 11:37:30 UTC] PHP   1. {main}() /var/www/servebolt/php-sdk/vendor/bin/phan:0
+[02-Jun-2024 11:37:30 UTC] PHP   2. include() /var/www/servebolt/php-sdk/vendor/bin/phan:119
+[02-Jun-2024 11:37:30 UTC] PHP   3. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/phan:10
+[02-Jun-2024 11:37:30 UTC] PHP   4. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/src/phan.php:13
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Function assert_options() is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 211
+[02-Jun-2024 11:37:30 UTC] PHP Stack trace:
+[02-Jun-2024 11:37:30 UTC] PHP   1. {main}() /var/www/servebolt/php-sdk/vendor/bin/phan:0
+[02-Jun-2024 11:37:30 UTC] PHP   2. include() /var/www/servebolt/php-sdk/vendor/bin/phan:119
+[02-Jun-2024 11:37:30 UTC] PHP   3. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/phan:10
+[02-Jun-2024 11:37:30 UTC] PHP   4. require_once() /var/www/servebolt/php-sdk/vendor/phan/phan/src/phan.php:13
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  PHP Startup: assert.warning INI setting is deprecated in Unknown on line 0
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Constant ASSERT_ACTIVE is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 204
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Function assert_options() is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 204
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Constant ASSERT_WARNING is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 205
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Function assert_options() is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 205
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Constant ASSERT_BAIL is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 206
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Function assert_options() is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 206
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Constant ASSERT_CALLBACK is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 211
+[02-Jun-2024 11:37:30 UTC] PHP Deprecated:  Function assert_options() is deprecated in /var/www/servebolt/php-sdk/vendor/phan/phan/src/Phan/Bootstrap.php on line 211
