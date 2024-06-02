@@ -2,3 +2,4 @@ vendor/
 tests/.env
 .phplint-cache
 .phpunit.result.cache
+php_error.log
