@@ -7,7 +7,7 @@ use Servebolt\Sdk\Exceptions\ServeboltInvalidHostnameException;
 
 /**
  * Class Environment
- * @package Servebolt\Sdk\Endpoints
+ * @package Servebolt\Optimizer\Dependencies\Servebolt\Sdk\Endpoints
  */
 class Environment extends AbstractEndpoint
 {
@@ -51,6 +51,7 @@ class Environment extends AbstractEndpoint
      */
     public function purgeCdnCache(?int $environmentId = null, array $hosts = [], array $tags = [])
     {
+        $hosts = self::sanitizeHosts($hosts);
         self::validateHostnames($hosts);
         $type = 'serveboltcdn';
         $requestData = array_filter(compact('hosts', 'type', 'tags'));
@@ -76,6 +77,11 @@ class Environment extends AbstractEndpoint
         array $tags = [],
         array $hosts = []
     ) {
+
+        $hosts = self::sanitizeHosts($hosts);
+        $files = self::sanitizeFiles($files);
+        $prefixes = self::sanitizePrefixes($prefixes);
+
         self::validateUrls($files);
         self::validateUrls($prefixes);
         self::validateHostnames($hosts);
@@ -86,8 +92,6 @@ class Environment extends AbstractEndpoint
             $environmentId = null;
         }
 
-        $files = self::sanitizeFiles($files);
-        $prefixes = self::sanitizePrefixes($prefixes);
         $requestData = array_filter(compact('files', 'prefixes', 'tags', 'hosts'));
         return $this->purgeCacheByArguments($environmentId, $requestData);
     }
@@ -165,6 +169,34 @@ class Environment extends AbstractEndpoint
         }
     }
 
+
+    /**
+     * @param string[] $hosts
+     * @return string[]
+     */
+    public static function sanitizeHosts(array $hosts) : array
+    {
+        $output = [];
+        foreach ($hosts as $host) {
+            // if path, protocol and GET vars are not present, its a host
+            if (strpos($host, '/') === false && strpos($host, '?') === false ) {
+                $output[] = $host;
+            } elseif ( strpos($host, '://') !== false ) {
+            // its got a protocol, so its a URL, we will extract the host
+                $output[] = parse_url($host, PHP_URL_HOST);
+            } elseif ( strpos($host, '/') === 0){
+            // its a path only, we will remove it
+                continue;
+            } elseif ( strpos($host, '/') !== false ) {
+            // its a path, we will remove it, and thus any ? GET vars
+                $output[] = strtok($host, '/');
+            } else {
+            // there is no path, but there are GET vars, we will remove them
+                $output[] = strtok($host, '?');
+            }
+        }
+        return array_unique($output);
+    }
     /**
      * @param string[] $urls
      * @return string[]
