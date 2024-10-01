@@ -1,6 +1,9 @@
 # CHANGELOG
 the changelog was started from version 1.2.3 onwards. 
 
+## 1.2.8
+* set type to servebolt CDN purges. 
+
 ## 1.2.7
 * fixed sanitization & validation of the hosts array before sending.
 
