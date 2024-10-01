@@ -49,12 +49,30 @@ class Environment extends AbstractEndpoint
      * @return \Servebolt\Optimizer\Dependencies\GuzzleHttp\Psr7\Response|object|\Servebolt\Optimizer\Dependencies\Servebolt\Sdk\Response
      * @throws ServeboltInvalidUrlException
      */
-    public function purgeCdnCache(?int $environmentId = null, array $hosts = [], array $tags = [])
+    public function purgeCdnCache(
+        ?int $environmentId = null,
+        array $files = [],
+        array $prefixes = [],
+        array $tags = [],
+        array $hosts = [],
+        string $type = 'serveboltcdn')
     {
+
         $hosts = self::sanitizeHosts($hosts);
+        $files = self::sanitizeFiles($files);
+        $prefixes = self::sanitizePrefixes($prefixes);
+
+        self::validateUrls($files);
+        self::validateUrls($prefixes);
         self::validateHostnames($hosts);
-        $type = 'serveboltcdn';
-        $requestData = array_filter(compact('hosts', 'type', 'tags'));
+
+        if (is_array($environmentId)) { // Offset method argument order
+            $prefixes = $files;
+            $files = $environmentId;
+            $environmentId = null;
+        }
+
+        $requestData = array_filter(compact('files', 'prefixes', 'hosts', 'type', 'tags'));
         return $this->purgeCacheByArguments($environmentId, $requestData);
     }
 
