@@ -1,6 +1,9 @@
 # CHANGELOG
 the changelog was started from version 1.2.3 onwards. 
 
+## 1.2.9 
+* added the a function to purgeServerCache(), which clears all known caches for the envinronment such as the Server and CDN.
+
 ## 1.2.8
 * set type to servebolt CDN purges. 
 

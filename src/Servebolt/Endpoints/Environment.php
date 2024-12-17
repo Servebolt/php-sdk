@@ -40,6 +40,30 @@ class Environment extends AbstractEndpoint
     }
 
     /**
+     * Purge the Server, CDN and any other caches that are involved with the 
+     * given environment.
+     * 
+     * @param integer|null $environmentId
+     * @param string $type
+     * @return \Servebolt\Optimizer\Dependencies\GuzzleHttp\Psr7\Response|object|\Servebolt\Optimizer\Dependencies\Servebolt\Sdk\Response
+     * @throws ServeboltInvalidUrlException
+     */
+    public function purgeServerCache(?int $environmentId = null, $type = 'acd') {
+        if (is_null($environmentId)) {
+            $environmentId = $this->environmentId;
+
+            if(is_null($environmentId)) {
+                throw new ServeboltInvalidUrlException('Environment ID is required');
+            }
+        }
+        $requestData = [
+            'type' => $type,
+            'all' => true,
+        ];
+        return $this->purgeCacheByArguments($environmentId, $requestData);
+    }
+
+    /**
      * Purge CDN cache for given hosts.
      *
      * @param integer|null $environmentId
