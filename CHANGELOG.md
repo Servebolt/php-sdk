@@ -1,5 +1,8 @@
 # CHANGELOG
-the changelog was started from version 1.2.3 onwards. 
+the changelog was started from version 1.2.3 onwards.
+
+## 1.2.10
+* Added $enviroment variable to the ApiEndpointsLoader.php to prevent the Deprecation error on PHP 8.2+
 
 ## 1.2.9 
 * added the a function to purgeServerCache(), which clears all known caches for the envinronment such as the Server and CDN.

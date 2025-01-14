@@ -46,7 +46,7 @@ class Client
     public function __construct(array $config, bool $storeStatically = true)
     {
         if (!defined('SB_SDK_VERSION')) {
-            define('SB_SDK_VERSION', '1.2.4');
+            define('SB_SDK_VERSION', '1.2.10');
         }
         $this->initializeConfigHelper($config);
         $this->initializeHTTPClient();
