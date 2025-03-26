@@ -4,12 +4,7 @@
     "type": "library",
     "homepage": "https://servebolt.com",
     "license": "BSD-3-Clause",
-    "authors": [
-        {
-            "name": "Robert Sæther",
-            "email": "robert@servebolt.com",
-            "role": "Developer"
-        },
+    "authors": [        
         {
             "name": "Andrew Killen",
             "email": "andrew.killen@servebolt.com",
