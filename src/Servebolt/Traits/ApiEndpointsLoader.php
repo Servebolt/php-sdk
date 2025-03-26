@@ -5,6 +5,12 @@ namespace Servebolt\Sdk\Traits;
 trait ApiEndpointsLoader
 {
 
+    /**
+     * @var ConfigHelper
+     * @since php8.2
+     */
+    private $environment; 
+
     private $apiEndpoints = [];
 
     /**
