@@ -162,7 +162,7 @@ class Client
      * @param array $headers
      * @return Client
      */
-    public function post(string $uri, string $body = null, array $headers = []) : Client
+    public function post(string $uri, $body = null, array $headers = []) : Client
     {
         $this->response = Http::post(
             $this->buildRequestURL($uri),
@@ -204,7 +204,7 @@ class Client
      * @param array $headers
      * @return Client
      */
-    public function patch(string $uri, string $body = null, array $headers = []) : Client
+    public function patch(string $uri, $body = null, array $headers = []) : Client
     {
         $this->response = Http::patch(
             $this->buildRequestURL($uri),
@@ -233,7 +233,7 @@ class Client
      * @param array $headers
      * @return Client
      */
-    public function put(string $uri, string $body = null, array $headers = []) : Client
+    public function put(string $uri, $body = null, array $headers = []) : Client
     {
         $this->response = Http::put(
             $this->buildRequestURL($uri),
