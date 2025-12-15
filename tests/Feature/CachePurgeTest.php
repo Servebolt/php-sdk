@@ -111,4 +111,17 @@ class CachePurgeTest extends TestCase
         $response = $client->environment->purgeCache($this->environmentId, $files);
         $this->assertFalse($response->wasSuccessful());
     }
+
+    public function testThatOpcachePurges()
+    {
+        $testUrl = $this->apiBaseUri . 'environments/' . $this->environmentId . '/opcache';
+        Http::shouldReceive('request')->withSomeOfArgs('DELETE', $testUrl)
+            ->once()->andReturn(new Response(204));
+        $client = new Client([
+            'apiToken' => 'foo',
+        ]);
+        $response = $client->environment->purgeOpcache($this->environmentId);
+        $this->assertInstanceOf(ServeboltResponse::class, $response);
+        $this->assertTrue($response->wasSuccessful());
+    }
 }

@@ -155,6 +155,27 @@ class Environment extends AbstractEndpoint
     }
 
     /**
+     * Purge OPcache for the given environment.
+     *
+     * @param integer|null $environmentId
+     * @return \Servebolt\Optimizer\Dependencies\GuzzleHttp\Psr7\Response|object|\Servebolt\Optimizer\Dependencies\Servebolt\Sdk\Response
+     * @throws ServeboltInvalidUrlException
+     */
+    public function purgeOpcache(?int $environmentId = null)
+    {
+        if (is_null($environmentId)) {
+            $environmentId = $this->environmentId;
+
+            if (is_null($environmentId)) {
+                throw new ServeboltInvalidUrlException('Environment ID is required');
+            }
+        }
+        $requestUrl = '/environments/' . $environmentId . '/opcache';
+        $httpResponse = $this->httpClient->delete($requestUrl);
+        return $this->response($httpResponse);
+    }
+
+    /**
      * @param string $url
      * @throws ServeboltInvalidUrlException
      */
