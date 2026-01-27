@@ -279,6 +279,31 @@ class Environment extends AbstractEndpoint
         }, $urls);
     }
 
+        /**
+     * Update vary headers metadata for an environment.
+     *
+     * @param int|null $environmentId
+     * @param array $data ['vary_headers' => 'ua,le,oc', 'domain' => 'example.com', 'zone' => 'acd|sbcdn']
+     * @return \Servebolt\Optimizer\Dependencies\GuzzleHttp\Psr7\Response|object|\Servebolt\Optimizer\Dependencies\Servebolt\Sdk\Response
+     * @throws ServeboltInvalidUrlException
+     */
+    public function setVaryHeaders(?int $environmentId = null, array $data = [])
+    {
+        if (is_null($environmentId)) {
+            $environmentId = $this->environmentId;
+
+            if (is_null($environmentId)) {
+                throw new ServeboltInvalidUrlException('Environment ID is required');
+            }
+        }
+
+        $data = $this->filterArrayByKeys($data, ['vary_headers', 'domain', 'zone']);
+        $requestUrl = sprintf('/%s/%s/vary-headers', $this->endpoint, $environmentId);
+        $httpResponse = $this->httpClient->patchJson($requestUrl, $data);
+
+        return $this->response($httpResponse);
+    }
+
     /**
      * @param string[] $prefixes
      * @return string[]
